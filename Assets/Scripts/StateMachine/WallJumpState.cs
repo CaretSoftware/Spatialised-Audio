@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CharacterController {
 	public class WallJumpState : BaseState {
 		private bool _falling = false;
 
@@ -62,7 +61,7 @@ namespace CharacterController {
 				stateMachine.TransitionTo<MoveState>();
 		}
 
-		private static RaycastHit RayCast(CharacterController character, Vector3 direction) {
+		private static RaycastHit RayCast(CharController.CharacterController character, Vector3 direction) {
 			Ray ray = new Ray( character._point2Transform.position/*Player.transform.position + Player._point2*/, direction);
 			Physics.Raycast(ray, out var hit, character._colliderRadius + .5f, character._collisionMask);
 			return hit;
@@ -70,4 +69,3 @@ namespace CharacterController {
 
 		public override void Exit() { }
 	}
-}

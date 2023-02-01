@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-namespace CharacterController {
     public class MoveState : BaseState {
 
         //private float inAirTime;
@@ -105,4 +104,3 @@ namespace CharacterController {
 
         public override void Exit() { }
     }
-}

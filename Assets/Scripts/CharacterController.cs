@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CharacterController { 
+namespace CharController { 
 	[RequireComponent(typeof(CapsuleCollider)), DisallowMultipleComponent, SelectionBase]
 public class CharacterController : MonoBehaviour {
 

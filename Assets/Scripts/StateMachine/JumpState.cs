@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-namespace CharacterController {
     public class JumpState : BaseState {
         private bool _falling = false;
 
@@ -38,4 +37,3 @@ namespace CharacterController {
 
         public override void Exit() { }
     }
-}
