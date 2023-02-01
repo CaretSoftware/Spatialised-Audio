@@ -1,5 +1,4 @@
 ﻿
-namespace CharacterController {
     public abstract class State {
 
         public StateMachine stateMachine;
@@ -10,4 +9,3 @@ namespace CharacterController {
 
         public abstract void Exit();
     }
-}

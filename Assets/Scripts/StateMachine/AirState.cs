@@ -1,6 +1,5 @@
 using UnityEngine;
 
-namespace CharacterController {
 	public class AirState : BaseState {
 
 		private const float AntiFloatForce = 25.0f;
@@ -46,4 +45,3 @@ namespace CharacterController {
 
 		public override void Exit() { }
 	}
-}

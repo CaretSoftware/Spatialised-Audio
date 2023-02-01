@@ -1,10 +1,8 @@
 ﻿
-namespace CharacterController {
     public abstract class BaseState : State {
         
-        public CharacterController owner;
-        private CharacterController _character;
+        public CharController.CharacterController owner;
+        private CharController.CharacterController _character;
 
-        protected CharacterController Character => owner;
+        protected CharController.CharacterController Character => owner;
     }
-}

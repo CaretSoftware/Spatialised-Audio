@@ -1,13 +1,12 @@
 using UnityEngine;
 
-namespace CharacterController {
 	public class WallRunState : BaseState {
 		private const float AntiFloatForce = 25.0f;
 		private static float wallRunMagnitudeThreshold = 4.0f;
 		private Vector3 _wallNormal;
 		private const string State = "WallRunState";
 
-		public static bool Requirement(CharacterController character) {
+		public static bool Requirement(CharController.CharacterController character) {
 
 			if (character.Grounded || Vector3.Dot(character._velocity, character.transform.forward) < 0.0f)
 				return false;
@@ -78,7 +77,7 @@ namespace CharacterController {
 			Character._velocity += gravityMovement;
 		}
 
-		private static RaycastHit RayCast(CharacterController character, Vector3 direction) {
+		private static RaycastHit RayCast(CharController.CharacterController character, Vector3 direction) {
 			Ray ray = new Ray(character._point2Transform.position/*Player.transform.position + Player._point2*/, direction);
 			Physics.Raycast(ray, out var hit, character._colliderRadius + .5f, character._collisionMask);
 			return hit;
@@ -86,4 +85,3 @@ namespace CharacterController {
 
 		public override void Exit() { }
 	}
-}

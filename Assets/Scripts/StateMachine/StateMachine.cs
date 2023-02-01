@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System;
 
-namespace CharacterController {
 
     public class StateMachine {
 
@@ -9,7 +8,7 @@ namespace CharacterController {
         private BaseState _queuedState;
         private Dictionary<Type, BaseState> _states = new Dictionary<Type, BaseState>();
 
-        public StateMachine(CharacterController owner, List<BaseState> states) {
+        public StateMachine(CharController.CharacterController owner, List<BaseState> states) {
 
             foreach (BaseState state in states) {
                 BaseState instance = state;
@@ -38,4 +37,3 @@ namespace CharacterController {
             _queuedState = _states[typeof(T)];
         }
     }
-}
