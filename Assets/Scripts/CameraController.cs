@@ -85,7 +85,7 @@ public class CameraController : MonoBehaviour {
 	private void MoveCamera() {
 		_camera.rotation = Quaternion.Euler(_mouseMovement.y, _mouseMovement.x, 0.0f);
 
-		_cam.cullingMask = _firstPerson ? ~(1 << 1) : -1;
+		//_cam.cullingMask = _firstPerson ? ~(1 << 1) : -1;
 		
 		if (_firstPerson) {
 			_camera.localPosition = _cameraGimble.localPosition;
