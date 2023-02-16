@@ -1,25 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = Unity.Mathematics.Random;
 
 public class Lamp : MonoBehaviour
 {
     private AudioSource source;
-    public GameObject pointLight;
-    public float minPitch;
-
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] public GameObject lightGameObject;
+    private static Random random = new Random(1234);
+    [SerializeField] private bool randomVolume = true;
+    [SerializeField, Range(0f, 1f)] private float nonRandomVolume = .5f;
+    
+    void Awake()
     {
-        if (pointLight.activeSelf){
-
+        if (lightGameObject.activeSelf) {
             source = GetComponent<AudioSource>();
             source.loop = true;
             float minVol = 0.2f;
             float maxVol = 0.5f;
-            source.volume = Random.Range(minVol, maxVol);
-            source.time = Random.Range(0, source.clip.length);
-            source.pitch = Random.Range(minPitch, 1);
+            
+            // I used nextFloat to have the randomness the same between sessions
+            float randVol = random.NextFloat() % (maxVol - minVol); 
+            float volume = minVol + randVol;
+            
+            source.volume = volume;
+
+            // some light sources i wanted to control the value manually
+            if (!randomVolume)
+                source.volume = nonRandomVolume;
+            
+            //source.time = Random.Range(0, source.clip.length);
+            //source.pitch = Random.Range(minPitch, 1);
 
             source.Play();
         }
@@ -27,11 +38,5 @@ public class Lamp : MonoBehaviour
         {
             this.gameObject.SetActive(false);
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
