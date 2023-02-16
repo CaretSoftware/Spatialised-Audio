@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e21439716435437ab2152de61e8b45b, type: 3}
   m_Name: ResonanceAudioMaterialMapper
   m_EditorClassIdentifier: 
-  materialMap: {fileID: 0}
+  materialMap: {fileID: 11400000, guid: 4b60063e4d714f04780de7eea5ba0ace, type: 2}
   reverbLayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 128
   includeNonStaticGameObjects: 1
