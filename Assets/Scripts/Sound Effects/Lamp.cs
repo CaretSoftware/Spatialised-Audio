@@ -18,11 +18,14 @@ public class Lamp : MonoBehaviour
             source.loop = true;
             float minVol = 0.2f;
             float maxVol = 0.5f;
-            float randVol = random.NextFloat() % (maxVol - minVol);
+            
+            // I used nextFloat to have the randomness the same between sessions
+            float randVol = random.NextFloat() % (maxVol - minVol); 
             float volume = minVol + randVol;
             
             source.volume = volume;
 
+            // some light sources i wanted to control the value manually
             if (!randomVolume)
                 source.volume = nonRandomVolume;
             
