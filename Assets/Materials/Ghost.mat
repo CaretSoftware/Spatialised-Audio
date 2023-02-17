@@ -11,6 +11,7 @@ Material:
   m_Shader: {fileID: -6465566751694194690, guid: ddfc35253d5c5a0439ed7b768582a5a1,
     type: 3}
   m_ValidKeywords:
+  - _ALPHATEST_ON
   - _ENABLE_FOG_ON_TRANSPARENT
   - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords: []
@@ -44,7 +45,8 @@ Material:
     m_Ints: []
     m_Floats:
     - _AddPrecomputedVelocity: 0
-    - _AlphaCutoffEnable: 0
+    - _AlphaClipThreshold: 0.0005
+    - _AlphaCutoffEnable: 1
     - _AlphaDstBlend: 1
     - _AlphaSrcBlend: 1
     - _AlphaToMask: 0
@@ -54,6 +56,10 @@ Material:
     - _CullMode: 2
     - _CullModeForward: 2
     - _DepthOffsetEnable: 0
+    - _DissolveAmount: 0
+    - _DissolveBorderStrength: 4.56
+    - _DissolveBorderWidth: 0.07
+    - _DissolveScale: 40
     - _DoubleSidedEnable: 0
     - _DoubleSidedGIMode: 0
     - _DoubleSidedNormalMode: 2
@@ -89,10 +95,11 @@ Material:
     - _Wobble_Magnitude: 0.63
     - _Wobble_Speed: 5.34
     - _ZTestDepthEqualForOpaque: 4
-    - _ZTestGBuffer: 4
+    - _ZTestGBuffer: 3
     - _ZTestTransparent: 4
     - _ZWrite: 0
     m_Colors:
+    - _DissolveBorderColor: {r: 63.15373, g: 46.996273, b: 664.21405, a: 1}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _FresnelColor: {r: 3.9999995, g: 3.9999995, b: 3.9999995, a: 0.1764706}
