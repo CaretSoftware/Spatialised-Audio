@@ -56,11 +56,11 @@ Material:
     - _CullMode: 2
     - _CullModeForward: 2
     - _DepthOffsetEnable: 0
-    - _DissolveAmount: 0
+    - _DissolveAmount: -0.2
     - _DissolveBorderStrength: 4.56
     - _DissolveBorderWidth: 0.07
-    - _DissolveScale: 40
-    - _DissolveScrollSpeed: 0.1
+    - _DissolveScale: 7.66
+    - _DissolveScrollSpeed: 0.037
     - _DoubleSidedEnable: 0
     - _DoubleSidedGIMode: 0
     - _DoubleSidedNormalMode: 2
@@ -100,7 +100,7 @@ Material:
     - _ZTestTransparent: 4
     - _ZWrite: 0
     m_Colors:
-    - _DissolveBorderColor: {r: 63.15373, g: 46.996273, b: 664.21405, a: 1}
+    - _DissolveBorderColor: {r: 0, g: 729.4801, b: 886.7779, a: 1}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _FresnelColor: {r: 3.9999995, g: 3.9999995, b: 3.9999995, a: 0.1764706}
