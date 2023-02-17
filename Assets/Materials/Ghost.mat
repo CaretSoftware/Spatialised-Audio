@@ -60,6 +60,7 @@ Material:
     - _DissolveBorderStrength: 4.56
     - _DissolveBorderWidth: 0.07
     - _DissolveScale: 40
+    - _DissolveScrollSpeed: 0.1
     - _DoubleSidedEnable: 0
     - _DoubleSidedGIMode: 0
     - _DoubleSidedNormalMode: 2
