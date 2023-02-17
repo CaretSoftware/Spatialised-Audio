@@ -12,6 +12,12 @@ public class SimplePlayerController : MonoBehaviour
     public float lookSpeed = 2.0f;
     public float lookXLimit = 60.0f;
     public float gravity = 150.0f;
+    [SerializeField] private AudioClip[] floorboardStepSounds;
+    [SerializeField] private AudioClip[] cleanStepSounds;
+    [SerializeField] private AudioClip[] creakSounds;
+    //(2 sources for playing step and creak sounds simultaneously)
+    public AudioSource as_Steps;                                    //AudioSource for playing steps only 
+    public AudioSource as_Creaks;                                   //AudioSource for playing creak sounds only when stepping on floorboards
 
     CharacterController characterController;
     Vector3 moveDirection = Vector3.zero;
@@ -50,6 +56,107 @@ public class SimplePlayerController : MonoBehaviour
             rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
             playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
+        }
+
+        if (characterController.velocity.sqrMagnitude > 0)
+        {
+            PlayDynamicFootstep();
+        }
+    }
+
+
+
+    [SerializeField] public string colliderType;
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        //Code for identifying what material we're on
+        if (hit.gameObject.GetComponent<Collider>().gameObject.GetComponent<SurfaceColliderType>())
+        {
+            colliderType = hit.gameObject.GetComponent<SurfaceColliderType>().GetTerrainType();
+        }
+    }
+
+    private void PlayDynamicFootstep()
+    {
+
+        switch (colliderType)
+        {
+            case "Floorboards":
+                PlayFloorboardStepSounds();
+                PlayCreakSounds();
+                break;
+            case "Clean":
+                PlayCleanStepSounds();
+                break;
+            default:
+                PlayFloorboardStepSounds();
+                PlayCreakSounds();
+                break;
+        }
+    }
+
+    private void PlayFloorboardStepSounds()
+    {
+        if (!as_Steps.isPlaying)
+        {
+            as_Steps.pitch = 1f;
+            // pick & play a random footstep sound from the array,
+            // excluding sound at index 0
+            int n = Random.Range(1, floorboardStepSounds.Length);
+            as_Steps.clip = floorboardStepSounds[n];
+            as_Steps.PlayOneShot(as_Steps.clip);
+            // move picked sound to index 0 so it's not picked next time
+            floorboardStepSounds[n] = floorboardStepSounds[0];
+            floorboardStepSounds[0] = as_Steps.clip;
+        }
+        else
+        {
+            return;
+        }
+    }
+
+    private void PlayCreakSounds()
+    {
+        if (!as_Creaks.isPlaying)
+        {
+            float f = Random.Range(0f, 1f);
+            Debug.Log(f);
+            if(f > 0.95)
+            {
+                // pick & play a random creak sound from the array,
+                // excluding sound at index 0
+                int n = Random.Range(1, creakSounds.Length);
+                as_Creaks.clip = creakSounds[n];
+                as_Creaks.PlayOneShot(as_Creaks.clip);
+                // move picked sound to index 0 so it's not picked next time
+                creakSounds[n] = creakSounds[0];
+                creakSounds[0] = as_Creaks.clip;
+            }
+        }
+        else
+        {
+            return;
+        }
+    }
+
+    private void PlayCleanStepSounds()
+    {
+        if (!as_Steps.isPlaying)
+        {
+            as_Steps.pitch = 0.7f;
+            // pick & play a random footstep sound from the array,
+            // excluding sound at index 0
+            int n = Random.Range(1, cleanStepSounds.Length);
+            as_Steps.clip = cleanStepSounds[n];
+            as_Steps.PlayOneShot(as_Steps.clip);
+            // move picked sound to index 0 so it's not picked next time
+            cleanStepSounds[n] = cleanStepSounds[0];
+            cleanStepSounds[0] = as_Steps.clip;
+        }
+        else
+        {
+            return;
         }
     }
 }
