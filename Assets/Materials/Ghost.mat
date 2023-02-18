@@ -58,8 +58,8 @@ Material:
     - _DepthOffsetEnable: 0
     - _DissolveAmount: -0.2
     - _DissolveBorderStrength: 1
-    - _DissolveBorderWidth: 0.04
-    - _DissolveScale: 5
+    - _DissolveBorderWidth: 0.001
+    - _DissolveScale: 4
     - _DissolveScrollSpeed: 0.037
     - _DoubleSidedEnable: 0
     - _DoubleSidedGIMode: 0

@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 6897250543919179015}
   - component: {fileID: 6897250543919179018}
   - component: {fileID: 6897250543919179017}
-  - component: {fileID: 6897250543919179016}
   m_Layer: 0
   m_Name: Ghost Eye
   m_TagString: Untagged
@@ -84,19 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &6897250543919179016
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6897250543919179014}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6897250544333674559
 GameObject:
   m_ObjectHideFlags: 0
@@ -121,7 +107,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6897250544333674559}
-  m_LocalRotation: {x: -0.028504694, y: -0.6204189, z: -0.043955904, w: 0.78251886}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -161,7 +147,6 @@ GameObject:
   - component: {fileID: 6897250544605105899}
   - component: {fileID: 6897250544605105902}
   - component: {fileID: 6897250544605105901}
-  - component: {fileID: 6897250544605105900}
   m_Layer: 0
   m_Name: Ghost Eye
   m_TagString: Untagged
@@ -234,19 +219,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &6897250544605105900
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6897250544605105898}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6897250545226454457
 GameObject:
   m_ObjectHideFlags: 0
@@ -259,6 +231,7 @@ GameObject:
   - component: {fileID: 6897250545226454460}
   - component: {fileID: 6897250545226454459}
   - component: {fileID: 6897250545226454462}
+  - component: {fileID: 504682184}
   m_Layer: 0
   m_Name: Ghost
   m_TagString: Untagged
@@ -340,8 +313,27 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6897250545226454457}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1183024399 &504682184
+LookAtConstraint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6897250545226454457}
+  m_Enabled: 1
+  m_Weight: 1
+  m_RotationAtRest: {x: 0, y: 0, z: 0}
+  m_RotationOffset: {x: 0, y: 0, z: 0}
+  m_Roll: 0
+  m_WorldUpObject: {fileID: 0}
+  m_UseUpObject: 0
+  m_IsContraintActive: 0
+  m_IsLocked: 1
+  m_Sources:
+  - sourceTransform: {fileID: 0}
+    weight: 1

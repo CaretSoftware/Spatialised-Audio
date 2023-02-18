@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Ghost Eyes
-  m_Shader: {fileID: -6465566751694194690, guid: ddfc35253d5c5a0439ed7b768582a5a1,
+  m_Shader: {fileID: -6465566751694194690, guid: c647438fb71aef3459dda368d2179f09,
     type: 3}
   m_ValidKeywords:
   - _ENABLE_FOG_ON_TRANSPARENT
@@ -17,7 +17,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
+  m_CustomRenderQueue: 3050
   stringTagMap:
     MotionVector: User
     RenderType: Transparent
@@ -44,25 +44,34 @@ Material:
     m_Ints: []
     m_Floats:
     - _AddPrecomputedVelocity: 0
+    - _Alpha: 1
+    - _AlphaClipThreshold: 0.05
     - _AlphaCutoffEnable: 0
-    - _AlphaDstBlend: 1
+    - _AlphaDstBlend: 10
     - _AlphaSrcBlend: 1
     - _AlphaToMask: 0
     - _AlphaToMaskInspectorValue: 0
-    - _BlendMode: 1
+    - _BlendMode: 0
+    - _Blink_Effect: 0
     - _ConservativeDepthOffsetEnable: 0
     - _CullMode: 2
     - _CullModeForward: 2
     - _DepthOffsetEnable: 0
+    - _DissolveAmount: 0.33
+    - _DissolveBorderStrength: 10
+    - _DissolveBorderWidth: 0.02
+    - _DissolveScale: 40
+    - _DissolveScrollSpeed: 0.1
     - _DoubleSidedEnable: 0
     - _DoubleSidedGIMode: 0
     - _DoubleSidedNormalMode: 2
-    - _DstBlend: 1
+    - _DstBlend: 10
     - _EnableBlendModePreserveSpecularLighting: 0
     - _EnableFogOnTransparent: 1
-    - _Fresnel_Power: 0.51
+    - _Fresnel_Power: 1.72
     - _GlowSpread: -0.09
     - _OpaqueCullMode: 2
+    - _Pupil_Size: 0.367
     - _RenderQueueType: 4
     - _SrcBlend: 1
     - _StencilRef: 0
@@ -80,7 +89,7 @@ Material:
     - _TransparentCullMode: 2
     - _TransparentDepthPostpassEnable: 0
     - _TransparentDepthPrepassEnable: 0
-    - _TransparentSortPriority: 0
+    - _TransparentSortPriority: 50
     - _TransparentWritingMotionVec: 0
     - _TransparentZWrite: 0
     - _UseShadowThreshold: 0
@@ -93,12 +102,14 @@ Material:
     - _ZTestTransparent: 4
     - _ZWrite: 0
     m_Colors:
+    - _DissolveBorderColor: {r: 1, g: 0, b: 0, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _FresnelColor: {r: 15.999998, g: 15.999998, b: 15.999998, a: 0.1764706}
     - _GlowColor: {r: 0, g: 0, b: 0, a: 1}
     - _Glow_Pos: {r: 0, g: 0, b: 0, a: 0}
     - _InteriorPos: {r: 0, g: 0.25, b: 0, a: 0}
+    - _Pupil_Direction_Offset: {r: 0, g: 0, b: 0, a: 0}
     - _Vector3: {r: 1, g: 0, b: 0.28, a: 0}
     - _Wobble_Vector: {r: 0.77, g: 0, b: 0.3, a: 0}
   m_BuildTextureStacks: []
