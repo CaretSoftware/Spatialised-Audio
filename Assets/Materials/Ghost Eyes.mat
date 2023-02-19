@@ -71,7 +71,7 @@ Material:
     - _Fresnel_Power: 1.72
     - _GlowSpread: -0.09
     - _OpaqueCullMode: 2
-    - _Pupil_Size: 0.367
+    - _Pupil_Size: 0.477
     - _RenderQueueType: 4
     - _SrcBlend: 1
     - _StencilRef: 0
