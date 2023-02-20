@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 6897250543919179015}
   - component: {fileID: 6897250543919179018}
   - component: {fileID: 6897250543919179017}
+  - component: {fileID: 572327435}
+  - component: {fileID: 572327436}
   m_Layer: 0
   m_Name: Ghost Eye
   m_TagString: Untagged
@@ -28,7 +30,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0.6427876, z: 0, w: 0.7660445}
   m_LocalPosition: {x: -0.1500001, y: 0.18000007, z: 0.12}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
-  m_ConstrainProportionsScale: 1
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6897250544333674528}
   m_RootOrder: 1
@@ -83,6 +85,36 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!54 &572327435
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6897250543919179014}
+  serializedVersion: 2
+  m_Mass: 1.1
+  m_Drag: 0.74
+  m_AngularDrag: 0.5
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!136 &572327436
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6897250543919179014}
+  m_Material: {fileID: 13400000, guid: 975202324031588488c4c1a01fdbad0b, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  m_Radius: 0.29
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: -0.00000047683716, z: 0}
 --- !u!1 &6897250544333674559
 GameObject:
   m_ObjectHideFlags: 0
@@ -107,7 +139,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6897250544333674559}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: -0.028504694, y: -0.6204189, z: -0.043955904, w: 0.78251886}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -147,6 +179,8 @@ GameObject:
   - component: {fileID: 6897250544605105899}
   - component: {fileID: 6897250544605105902}
   - component: {fileID: 6897250544605105901}
+  - component: {fileID: 1480379929}
+  - component: {fileID: 1480379930}
   m_Layer: 0
   m_Name: Ghost Eye
   m_TagString: Untagged
@@ -164,7 +198,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0.81915206, z: 0, w: 0.57357645}
   m_LocalPosition: {x: 0.1500001, y: 0.18000007, z: 0.12}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
-  m_ConstrainProportionsScale: 1
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6897250544333674528}
   m_RootOrder: 0
@@ -219,6 +253,36 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!54 &1480379929
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6897250544605105898}
+  serializedVersion: 2
+  m_Mass: 0.9
+  m_Drag: 0.5
+  m_AngularDrag: 0.25
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!136 &1480379930
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6897250544605105898}
+  m_Material: {fileID: 13400000, guid: 975202324031588488c4c1a01fdbad0b, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  m_Radius: 0.29
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: -0.00000023841858, y: -0.0000009536743, z: 0}
 --- !u!1 &6897250545226454457
 GameObject:
   m_ObjectHideFlags: 0
@@ -232,6 +296,7 @@ GameObject:
   - component: {fileID: 6897250545226454459}
   - component: {fileID: 6897250545226454462}
   - component: {fileID: 504682184}
+  - component: {fileID: 6428877217849157963}
   m_Layer: 0
   m_Name: Ghost
   m_TagString: Untagged
@@ -337,3 +402,22 @@ LookAtConstraint:
   m_Sources:
   - sourceTransform: {fileID: 0}
     weight: 1
+--- !u!114 &6428877217849157963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6897250545226454457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1576519e7c8970246b9a59ef48f9cb00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ghostMeshRenderer: {fileID: 6897250545226454459}
+  leftEyeMeshRenderer: {fileID: 6897250543919179017}
+  rightEyeMeshRenderer: {fileID: 6897250544605105901}
+  leftEyeRigidBody: {fileID: 572327435}
+  rightEyeRigidBody: {fileID: 1480379929}
+  leftEyeCollider: {fileID: 572327436}
+  rightEyeCollider: {fileID: 1480379930}
