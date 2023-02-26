@@ -121,7 +121,7 @@ public class SimplePlayerController : MonoBehaviour
         if (!as_Creaks.isPlaying)
         {
             float f = Random.Range(0f, 1f);
-            Debug.Log(f);
+            //Debug.Log(f);
             if(f > 0.95)
             {
                 // pick & play a random creak sound from the array,

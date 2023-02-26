@@ -27,11 +27,11 @@ public class Heap<T> where T : IComparable {
 
     /// <summary>
     /// Insert into the priority queue, maintaining heap order
-    /// Duplicates are allowed
+    /// Duplicates are not allowed?
     /// </summary>
     /// <param name="x">The item to insert</param>
     public void Insert(T x) {
-        if (!duplicateCheckSet.Add(x))
+        if (!duplicateCheckSet.Add(x)) // checks for duplicates
             return;
 
         if (currentSize == array.Length - 1)
@@ -70,6 +70,10 @@ public class Heap<T> where T : IComparable {
     public void MakeEmpty() {
         duplicateCheckSet.Clear();;
         currentSize = 0;
+    }
+
+    public bool Contains(T item) {
+        return duplicateCheckSet.Contains(item);
     }
 
     private void PercolateDown(int hole) {
