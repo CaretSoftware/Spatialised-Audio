@@ -15,7 +15,7 @@ public class Heap<T> where T : IComparable {
         duplicateCheckSet = new HashSet<T>();
     }
 
-    public Heap(T[] items) {
+    public Heap(T[] items) { // TODO remove duplicates from array
         currentSize = items.Length;
         array = new T[(currentSize + 2) * 11 / 10];
         duplicateCheckSet = new HashSet<T>(items);
@@ -29,10 +29,11 @@ public class Heap<T> where T : IComparable {
     /// Insert into the priority queue, maintaining heap order
     /// Duplicates are not allowed?
     /// </summary>
+    /// <returns>false if item already in heap</returns>
     /// <param name="x">The item to insert</param>
-    public void Insert(T x) {
-        if (!duplicateCheckSet.Add(x)) // checks for duplicates
-            return;
+    public bool Insert(T x) {
+        if (!duplicateCheckSet.Add(x))  // checks for duplicates
+            return false;               // item was not inserted, duplicate values!
 
         if (currentSize == array.Length - 1)
             EnlargeArray(array.Length * 2 + 1);
@@ -43,6 +44,8 @@ public class Heap<T> where T : IComparable {
             array[hole] = array[hole / 2];
         }   
         array[hole] = x;
+
+        return true;
     }
 
     public T Peek() {

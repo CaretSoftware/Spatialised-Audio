@@ -1,12 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
-using Random = UnityEngine.Random;
 
 public class Graph : MonoBehaviour {
-    [SerializeField] private Vector2Int toFrom;
+    [SerializeField] private Vector2Int fromTo;
     private Ray _ray;
-    //[FormerlySerializedAs("nodes")] [SerializeField] private Transform[] nodeTransforms;
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private Node[] nodes;
     private AStar _aStar = new AStar();
@@ -15,15 +12,18 @@ public class Graph : MonoBehaviour {
     
     private void Start() {
         AssignNodeNeighbours();
-        Stack<Node> path = _aStar.Path(nodes[toFrom.x], nodes[toFrom.y], _heuristic);
+        GetPath(nodes[fromTo.x], nodes[fromTo.y]);
+    }
+
+    private void GetPath(Node from, Node to) {
+        Stack<Node> path = _aStar.Path(from, to, _heuristic);
 
         int numInPath = path.Count;
-        
         for (int i = 0; i < numInPath; i++) {
             this.path.Add(path.Pop());
         }
     }
-
+    
     private void Update() {
         for (int i = 1; i < path.Count; i++) {
             Debug.DrawLine(path[i - 1].position, path[i].position, Color.magenta);
@@ -62,15 +62,5 @@ public class Graph : MonoBehaviour {
         }
 
         return neighbourNodes;
-    }
-
-    private void OnDrawGizmos() {
-        //for (int node = 0; node < nodes.Length; node++) {
-        //    int numNeighbours = nodes[node].neighbors.Length;
-        //    for (int neighbours = 0; neighbours < numNeighbours; neighbours++) {
-        //        Node thisNode = nodes[node];
-        //        Debug.DrawLine(thisNode.position, thisNode.neighbors[neighbours].position, Color.red);
-        //    }
-        //}
     }
 }
