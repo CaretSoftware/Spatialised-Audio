@@ -54,7 +54,7 @@ public class Shoot : MonoBehaviour {
             
             float distance = vectorToGhost.magnitude;
             
-            Debug.Log($"{dotX} {dotY}");
+            //Debug.Log($"{dotX} {dotY}");
         }
         
         if (Input.GetMouseButton(0)) {
