@@ -5,8 +5,6 @@ using UnityEngine;
 public class AStar {
     
     public Stack<Node> Path(Node start, Node goal,  IHeuristic<float> heuristic) {
-        Node.goalNode = goal;
-        Node.heuristic = heuristic;
         Heap<HeapNode> openSet = new Heap<HeapNode>(100);
         Dictionary<Node, Node> cameFrom = new Dictionary<Node, Node>(100);
         Dictionary<Node, float> gScore = new Dictionary<Node, float>(100);
@@ -33,7 +31,7 @@ public class AStar {
                     gScore[neighbour] = tentativeGScore;
                     float f = tentativeGScore + heuristic.CostFunction(neighbour, goal);
                     fScore[neighbour] = f;
-                    neighbour.fScore = f;
+                    //neighbour.fScore = f;
                     
                     openSet.Insert(new HeapNode(neighbour, f));   // heap doesn't allow duplicate Nodes
                 }
@@ -105,6 +103,10 @@ public class Comparator : IComparer<(float, Node)> {
     }
 }
 
+public interface IHeuristic <T> {
+    public abstract T CostFunction(Node from, Node to);
+}
+
 public class AsTheCrowFlies : IHeuristic<float> {
     public float CostFunction(Node from, Node to) {
         return Vector3.Distance(from.position, to.position);
@@ -128,8 +130,3 @@ public class ManhattanXYZ : IHeuristic<int> {
         return Mathf.RoundToInt(Mathf.Abs(to.position.x - from.position.x) + Mathf.Abs(to.position.y - from.position.y) + Mathf.Abs(to.position.z - from.position.z));
     }
 }
-
-public interface IHeuristic <T> {
-    public abstract T CostFunction(Node from, Node to);
-}
-
