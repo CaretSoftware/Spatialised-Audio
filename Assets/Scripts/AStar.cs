@@ -31,7 +31,6 @@ public class AStar {
                     gScore[neighbour] = tentativeGScore;
                     float f = tentativeGScore + heuristic.CostFunction(neighbour, goal);
                     fScore[neighbour] = f;
-                    //neighbour.fScore = f;
                     
                     openSet.Insert(new HeapNode(neighbour, f));   // heap doesn't allow duplicate Nodes
                 }
