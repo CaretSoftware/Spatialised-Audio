@@ -8,7 +8,7 @@ public class PositionWithinCube : MonoBehaviour {
     public Vector3 PositionWithin(Transform cube) {
         Vector3 scale = cube.localScale;
         Vector3 position = cube.position;
-
+        
         float xMin = position.x - scale.x * .5f + radius;
         float xMax = position.x + scale.x * .5f - radius;
         
