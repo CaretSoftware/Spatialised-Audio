@@ -97,9 +97,9 @@ Material:
     - _Wobble_Height: 1.82
     - _Wobble_Magnitude: 0.36
     - _Wobble_Speed: 3.03
-    - _ZTestDepthEqualForOpaque: 4
+    - _ZTestDepthEqualForOpaque: 8
     - _ZTestGBuffer: 4
-    - _ZTestTransparent: 4
+    - _ZTestTransparent: 8
     - _ZWrite: 0
     m_Colors:
     - _DissolveBorderColor: {r: 1, g: 0, b: 0, a: 0}
