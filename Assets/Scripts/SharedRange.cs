@@ -18,10 +18,10 @@ public class SharedRange : MonoBehaviour {
     private void OnValidate() {
         if (reset) {
             reset = false;
-            a = a2 = .8f;
-            b = b2 = .6f;
-            c = c2 = .4f;
-            d = d2 = .2f;
+            a = a2 = .4f;
+            b = b2 = .3f;
+            c = c2 = .2f;
+            d = d2 = .1f;
         }
         
         float[] arr1 = new float[] { a, b, c, d };
@@ -29,7 +29,7 @@ public class SharedRange : MonoBehaviour {
         
         for (int i = 0; i < arr1.Length; i++) {
             if (arr1[i] != arr2[i]) {
-                arr1 = AdjustRanges(arr1, i, arr1[i], 2f);
+                arr1 = AdjustRanges(arr1, i, arr1[i], 1f);
                 break;
             }
         }
@@ -47,13 +47,22 @@ public class SharedRange : MonoBehaviour {
         tot = a + b + c + d;
     }
     
-    // TODO allow < 100%
-    // if one slider goes beyond 100%
-    // decrease its value and let the other sliders readjust
+    // TODO allow > 100%
+    // check if any value overfull after the increase
+    // if so
+    //      calculate the overfill
+    //      fill other sliders with (overfill / (sliders - 1)) (can be more than one)
+    //          (check so other sliders aren't overfilled with the increase from the overfill)
+    //          ?while loop?
+    //      while (Overfill(variables, out int index, out float overspill)) {
+    //          // overspill := overfill / (sliders - 1)
+    //          for ( ... )
+    //              add overspill to the other sliders (not the altered slider if possible)
+    //      }
+    //      
+
     public float[] AdjustRanges(float[] variables, int index, float newValue, float total = 1f, float full = 1f) {
-        bool readjust = false;
-        int readjustment = -1;
-        
+
         if (newValue >= total)  // guard against divide by 0 errors
             return FullValue(variables, index, total);
 
@@ -67,18 +76,10 @@ public class SharedRange : MonoBehaviour {
         for (int i = 0; i < variables.Length; i++) {
             if (i != index)
                 variables[i] *= k;
-
-            if (variables[i] > full) {
-                readjust = true;
-                readjustment = i;
-            }
-                
         }
 
         variables[index] = newValue;
-
-        if (readjust)
-            variables = AdjustRanges(variables, readjustment, total, total);
+        
         
         return variables;
     }
