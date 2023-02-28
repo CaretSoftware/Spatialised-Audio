@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Random = UnityEngine.Random;
 
 public class SpawnManager : MonoBehaviour {
-    [SerializeField] private Transform[] spawnVolumes;
+    [SerializeField] public Transform[] spawnVolumes;
     private Dictionary<Transform, float> _spawnVolumes = new Dictionary<Transform, float>();
     private float _spawnVolumeTotal;
     private PositionWithinCube _positionWithinCube;
@@ -15,13 +15,22 @@ public class SpawnManager : MonoBehaviour {
     
     private void Start() => _positionWithinCube = GetComponent<PositionWithinCube>();
 
-    private void Update() {
-        if (debug) {
-            debug = false;
-            Transform cube = GetWeightedRandomSpawnVolume();
-            Vector3 spawnPos = _positionWithinCube.PositionWithin(cube);
-            debugSpawnPosition = spawnPos; // debug
-        }
+    //private void Update() {
+        //if (debug) {
+        //    debug = false;
+        //    Transform cube = GetWeightedRandomSpawnVolume();
+        //    Vector3 spawnPos = _positionWithinCube.PositionWithin(cube);
+        //    debugSpawnPosition = spawnPos; // debug
+        //}
+    //}
+
+    public Transform RandomSpawnPosition(out Vector3 spawnPosition) {
+        Transform cube = GetWeightedRandomSpawnVolume();
+        Vector3 spawnPos = _positionWithinCube.PositionWithin(cube);
+        debugSpawnPosition = spawnPos; // debug
+        spawnPosition = spawnPos;
+
+        return cube;
     }
     
     private Transform GetWeightedRandomSpawnVolume() {

@@ -9,6 +9,7 @@ public class AStar {
         Dictionary<Node, Node> cameFrom = new Dictionary<Node, Node>(100);
         Dictionary<Node, float> gScore = new Dictionary<Node, float>(100);
         Dictionary<Node, float> fScore = new Dictionary<Node, float>(100);
+        
         gScore.Add(start, 0);
         fScore.Add(start, heuristic.CostFunction(start, goal));
 
