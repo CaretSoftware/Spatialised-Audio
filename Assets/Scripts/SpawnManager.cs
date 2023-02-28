@@ -2,27 +2,52 @@
 using System.Text;
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using Random = UnityEngine.Random;
 
 public class SpawnManager : MonoBehaviour {
+    public delegate void RespawnGhost();
+    public static RespawnGhost respawnGhost;
+
+    [SerializeField] private GameObject ghostPrefab;
     [SerializeField] public Transform[] spawnVolumes;
     private Dictionary<Transform, float> _spawnVolumes = new Dictionary<Transform, float>();
     private float _spawnVolumeTotal;
     private PositionWithinCube _positionWithinCube;
     public bool debug;
-    
-    private void Awake() => Initialize();
-    
-    private void Start() => _positionWithinCube = GetComponent<PositionWithinCube>();
 
-    //private void Update() {
-        //if (debug) {
-        //    debug = false;
-        //    Transform cube = GetWeightedRandomSpawnVolume();
-        //    Vector3 spawnPos = _positionWithinCube.PositionWithin(cube);
-        //    debugSpawnPosition = spawnPos; // debug
-        //}
-    //}
+    public static Transform activeGhost;
+
+    private void Awake() {
+        respawnGhost += SpawnNewGhost;
+        Initialize();
+    }
+
+    private void OnDestroy() {
+        respawnGhost -= SpawnNewGhost;
+    }
+
+    private void SpawnNewGhost() {
+        if (activeGhost != null)
+            Destroy(activeGhost.gameObject);
+        
+        RandomSpawnPosition(out Vector3 position);
+
+        InstantiateGhost(position);
+    }
+
+    private void InstantiateGhost(Vector3 position) {
+        Quaternion lookRotation = 
+            Quaternion.LookRotation(
+                -Vector3.ProjectOnPlane(position, Vector3.up).normalized, 
+                Vector3.up);
+        activeGhost = Instantiate(ghostPrefab, position, lookRotation).transform;
+    }
+
+    private void Start() {
+        _positionWithinCube = GetComponent<PositionWithinCube>();
+        Invoke(nameof(SpawnNewGhost), 2f);
+    }
 
     public Transform RandomSpawnPosition(out Vector3 spawnPosition) {
         Transform cube = GetWeightedRandomSpawnVolume();
