@@ -22,7 +22,7 @@ public class Shoot : MonoBehaviour {
 
         _ray = cam.ViewportPointToRay(_centerScreen);
         
-        if (Input.GetMouseButton(0)) {
+        if (Input.GetMouseButtonDown(0)) {
             Vector3 ghostPosition = GhostManager.ActiveGhost.position;
             Vector3 vectorToGhost = ghostPosition - _cameraTransform.position;
             Vector3 directionToGhost = vectorToGhost.normalized;
@@ -55,14 +55,12 @@ public class Shoot : MonoBehaviour {
             float distance = vectorToGhost.magnitude;
             
             //Debug.Log($"{dotX} {dotY}");
-        }
-        
-        if (Input.GetMouseButton(0)) {
-            //Debug.DrawRay(cam.transform.position, _ray.direction * 5f, Color.red, Time.deltaTime);
-
             if (Physics.Raycast(_ray, 1000f, ghostLayer, QueryTriggerInteraction.Collide)) {
+                FindObjectOfType<GhostDeath>()?.Die();
                 Debug.Log("Hit Ghost!");
             }
+            else 
+                FindObjectOfType<GhostMiss>()?.Missed();
         }
     }
 }

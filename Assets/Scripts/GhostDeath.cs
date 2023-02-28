@@ -12,37 +12,50 @@ public class GhostDeath : MonoBehaviour {
     [SerializeField] private Rigidbody rightEyeRigidBody;
     [SerializeField] private Collider leftEyeCollider;
     [SerializeField] private Collider rightEyeCollider;
-    [SerializeField] private Transform playerTransform;
     
+    private Transform _playerTransform;
     private Transform _transform;
     private Material _ghostMaterial;
     private Material _leftEyeMaterial;
     private Material _rightEyeMaterial;
 
     private MaterialPropertyBlock _mpb;
+    private MaterialPropertyBlock _eyesMpb;
     
     private bool _dying;
     private static readonly int DissolveAmount = Shader.PropertyToID("_DissolveAmount");
     private static readonly int Color1 = Shader.PropertyToID("_Color");
     private static readonly int Alpha = Shader.PropertyToID("_Alpha");
 
-    private void Awake() {
-        _transform = transform;
-        _ghostMaterial = ghostMeshRenderer.material;
-        _leftEyeMaterial = leftEyeMeshRenderer.material;
-        _rightEyeMaterial = rightEyeMeshRenderer.material;
-        
-        _mpb = new MaterialPropertyBlock();
-    }
-
-    private void Update() {
-        if (Input.GetKeyDown(KeyCode.Space))
-            Die();
-    }
-
     public void Die() {
         if (!_dying)
             StartCoroutine(DeathEffect());
+    }
+
+    private void Awake() {
+        _playerTransform = PlayerTransform.PTransform;
+        _transform = transform;
+        
+        _mpb = new MaterialPropertyBlock();
+        _eyesMpb = new MaterialPropertyBlock();
+    }
+
+    private void Start() {
+        GhostMaterials ghostMaterials = GetComponent<GhostMaterials>();
+        _ghostMaterial = ghostMaterials.GhostMaterial;
+        _leftEyeMaterial = ghostMaterials.LeftEyeMaterial;
+        _rightEyeMaterial = ghostMaterials.RightEyeMaterial;
+
+        // Hide eyes
+        _leftEyeMaterial.SetFloat(Alpha, 0f);
+        _rightEyeMaterial.SetFloat(Alpha, 0f);
+        // Hide body
+        _mpb.SetFloat(Alpha, 0f);
+        ghostMeshRenderer.SetPropertyBlock(_mpb);
+        
+        _eyesMpb.SetFloat(Alpha, 0f);
+        leftEyeMeshRenderer.SetPropertyBlock(_eyesMpb);
+        rightEyeMeshRenderer.SetPropertyBlock(_eyesMpb);
     }
 
     private IEnumerator DeathEffect() {
@@ -51,7 +64,16 @@ public class GhostDeath : MonoBehaviour {
         bool droppedEyes = false;
         float t = 0f;
 
-        Vector3 lookDir = playerTransform.position - _transform.position;
+        // show eyes TODO animate scale Ease.InElastic/InBack?
+        _eyesMpb.SetFloat(Alpha, 1f);
+        leftEyeMeshRenderer.SetPropertyBlock(_eyesMpb);
+        rightEyeMeshRenderer.SetPropertyBlock(_eyesMpb);
+        
+        // show ghost
+        _mpb.SetFloat(Alpha, 1f);
+        ghostMeshRenderer.SetPropertyBlock(_mpb);
+        
+        Vector3 lookDir = _playerTransform.position - _transform.position;
         lookDir.y = 0f;
         lookDir.Normalize();
         
@@ -84,16 +106,18 @@ public class GhostDeath : MonoBehaviour {
         while (t < 1f) {
             float alpha = Mathf.Lerp(1f, 0f, t);
 
-            _leftEyeMaterial.SetFloat(Alpha, alpha);
-            _rightEyeMaterial.SetFloat(Alpha, alpha);
+            _eyesMpb.SetFloat(Alpha, alpha);
+            leftEyeMeshRenderer.SetPropertyBlock(_eyesMpb);
+            rightEyeMeshRenderer.SetPropertyBlock(_eyesMpb);
+            
             t += Time.deltaTime * (1f / secondsToFade);
             yield return null;
         }
         
-        _leftEyeMaterial.SetFloat(Alpha, 0f);
-        _rightEyeMaterial.SetFloat(Alpha, 0f);
+        _eyesMpb.SetFloat(Alpha, 0f);
+        leftEyeMeshRenderer.SetPropertyBlock(_eyesMpb);
+        rightEyeMeshRenderer.SetPropertyBlock(_eyesMpb);
         
         _dying = false;
     }
-
 }
