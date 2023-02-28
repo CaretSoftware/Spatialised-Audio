@@ -13,40 +13,38 @@ public class GhostMiss : MonoBehaviour {
     private MeshRenderer[] _meshRenderers;
     private Material[] _materials = new Material[3];
     private Transform _transform;
-    private Material _ghostMaterial;
-    private Material _leftEyeMaterial;
-    private Material _rightEyeMaterial;
     
     private MaterialPropertyBlock _mpb;
+    
+    private bool _appearing = true;
 
     private void Awake() {
         _playerTransform = PlayerTransform.PTransform;
         _meshRenderers = GetComponentsInChildren<MeshRenderer>();
-        Debug.Log(_meshRenderers.Length);
-        
 
         _mpb = new MaterialPropertyBlock();
     }
 
     private void Start() {
         GhostMaterials ghostMaterials = GetComponent<GhostMaterials>();
-        _ghostMaterial = ghostMaterials.GhostMaterial;
-        _leftEyeMaterial = ghostMaterials.LeftEyeMaterial;
-        _rightEyeMaterial = ghostMaterials.RightEyeMaterial;
         _materials = ghostMaterials.Materials;
     }
 
     public void Missed() {
-        StartCoroutine(AppearAndReappear());
+        StartCoroutine(AppearAndHide());
     }
 
-    private bool _appearing;
-    private IEnumerator AppearAndReappear() {
+    private IEnumerator AppearAndHide() {
+        if (!_appearing) yield break;
+        
         _appearing = true;
         
         StartCoroutine(MissEffect());
         yield return new WaitWhile(() => _appearing);
         StartCoroutine(HideEffect());
+        yield return new WaitWhile(() => !_appearing);
+        
+        SpawnManager.respawnGhost?.Invoke();
     }
 
     private IEnumerator MissEffect() {
@@ -76,6 +74,8 @@ public class GhostMiss : MonoBehaviour {
         
         _mpb.SetFloat(Alpha, 0);
         SetMaterialProperties(_mpb);
+        
+        _appearing = true;
     }
 
     private void SetMaterialProperties(MaterialPropertyBlock mpb) {

@@ -15,6 +15,7 @@ public class SimplePlayerController : MonoBehaviour
     [SerializeField] private AudioClip[] floorboardStepSounds;
     [SerializeField] private AudioClip[] cleanStepSounds;
     [SerializeField] private AudioClip[] creakSounds;
+    
     //(2 sources for playing step and creak sounds simultaneously)
     public AudioSource as_Steps;                                    //AudioSource for playing steps only 
     public AudioSource as_Creaks;                                   //AudioSource for playing creak sounds only when stepping on floorboards
@@ -30,7 +31,6 @@ public class SimplePlayerController : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
     }
 
     void Update()
@@ -79,7 +79,6 @@ public class SimplePlayerController : MonoBehaviour
 
     private void PlayDynamicFootstep()
     {
-
         switch (colliderType)
         {
             case "Floorboards":
@@ -110,10 +109,6 @@ public class SimplePlayerController : MonoBehaviour
             floorboardStepSounds[n] = floorboardStepSounds[0];
             floorboardStepSounds[0] = as_Steps.clip;
         }
-        else
-        {
-            return;
-        }
     }
 
     private void PlayCreakSounds()
@@ -134,10 +129,6 @@ public class SimplePlayerController : MonoBehaviour
                 creakSounds[0] = as_Creaks.clip;
             }
         }
-        else
-        {
-            return;
-        }
     }
 
     private void PlayCleanStepSounds()
@@ -153,10 +144,6 @@ public class SimplePlayerController : MonoBehaviour
             // move picked sound to index 0 so it's not picked next time
             cleanStepSounds[n] = cleanStepSounds[0];
             cleanStepSounds[0] = as_Steps.clip;
-        }
-        else
-        {
-            return;
         }
     }
 }

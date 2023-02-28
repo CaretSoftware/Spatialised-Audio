@@ -22,8 +22,8 @@ public class Shoot : MonoBehaviour {
 
         _ray = cam.ViewportPointToRay(_centerScreen);
         
-        if (Input.GetMouseButtonDown(0)) {
-            Vector3 ghostPosition = GhostManager.ActiveGhost.position;
+        if (Input.GetMouseButtonDown(0) && SpawnManager.activeGhost != null) {
+            Vector3 ghostPosition = SpawnManager.activeGhost.position;
             Vector3 vectorToGhost = ghostPosition - _cameraTransform.position;
             Vector3 directionToGhost = vectorToGhost.normalized;
             
@@ -57,10 +57,12 @@ public class Shoot : MonoBehaviour {
             //Debug.Log($"{dotX} {dotY}");
             if (Physics.Raycast(_ray, 1000f, ghostLayer, QueryTriggerInteraction.Collide)) {
                 FindObjectOfType<GhostDeath>()?.Die();
+                GhostAudio.playAudio?.Invoke(false);
                 Debug.Log("Hit Ghost!");
-            }
-            else 
+            } else {
+                GhostAudio.playAudio?.Invoke(true);
                 FindObjectOfType<GhostMiss>()?.Missed();
+            }
         }
     }
 }
