@@ -2,7 +2,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class LineIntersection : MonoBehaviour {
+public class OffScreenArrowIndicator : MonoBehaviour {
     public RectTransform arrowTransform;
     public Transform targetObject;
     private Camera mainCamera;
@@ -12,6 +12,7 @@ public class LineIntersection : MonoBehaviour {
         mainCamera = Camera.main;
     }
 
+    // https://github.com/jinincarnate/off-screen-indicator/tree/master
     private void Update() {
         Vector3 screenPosition = mainCamera.WorldToScreenPoint(targetObject.position);
         Vector3 screenCentre = new Vector3(Screen.width * .5f, Screen.height * .5f, 0f);
