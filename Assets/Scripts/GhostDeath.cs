@@ -28,7 +28,6 @@ public class GhostDeath : MonoBehaviour {
         if (!_dying)
             StartCoroutine(DeathEffect());
     }
-
     
     private void Awake() {
         _playerTransform = PlayerTransform.PTransform;
