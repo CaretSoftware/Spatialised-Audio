@@ -15,5 +15,5 @@ MonoBehaviour:
   materialMap: {fileID: 11400000, guid: 4b60063e4d714f04780de7eea5ba0ace, type: 2}
   reverbLayerMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 129
   includeNonStaticGameObjects: 1

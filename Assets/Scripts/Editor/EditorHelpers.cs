@@ -112,7 +112,7 @@ public static class EditorHelpers {
 		Vector3 labelOffsetX = cameraRotation * (new Vector3(-xSign, .3f, zSign) * 50);
 		Vector3 labelOffsetZ = cameraRotation * new Vector3(xSign, .3f, -zSign) * 50;
 		
-			// prevent label being too close to the camera and being culled
+			// prevent label being too close to the cam and being culled
 		labelOffsetX.z = 0; 
 		labelOffsetZ.z = 0;
 		
