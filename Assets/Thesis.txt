@@ -1,0 +1,727 @@
+%
+%   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   %                                         %
+%   %       !! COMPILE WITH XeLaTeX !!        %
+%   %                Overleaf:                %
+%   %   Menu > Settings > Compiler: XeLaTeX   %
+%   %                                         %
+%   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%====================================================================
+% PREAMBLE
+%====================================================================
+\documentclass[11pt,a4paper,english]{report} % english sets hyphenation rules to the customary english ones
+\title{Spatialization of Binaural Audio With Head Tracking in First-Person Computer Games}
+\author{Patrik Bergsten, Mikita Kihan}
+%\usepackage[T1]{fontenc} %% experiment
+%\usepackage[latin1]{inputenc} %% experiment
+%\usepackage{blindtext} %% experiment
+%==================================
+% GENERAL FORMATTING
+%==================================
+%\usepackage{csquotes}% used with babel/polyglossia package, typesets quotes according to the rules of the language. Handles nested quotations eetc. Gives an warning at compilation without babel
+% geometry package allows us to redefine the size and margins used in the document
+% https://ftpmirror1.infania.net/mirror/CTAN/macros/latex/contrib/geometry/geometry.pdf
+\usepackage[a4paper,
+    left=25mm, 
+    right=25mm,
+    top=40mm,
+    bottom=20mm,
+    ]
+    {geometry}
+% use Computer Modern Sans Serif typeface for \sffamily
+\usepackage{helvet}
+% Set's the default page style, until redefined/overridden with \thispagestyle{empty}
+\pagestyle{plain} % no header
+%\AtBeginDocument{
+%
+%}
+%====================================================================
+% STOCKHOLM UNIVERSITY TEMPLATE FORMATTING
+%====================================================================
+% defines Color SU Blue
+\usepackage[dvipsnames]{xcolor} % dvipsnames package allows us to define own colors
+    \definecolor{SUBlue}{RGB}{0, 47, 95} % SU blue RGB (0-255) definition
+%==================================
+% TITLE FORMATTING
+%==================================
+\usepackage{layout} % allows us to set the sizes and margins used in the document 
+    \setlength{\headsep}{1pt}
+    \setlength\headheight{1pt}
+    % write \layout* in the document for a diagram of the current layout
+% defines \HUGE that is not a default font size, second parameter is linespacing
+\makeatletter
+    \newcommand\HUGE{\@setfontsize\Huge{28}{47}}
+\makeatother
+% sets all chapter, sub-section and sus-sub-sections' fonts to sans-serif
+\usepackage{sectsty} % Commands to change all sectional heading styles
+    \allsectionsfont{\sffamily} % sets the font for all \chapter, \subsection and \subsubsection headings to sans serif
+% change how chapter titles are displayed
+\usepackage{titlesec} % Commands to change sectional heading styles
+    \titleformat
+        {\chapter}          % command
+        [hang]              % shape
+        {\sffamily}         % format
+        {\HUGE\thechapter}  % label (\thechapter = chapter number)
+        {30pt}              % separation
+        {\HUGE}             % before code
+        []                  % after code
+% changes spacing above and below chapter titles (LaTeX by default moves chapter title downwards alot)
+\makeatletter
+    % reference for \LaTeX default values for chapters:
+    % https://tex.stackexchange.com/a/309928
+    \renewcommand{\@makechapterhead}[1]{% renews the parameters this documentclass sets chapter titles
+        \vspace*{20\p@}
+        {\noindent\HUGE\sffamily% Alignment and font reset
+            \HUGE\thechapter~~#1}% Formatting
+        \vspace{12mm}% space between Chapter title and subsequent text 
+    }
+\makeatother
+%==================================
+% TABLE OF CONTENTS
+%==================================
+% sets the table of contents indentation depth
+\setcounter{tocdepth}{3} 
+% sets number depth to allow for \subsubsection's to be numbered
+\setcounter{secnumdepth}{3} 
+% change the default font and formatting for Table of Contents (ToC)
+\usepackage[titles]{tocloft} % tocloft package allows customising of Table of Contents
+% Section names
+    \renewcommand{\cftdot}{} % empty parameter removes dots (......) from table of contents
+    \renewcommand{\cftchapfont}{\sffamily\bfseries}
+    \renewcommand{\cftsecfont}{\sffamily}
+    \renewcommand{\cftsubsecfont}{\sffamily}
+    \renewcommand{\cftsubsubsecfont}{\sffamily}
+    \renewcommand{\cftpartfont}{\sffamily\bfseries}
+% page numbers
+    \renewcommand{\cftchappagefont}{\sffamily\bfseries} % sans serif, bold page numbers in Table of Contents
+    \renewcommand{\cftsecpagefont}{\sffamily}
+    \renewcommand{\cftsubsecpagefont}{\sffamily}
+    \renewcommand{\cftsubsubsecpagefont}{\sffamily}
+    \renewcommand{\cftpartpagefont}{\sffamily\bfseries}
+%==================================
+% FIGURES, TABLES
+%==================================
+\newcommand{\head}[1]{\textnormal{\textbf{#1}}} % used for tables
+\renewcommand{\figurename}{Figure}
+\renewcommand{\listfigurename}{List of Figures}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage[export]{adjustbox} % adjust alignment and positioning of images
+\usepackage{subcaption} % allows creation an captioning of several images
+%\usepackage{longtable} % if long tables run off the page, example in abbreviations section
+%==================================
+% REFERENCING (HARVARD)
+%==================================
+\usepackage[style=authoryear-ibid,maxnames=2, autocite=inline, backend=biber]{biblatex} % sets MAX NAMES = 2 BEFORE "First, et al."
+\addbibresource{biblio.bib}% Syntax for version >= 1.2
+%**********************************
+% https://texdoc.org/serve/fontspec/0
+\usepackage{fontspec} % fontspec allows us to use regular TTF fonts installed on our system and custumise how its rendered
+    \fontspec{Verdana}[FakeBold=5.5]
+%\usepackage{blindtext} % Numbered sections
+    \renewcommand*{\bibfont}{\fontspec{Arial}} % sets the font for the reference section to Arial
+\renewcommand{\contentsname}{Table of Contents} % renames ToC from "Contents"
+
+%==================================
+% CODE FORMATTING
+%==================================
+% https://texdoc.org/serve/minted.pdf/0
+\usepackage{minted} % minted package typesets typed or imported codefiles in our document
+% ==color schemes==
+%\usemintedstyle{manni}
+%\usemintedstyle{rrt}
+%\usemintedstyle{perldoc}
+%\usemintedstyle{borland}
+%\usemintedstyle{colorful}
+%\usemintedstyle{murphy}
+%\usemintedstyle{vs}
+\usemintedstyle{trac}
+%\usemintedstyle{tango}
+%\usemintedstyle{fruity}     % use dark backround
+%\usemintedstyle{autumn}
+%\usemintedstyle{bw}         % black and white font
+%\usemintedstyle{emacs}
+%\usemintedstyle{vim}        % use dark background
+%\usemintedstyle{pastie}
+%\usemintedstyle{friendly}
+%\usemintedstyle{native}     % use dark background
+%\usemintedstyle{monokai}    % use dark background
+% --COMMANDS GUIDE--
+%\inputminted{cpp}{BitXorMatrix.cpp} % import c++ code from file
+%\inputminted[firstline=2, lastline=12]{java}{coffee.java} % import java source code from file, specifying from-to lines
+%\mint{csharp}|for (int i = 0; i < count.Length; ++1)| % inline csharp code in text
+% \begin{minted}{python} // type multi line python code here \end{minted} % use 4 spaces instead of tabs for expected results
+%====================================================================
+% BEGINNING OF DOCUMENT
+%====================================================================
+\begin{document}
+%--------------------------------------------------------
+% COVER PAGE
+%--------------------------------------------------------
+\thispagestyle{empty} % no header or footer
+\color{SUBlue}
+\begin{HUGE}\sffamily 
+\noindent % removes indentation so that title page aligns with subsequent chapters
+Spatialization of Binaural Audio With Head Tracking in First-Person Computer Games.
+\newline
+\end{HUGE}
+\begin{LARGE}\sffamily
+\bigskip\newline
+% Subtitle if any \newline
+\bigskip\bigskip\newline
+% author names in alphabetical order:
+%Author name A \newline\newline
+%Author name B
+Patrik Bergsten \newline\newline
+Mikita Kihan
+\end{LARGE}
+\newline\
+\vspace{310pt plus 1pt minus 1pt}
+\begin{Large} \sffamily
+\bigskip\newline%\indent
+Department of Computer \newline%\indent
+and Systems Sciences
+\end{Large}
+\begin{small} \sffamily
+\newline%\indent
+\begin{minipage}{0.65\textwidth}
+Degree project: 15 HE credits\\%\indent
+Bachelor Programme in Computer Game Development \\%\indent
+%Computer and Systems Sciences\\\indent
+Degree project at the bachelor level\\%\indent
+Spring term 2023\\%\indent
+Supervisor: Tobias Falk\\%\indent
+Swedish title: Spatialisering av binauralt ljud med head tracking i förstapersonsdatorspel
+\end{minipage}
+\end{small}
+\begin{minipage}{0.32\textwidth}
+\begin{center}
+    \includegraphics[width=0.8
+    \textwidth]{SUloggaeng.png}
+\end{center}
+\end{minipage}
+\color{black} % sets font color back to black
+%--------------------------------------------------------
+% LAYOUT TEST PAGE
+%--------------------------------------------------------
+% (layout package)
+%\vspace{10pt}
+%\setlength{\headsep}{1pt}
+%\setlength\headheight{1pt}
+%\setlength{\topmargin}{1pt}
+%\setlength{\textwidth}{}
+%\setlength{\textheight}{240mm}%608pt}
+%\setlength{\textwidth{240mm}%608pt}
+%\setlength{\footskip}{30mm%85pt}
+%\setlength{\marginparwidth}{0pt}
+%\setlength{\marginparsep}{0pt}
+%\newpage\layout* % UNCOMMENT TO DRAW A LAYOUT DIAGRAM
+%--------------------------------------------------------
+% BLANK PAGE
+%--------------------------------------------------------
+\newpage
+\thispagestyle{empty} % removes page number from this page
+\mbox{}
+%--------------------------------------------------------
+% ABSTRACT
+%--------------------------------------------------------
+%\setmainfont{Verdana}
+\chapter*{Abstract} % note: * makes title unnumbered & hides chapter from table of contents
+\setmainfont{Times New Roman}
+\thispagestyle{empty} % removes page number from this page
+The abstract and the keywords should not exceed the limit of this page
+\newline\newline
+% Keywords should be written in order of relevance
+\emph{Keywords:} Binaural, Audio, sound localisation, head tracking, computer games, experiences
+%--------------------------------------------------------
+% ACKNOWLEDGEMENTS
+%--------------------------------------------------------
+%\setmainfont{Verdana}
+\chapter*{Acknowledgements}
+%\setmainfont{Times New Roman}
+\thispagestyle{empty}
+This is the place to say thanks to those who have supported the thesis work.
+%--------------------------------------------------------
+% TABLE OF CONTENTS
+%--------------------------------------------------------
+%\setmainfont{}
+\tableofcontents
+%\setmainfont{Times New Roman}
+\pagenumbering{Roman}   % capitalised roman numeral
+%\pagenumbering{roman}  % lowercase roman numerals
+\setcounter{page}{1} % sets page number to: I / i
+\thispagestyle{plain}
+%--------------------------------------------------------
+% LIST OF ABBREVIATIONS
+%--------------------------------------------------------
+\chapter*{List of Abbreviations}
+%\setlength{\arrayrulewidth}{0.5mm}
+\setlength{\tabcolsep}{0pt}
+\setmainfont{Arial}
+\renewcommand{\arraystretch}{1}
+\begin{tabular}{p{2cm} p{14cm}} % should total 16cm
+3D & Three Dimensional \\
+CS:GO & Counter-strike: global offensive \\ 
+FPS & First Person Shooter \\  
+HRTF & Head Related Transfer Functions \\    
+ITD & Interaural Time Difference \\
+LED & Light Emitting Diode \\
+\end{tabular}
+%\addcontentsline*{toc}{chapter}{List of Abbreviations}
+\addtocontents{toc}{\bigskip}
+\setmainfont{Times New Roman}
+%--------------------------------------------------------
+% LIST OF FIGURES
+%--------------------------------------------------------
+\setmainfont{Arial}
+\listoffigures
+%\thispagestyle{plain}
+%\addcontentsline*{toc}{chapter}{List of Figures}
+\setmainfont{Times New Roman}
+%--------------------------------------------------------
+% LIST OF TABLES
+%--------------------------------------------------------
+\setmainfont{Arial}
+\listoftables
+%\thispagestyle{plain}
+%\addcontentsline*{toc}{chapter}{List of Tables}
+\setmainfont{Times New Roman}
+%========================================================
+% REGULAR PAGENUMBERS
+\pagestyle{plain} 
+\setcounter{page}{1}
+\pagenumbering{arabic}
+%========================================================
+%--------------------------------------------------------
+% INTRODUCTION
+%--------------------------------------------------------
+\chapter{Introduction} % used to say "Synopsis" - English template says "Synopsis", all the example thesis I have downloaded say "Introduction"?
+%--------------------------------------------------------
+% BACKGROUND
+%--------------------------------------------------------
+\section{Background}
+\setmainfont{Times New Roman}
+% The main advantage in a first-person perspective game is the player's ability to aim accurately. Shooting a projectile---such as a bullet or a rocket---in first person is much easier than from third person because the player can line up a target in the middle of their monitor. Games that use the first-person perspective also tend to have a faster pace because players are so skilled at aiming and shooting. Of course, with this advantage comes a disadvantage: in first-person games, the player has no vision beyond their character's vision, so enemies can really catch the player by surprise.
+
+Many, if not all, of today’s computer games use audio to improve players’ immersion and performance in the virtual environments. Audio can be used to set a tone and mood to great effect \autocite{Slater}. The fast paced dynamic in some of the games urge players to react quickly which makes it highly important to have an informative and realistic audio system that can provide players with an accurate three dimensional auditory picture of the environment. Examples for such games are \textcite{CS}, \textcite{Rainbow} and \textcite{Overwatch}. These competitive, team-based, \textit{first person shooter} (FPS) games use binaural audio which is a method of reproducing sound that mimics the way humans naturally experience sound in real life \autocite{BinauralAudio}. 
+
+\subsection{Spatialisation of Audio}
+FPS games convey information to players mainly through visual displays that render the character’s limited field of view. While visual displays are a fit medium for displaying a specific location, audio is capable of supplying information both within, as well as outside, of the player’s peripheral \autocite{Hermann}. Audio can also be helpful under conditions where the visual scene is dark, complex or cluttered \autocite{Zahorik}. Sound is in other words good for communicating information which changes over time and can be heard over a range of spatial locations whereas vision can only be observed at specific locations \autocite{Tannen1998}.
+
+Spatial audio when conveying information from a computer to the user is also called an \textit{auditory display} \autocite{WalkerNees}. A strength of auditory displays is that it can be viewed as 'an extra set of eyes and ears' \autocite{Tran}. \textcite[p. 456]{Hermann} indicated that "the human auditory system does not need a directional fix on a sound source in order to perceive its presence". Results of a study done by \textcite{Brock} supports that statement by showing how 3D sound can improve the user experience through being a background process without disruptively affecting the primary focus of attention. The study was about the impact of spatialized sound on performance and attention management for user interfaces in multitask settings. The problem was that the Navy's multi-modal watchstation had three large flat panel displays and attention management for operators was certain to be a critical issue. The results showed a significant improvement in performance on the visual search task when auditory displays were used with no loss in tactical decision accuracy. The findings were that the use of spatialized auditory display allowed for decreased head movement which likely led to better performance given that the user could focus on the next task without having to turn to look at the other screen for visual confirmation \autocite{Brock}. 
+
+Another strength of spatial audio and auditory displays is navigational decision making which \textcite{Walker2006} did a study on. Walker and Lindsay's study focused on leading visually impaired subjects through a three dimensional environment with solely nonspeech beacons to see how sound timbre, waypoint capture radius, and practice affected performance. They demonstrated that with correct attributes, spatialized audio can be used to effectively help guide players in a virtual 3D environment \autocite{Walker2006}.
+
+\subsection{Techniques for Spatialisation}
+In order to recreate a binaural audio experience the recording of the audio has to be carried out under the same conditions that a listener listening to the sound would have in the recorded environment. Recording of binaural audio can be done by using human head analogues with microphones inside the ear cavities, also called dummy heads. Essential to the central concept of binaural audio is what is called \textit{head related transfer functions} (HRTF) \autocite{Xie}. HRTF is a way of modelling the individual differences of the sonic characteristics reaching each ear. The sonic characteristics modelled in a HRTF include the \textit{interaural time difference} (ITD), the slight changes in frequency caused by the physical interaction with the ears, oral, and nasal cavities, and acoustic shadowing caused by the head and body geometry \autocite{Xie}. HRTFs are problematic in that they contribute to a high degree of variance in perception of sound, but a generalised model can still be used. Recording with a dummy head gives a static rendition of binaural audio --- to make it more interactive, for media such as video games, binaural audio can also be achieved by using digital filters on a mono source audio clip. The digital filtering reproduces the effects of a generalised HRTF by modulating the audio frequencies digitally depending on its position and distance in regards to the audio listener \autocite{Widman}.
+
+Previously mentioned ITD is “the result of differences in the acoustic paths from the sound source to left and right ears when sources are lateralized” \autocite{Blum}. ITD is important because it is the main reason for so-called front-back confusion. Front-back confusion is when a source in front of the listener is being perceived as being to the back, at a symmetrical position toward the interaural axis, or vice versa, and thus presenting the same ITD \autocite{Blum}. A solution for this problem has been proposed more than 50 years ago by \autocite{Wallach} where he argued that even small head movements could provide information necessary to resolve front-back confusions. Though studies by \autocite{Wightman1999} and \autocite{Perrett1997} focused on slightly different aspects of the problem of front-back confusions, they reported that localisation error was reduced by head movements. 
+
+\subsection{Head Tracking}
+Although previously mentioned FPS games \textcite{CS}, \textcite{Rainbow} and \textcite{Overwatch} provide a relatively good level of sound localization, head tracking technology could still contribute to the spatialization of audio. Today’s binaural audio in virtual environments diverge from the real human hearing in that the soundscape does not follow along the head movements as in real life. This, as a consequence, influences the user’s immersion and perception of sound in that she cannot interact with the audio through head motion. All the cues given by binaural audio for localization are therefore lost without some form of head tracking \autocite{Widman}. 
+
+It is understandable that in dynamic FPS games like Overwatch, that provide a sufficient level of localization, one would most likely not risk time and attention to any intentional head movements. However, when a player is engaged in the activity of playing to the level of flow \autocite{Flow} ---being absorbed by an activity--- they may hypothetically do some unconscious body or head movements. Whether head motion is done unconsciously or intentionally it could still prove to be helpful for players since it, being a dynamic cue, would increase the accuracy of sound localization. Furthermore, not all FPS games possess advanced tools and technologies for spatializing audio like Overwatch. The inclusion of head tracking technology for computer games could therefore be of value for games that have room for misinterpretation of the acoustic cues for localization. In addition, using head tracking for spatialization of binaural audio is advantageous in that it can be implemented at a relatively low cost using a webcam and facial recognition software as done by \autocite{Ludovico}.
+
+\iffalse %BLOCK COMMENT START
+Even in spite of the successful methods for creating spatialized sound as shown by Dolby Atmos and Overwatch the use of binaural audio alone does not reach to the full potential of spatialization. When moving one's head all the cues given by binaural audio for localisation are lost without some form of head tracking \autocite{Widman}. \textit{Virtual reality} (\textit{VR}) systems spatialize audio according to head movement but today’s virtual reality systems have shown to cause motion sickness among many users \autocite{Munafo}. Using head tracking in computer games could avoid the motion sickness issue and could retain, to a certain degree, that same effect of spatialization of audio in relation to head motion as in VR. Another advantage with spatialization of binaural audio using head tracking is that it can be implemented at a relatively low cost using a webcam and facial recognition software as done by \autocite{Ludovico}.
+
+% Gustafson & Cancar could be used in Method to point to why we are using a single sound source instead of several in hopes of getting better results
+Study done by \textcite{Gustafson} has demonstrated no significant difference in identifying sound sources' locations with and without binaural audio. As stated by the authors, the lack of visual stimuli in their artefact's dark environment could be one of the factors that influenced the results. Another mentioned factor could have been the number of the sound sources playing at the same time which according to Gustafson and Cancar may have contributed to the test subjects' confusion. In addition, the study points out that utilising binaural audio in computer games does not substantially improve one’s ability to localise sound in the vertical axis \autocite{Gustafson} which makes it extra relevant to examine whether head tracking could help to accomplish such a task. \newline\indent
+\fi %BLOCK COMMENT END  
+
+% BLOCK COMMENT WITH 
+\iffalse
+For the above mentioned reasons we find it of interest to investigate whether it is beneficial for the first person computer games to utilise head tracking technology for the enhancement of audio.
+% BLOCK COMMENT END WITH 
+\fi
+%--------------------------------------------------------
+% PROBLEM
+%--------------------------------------------------------
+\section{Research Problem}
+The study's main purpose is to investigate how localisation of sound sources in a binaural 3D environment can be influenced through use of head tracking technology. One of the today's problems is that localisation of audio through stereo panning alone can prove difficult, especially if the audio source is located in front or behind, or below or above the player \autocite{Gustafson}. Binaural audio attempts to solve this issue, as investigated by \textcite{Gustafson} but like \textcite{Widman} states; the cues from binaural audio are lost when the listener moves their head if some form of head tracking solution isn't incorporated. Moreover, through limitations in implementations of binaural audio, not everyone experiences the benefits of binaural audio. Virtual reality systems have head tracking technology integrated however many users, as stated by \autocite{Munafo}, experience motion sickness, which as a result makes it an incomplete solution to the problem.
+
+By finding an answer to how head tracking influences localisation of audio sources in a binaural 3D environment we hope to shed light on whether the technology solves the above mentioned issues. We are also eager to see the users' impressions from the head tracking technology and how it impacts their experience and way of playing.
+
+Therefore we are hopeful to give a clearer picture of head tracking technology's efficiency in the context of binaural audio within a 3D environment. This study could perhaps be of value to the game developers who attempt to make audio in video games as realistic, immersive and informative as possible. Hopefully other researchers could benefit from the result in the future. \newline\indent
+%--------------------------------------------------------
+% RESEARCH QUESTION
+%--------------------------------------------------------
+\section{Research Question}
+How is localisation of audio sources in first-person computer games —while wearing headphones— helped by spatialising the soundscape in relation to head movement utilising head tracking technology?
+%--------------------------------------------------------
+% METHOD
+%--------------------------------------------------------
+\chapter{Methodology}
+%--------------------------------------------------------
+% Write about research in general
+%--------------------------------------------------------
+% Choice of method
+\section{Choice of Method}
+%--------------------------------------------------------
+The choice of research method has a great effect on the quality as well as the scale of the research results. It is therefore of significant importance to regard all the available options and their advantages and disadvantages. 
+
+\iffalse %BLOCK COMMENT START
+\subsection{Design Science}
+%--------------------------------------------------------
+Design science according to \textcite{Johannesson} is a scientific strategy for solving problems by creating scientifically and technically supported artefacts. 
+%--------------------------------------------------------
+\fi %BLOCK COMMENT END 
+
+\subsection{Research Strategy}
+%--------------------------------------------------------
+Research strategy is a general plan for how a study should be conducted through planning, executing and monitoring \autocite{Johannesson}. A number of different research strategies exists where each has unique advantages and disadvantages depending on the character of the study. 
+
+An experiment is an empirical investigation under controlled conditions which focuses on studying relationships between specific factors \autocite{Denscombe}. As \autocite{Johannesson} stated, investigating relationships can be done by formulating a \textit{hypothesis} which consists of dependent and independent factors. Since the focus and purpose of an experiment is to prove or disprove the impact of one factor on another experiment is chosen to be the primary data research strategy for this study. The decision is based on the fact that spatialising audio with head tracking in computer games is the causal factor, and player's ability to localise sounds is the consequent factor. One of the advantages with experiments is that they are regarded by many people, as well as some social scientists, to be the most scientific and credible approach to research \autocite{Denscombe}. Experimental research also permits high level of precision and consistency, is capable of identifying and explaining the exact cause of the observed effect, and is repeatable in certain types of experiments \autocite{Denscombe}. When it comes to disadvantages with experiments there is always a risk that other factors may intrude and affect the results which imposes additional attentiveness and preparation on the researcher \autocite{Johannesson}. This disadvantage, however, can be mitigated by using laboratory experiments that enable researchers to control various factors by carrying out experiment in an artificial environment \autocite{Johannesson}. In return, this leads to another problem being the settings of the laboratory experiment could be so artificial that the conclusions drawn are not applicable in the 'real-life' scenarios. Other disadvantages are related to ethical and practical problems in controlling relevant variables and treating control or experimental groups \autocite{Denscombe}. 
+
+%--------------------------------------------------------
+\subsection{Research Method}
+%--------------------------------------------------------
+While research strategies provide high-level guidance, research methods work as a tool for performing a concrete task \autocite{Johannesson}. Research methods can be quantitative, to gather numeric data, or qualitative to gather data including text, sound, images and video. There is a number of data collection methods some of which have been associated with specific research strategies because of their usefulness and efficiency. Nevertheless, any data collection method can be usable for a given strategy and while it is common to only use one data collection method more can be employed. In fact, it can be advantageous to use different methods as they can complement each other and provide a more complete picture of the study. "The approach of combining research
+strategies and methods (not only data collection methods) is called the \textit{mixed
+methods} approach" \autocite[p. 55]{Johannesson}. 
+
+This study will make use of mixed methods by using both quantitative and qualitative methods as it is desirable to investigate the problem from different perspectives. Quantitative data will firstly be gathered through measuring testers' head movements, time of finding ghosts and the accuracy of shooting them. These properties will be used as variables to see if e.g. increased head movement under the use of head tracking has an effect on the time of finding a ghost or on the accuracy of shooting one. 
+
+The second method for collecting quantitative data will be questionnaires. A questionnaire is a list of typically brief and unambiguous questions \autocite{Johannesson}. Every respondent answers an identical set of questions which directly ask about the points concerned with the research \autocite{Denscombe}. This makes questionnaires effective in providing consistent and precise results as well as also being easy to arrange \autocite{Denscombe}. Additionally, \textcite[p. 57]{Johannesson} point out that questionnaires are inexpensive and "offer standardised data when closed questions are used, which eliminates the need for interpretation of answers and thereby simplifies data analysis". However, closed questions run the risk of influencing the respondents' answers towards being biased as the available answer-options are set by the researchers \autocite{Johannesson}. Therefore, this study's questionnaire will consist of both closed and open questions. Another disadvantage with questionnaires is that they "offer little opportunity for the researcher to check the truthfulness of the answers given by the respondents" \autocite[p. 182]{Denscombe}. 
+
+Data collection method that will be used for collecting qualitative data is semi-structured interviews. An interview, similarly to questionnaires, provides the researcher with data that comes directly from the respondent \autocite{Denscombe}. However, one of the main differences is that this data collection method happens physically face-to-face which allows for some advantages as well as disadvantages. The first advantage of interviews is the depth of information and the insights that can be gained. Interviews also respect informants' priorities as they give them the opportunity to expand ideas and views. Lastly, interviews have high validity of data and are flexible in that the researcher with semi-structured and unstructured interviews can make adjustments during the enquiry \autocite{Denscombe}. Semi-structured interviews differ from regular interviews in that "the respondents are allowed to formulate the answers in their own words" \autocite[p. 57]{Johannesson} and let the respondents express themselves in a more unrestricted way. Speaking of the disadvantages, interviews are time-consuming, may invade the respondent's privacy and have an uncertain reliability as the data collected is, to some degree, affected by the context and individuals involved \autocite{Denscombe}. More importantly, the validity of the data is put at risk because the data are based on the informants' words and not actions which may not coincide. Another disadvantage is the interviewer effect where the identity of the researcher could influence the answers of the interviewee \autocite{Denscombe}. 
+
+%--------------------------------------------------------
+\subsection{Alternative Methods}
+%--------------------------------------------------------
+% strategies
+% Case studies
+\subsubsection{Alternative Strategy}
+Case studies focus on providing a deep and detailed understanding of a phenomenon. While an experiment must strive to control for and eliminate factors that interfere with the results, a case study does the opposite. Case studies take all factors in regard and analyses how they affect the phenomenon as they do in real life. 
+Especially exploratory case studies try to identify cause and effect relationships that explain what effects events. \autocite{Johannesson}
+
+The fact that a case study can focus on a small number of instances or a single instance would make it suitable for the scope of this study, since the instance could be studied in detail it can still give a large amount of information. The very nature of a case study though, is to observe the instance in its ordinary context to be able to gain a deep understanding of it \autocite{Johannesson}. Altering it in any way speaks against the suitability of it as a case study.
+There exist many games, if not made specifically for head tracking technology, at least compatible with it. 
+Unfortunately, not many games using head tracking technology does so without including visual elements. Since the question being studied pertains to audio alone case study is deemed unsuitable for this research.
+
+
+% methods
+\subsubsection{Alternative Methods}
+Structured interviews could be used instead of semi-structured in order to keep the interviewee restrained to the fixed set of questions as to gather specific information. However that would keep the informant from telling any potentially useful information about their experience and impression outside of the questions' boundaries that could relate to aspects of the problem or factors that influenced the results. Another alternative data collection method that could be used is systematic observation. Systematic observation has the advantage of the researcher being able to observe what the respondents do instead of say. \autocite{Johannesson}
+
+Since systematic observations strive to make observations more objective they constantly keep researchers informed about what they should focus on \autocite{Johannesson}. This could, to some extent, increase the validity of the data because researchers would pay attention to the most important parts of the investigation \autocite{Johannesson} and be confident that the received data is based on the informant's actions \autocite{Denscombe}. However, the data collected may be superficial and lack the context that could have affected the observed\autocite{Johannesson}. 
+
+This method also would not fit the context of the study as it involves an artificially created setting which obviously violates the naturalness of the environment.
+
+%--------------------------------------------------------
+\section{Application of Method}
+%--------------------------------------------------------
+To test spatialisation with headtracking in a FPS setting it was natural to have the game used for the test also being a FPS game, to match the conditions being investigated.
+
+Previous research has stated that localisation of audio sources proved easier for subjects if the sound had objects to reverberate against instead of being set in a free field \autocite{Walker2006}. Since audio localisation---although helped by binaural audio---still can prove more difficult for some, the environment should therefore be designed to facilitate in localising audio sources as much as possible.
+
+An indoor setting was therefore deemed appropriate. When reverberation plays such a significant part in audio localisation it is advantageous to have an environment with enough visual fidelity capable of conveying the material properties. If a material reflects sound like tile or polished concrete it is of help if it can easily be identified as the material it is meant to represent.
+When localisation of audio sources above and below the listener is of interest to test it is appropriate that the building would also be multi storied.
+
+For these reasons, a building with modular walls and stair cases with good visual fidelity was chosen to have as setting for the game. 
+
+%"The main advantage in a first-person perspective game is the player's ability to aim accurately. Shooting a projectile---such as a bullet or a rocket---in first person is much easier than from third person because the player can line up a target in the middle of their monitor. Games that use the first-person perspective also tend to have a faster pace because players are so skilled at aiming and shooting. Of course, with this advantage comes a disadvantage: in first-person games, the player has no vision beyond their character's vision, so enemies can really catch the player by surprise."\autocite{Co}
+
+%--------------------------------------------------------
+\subsection{Head Tracking}
+%--------------------------------------------------------
+The system for head tracking uses three infrared light emitting diodes (LED) mounted with a clip to the testers headphones.
+The positions of the lights are registered by an infrared camera mounted on top of the testers monitor and then the accompanying software triangulates the position in 3D space, giving the relative position of the wearers head to the monitor.
+%Inside the game engine the audio listeners position will use this relative position to position itself in relation to the game camera for half of the test. 
+%For half of the test the audio listener will have the same direction as the camera. During the other half of the test the audio listener will use the relative position to the camera as given by the head tracking.
+
+The audio listener is a separate game object, a \textit{child} to the game camera. Briefly; the Unity game engine uses a hierarchy of game objects where they have a parent-child relationship if one is nested under the other. If a parent moves or rotates, it moves an/or rotates its child with it, but the child does not affect its parent.
+With head tracking engaged we use the relative position of the head to alter the audio listeners local position and rotation within the parent --- the camera. When turned off the audio listeners position is set to the cameras position, following the camera as the players move or rotate it.
+
+Head movement data will be collected throughout the test.
+
+It would be interesting to see if a correlation can be shown between subjects moving their head more also performing better compared to players with little to no head movement.
+
+%--------------------------------------------------------
+\subsection{Game Design}
+%--------------------------------------------------------
+The testers start with their player character within the house and are given a short introduction to how the controls work and can familiarise themselves briefly with the environment.
+The challenge is presented as a game where the players are hunting ghosts. The ghosts are invisible but give off a sonar like pulse, a modulated heartbeat sound. 15 ghosts in total are present within the house and the player must find and eliminate as many of them as possible to complete the challenge. At any given time, only one ghost is active within the house to avoid confusion.
+        
+It is communicated to the players that the ghost hunting weapon doesn't go through walls so they have to move to the same room as the ghost. The players aim their reticle at where they believe they hear the ghost from.
+
+If the player misses and the ghost had line of sight to the player character; the ghosts 'gets scared' and shows themselves for a brief moment before turning invisible again and changing its location. 
+If the ghost was off the screen when the player missed, an on screen indicator shows the direction to the ghost, giving the player a chance to turn to see where the ghost was.
+To prevent the players from resorting to trial and error the player cannot hit the ghost while it is scared and must try their best to hit the ghost first try.
+
+It is desirable to keep the player at a distance from the ghost, since it gets too easy to determine the location from the logarithmic falloff of the audios volume if the audio source is close enough.
+Therefore if the player moves too close to the ghost they will also scare it, and it moves to another location.
+Thus the player cannot \textit{probe} where the ghost is by moving themselves inside and/or through it.
+
+If the player manages to hit the ghost, the ghost becomes visible and dissolves in a flash to confirm a successful shot.
+
+The challenge is over after either hitting or scaring the ghosts 15 times.
+%--------------------------------------------------------
+\subsection{Audio Design}
+%--------------------------------------------------------
+\iffalse
+% method?
+One can aid users' navigational ability to find goal objects through use of auditory, visual and audiovisual cues in a virtual 3D environment as \cite{Gröhn} have demonstrated. While auditory cues on their own proved to be the least effective method for localizing objects in the surroundings they still showed to be significant. The test subjects used auditory cues as a rough approximation of object's location before utilizing the visual stimuli as the final approach to the target. In addition, auditory and visual methods —being audiovisual cues— proved to be the most effective method as the amount of objects subjects could localize within a set time constraint was the highest. Though one of the reasons that the auditory cues alone appeared to be the least effective could be related to the fact that the cues were in a free field without reverberation. \autocite{Gröhn} \newline\indent
+%Use to describe why we use audiosources on lightsources; to train the listener with audio-visual elements 
+\fi
+Audio can be utilised in a myriad of different ways in video games. To familiarise testers with the realistic rendering of audio in the prototype, ambient audio sources are used throughout the house. One such ambient sound source is the 50-60Hz hum given off from the electric grid that we place at each incandescent light bulb. The lights in the game are older makes, less efficient then modern lights, associated with giving off more heat and sound. In the house are placed a number of wall fixtures at head height emanating this electrical hum.
+Such sounds are routinely ignored in every day life but here serves to resemble a reality normally abstracted away in video games and to anchor the sound for the listener at a location. Training them to associate sound directionality with location.
+
+When the player moves the player character step sounds are played according to the material that the character is treading on. The floor materials in the house are either hardwood floors or tile. To reflect the dilapidated visuals (see figures \ref{fig:basementImage} and \ref{fig:firstFloorImage}) of the house there is a chance of a wood creek sound being played every step taken on the hardwood floor.
+\begin{center}
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\textwidth, left]{Images/BasementImage.png} 
+        \caption{Basement}
+        \label{fig:basementImage}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\textwidth, right]{Images/GroundFloorImage.png}
+        \caption{Ground floor}
+        \label{fig:firstFloorImage}
+        \end{subfigure}
+    \caption{Examples of the visuals and the general lighting of the house}
+    \label{fig:image2}
+\end{figure}
+\end{center}
+The sonar like pulse emitted by the invisible ghost mimics the attributes described by \textcite{Walker2006}. The pulse has a broad frequency spectrum, encompassing both lower and higher frequencies. Higher frequencies being more easily localised than lower ones. The pulse is played roughly every two seconds. In between each time it is played the volume is varied ~10\%, making it more difficult to locate by the logarithmic rise in volume as the listener gets closer. 
+
+The purpose of the footsteps and the variance in volume of the pulse is to encourage the testers to stop and listen for the direction of the sound and not rely on walking blindly in the direction that sounds louder.
+% footstep sounds
+%*Ambient audiosources to train the test subjects in localisation of audio
+%*Audio blockers to help in the spatialisation 
+% give of a broad frequency spectrum sonar like pulse
+%--------------------------------------------------------
+\subsection{Test Design}
+%--------------------------------------------------------
+The testers' first try, or \textit{round}, will be considered practice for the upcoming rounds and the test will in practice not start until after the first round. 
+        
+This gives 14 rounds of testing, where seven will spatialise the audio with the players head movements and seven will spatialise the audio as normally in video games — locked to the testers screen. 
+ 
+The head tracking being engaged for the first or second half will be determined randomly by the game as to mitigate trends of players getting better with practice and the effect that would have for the subsequent data comparison.
+The testers will be informed that we are measuring head movement for data collection purposes.
+They will however not be informed about the games spatialisation of audio through the head tracking as to not introduce any confirmation bias in the results. 
+        
+Because a near miss from a great distance could mean more than a direct hit close up ---while a hit or miss is presented to the players as a binary state--- precision will be measured as alignment values between zero and one in both lateral (\begin{math}x\end{math}) and vertical (\begin{math}y\end{math}) axis.
+The separate axes is to get data for vertical localisation of audio and the effects head tracking might have on it.
+A direct hit would give a value of \begin{math}1.0\end{math} for both \begin{math}x\end{math} and \begin{math}y\end{math}-axis, and the player firing in the complete opposite direction would give \begin{math}0.0\end{math} for them both. The player aiming 45$^{\circ}$ too high or low would result in y = 0.75 but will still result in \begin{math}x = 1.0\end{math} if the lateral direction is dead on. 
+
+The alignment value is calculated from the dot-product of the perpendicular complement of the projected and normalised aim direction \begin{math}v\end{math} and the normalised target direction \begin{math}u\end{math}, which gives a value between \begin{math}-1.0\end{math} and \begin{math}1.0\end{math}, then moved to within the \begin{math}0.0\end{math} and \begin{math}1.0\end{math} range.
+
+\begin{displaymath} 
+\frac{\hat{v}^\perp \cdot \hat{u} + 1}{2}
+\end{displaymath}
+
+Other data that will be logged is the regular dot product between aim direction and target direction, distance to the target and time it took to hit the ghost.
+
+% WEIGHTED RANDOM SPAWN LOCATION
+Spawn locations are designated \textit{volumes} manually placed within rooms allowing players to locate it when having entered a room without bumping into it. A weighted random for choosing between the spawn locations will be used to not influence the results by inadvertently introducing variance in the difficulty by setting a bespoke sequence of spawn locations.
+
+The weighted random is calculated from the m\begin{math}^3\end{math} volume of the spawn volumes --- giving equal chance for every cubic meter of spawn volumes in the house.
+Since the time taken between every ghost is recorded it is important that the distance between each new spawn volume doesn't vary too greatly. The validity of the chosen spawn volume's distance is therefore checked by pathfinding from the players location to the spawn volume. If too close or too far, another volume is chosen. A* pathfinding is used to validate the length of the walking distance. A* with an \textit{admissible} heuristic guarantees the shortest path\autocite{Russell} For an admissible heuristic it is important that a new nodes cost, or distance in this case, is never overestimated\autocite{Russell}.
+Since A* is a \textit{greedy} algorithm trying to take the most direct path while searching as few nodes in the graph as possible it can miss the shortest path if a longer one presents itself as initially more promising\autocite{Russell}. The exact distance from a node to the goal is used for the heuristic calculation. 
+To ensure a high degree of variance in the random choice it is checked if the newly chosen volume was one of the two previous valid volumes, if so, the volume is deemed not valid and the random choice continues until a valid volume is found.
+The spawn point \textit{within} the chosen spawn volume is randomised, if inside any object or furniture a new random location within the volume is chosen and checked until a valid one is found. The volumes are placed and scaled so that they span from floor to ceiling within a room, giving equal variance of height in the unblocked area inside the volume.
+
+% Pilot testing, commencing soon, meaning to improve upon the test procedure
+%--------------------------------------------------------
+\subsection{Pilot Tests}
+%--------------------------------------------------------
+A round of pilot testing will be conducted after the prototype is near completion. This to allow for iterations on the prototype, and to iterate on details in the testing procedure. Special attention will be given to ensuring statistical validity and to how data is collected. Pilot testers will also be asked after the test about the interview and survey questions to see if they can be improved.
+How the test is presented to the testers will be scrutinised for not influencing the testers interview and survey responses after the test. 
+
+%--------------------------------------------------------
+\subsection{Level Design}
+%--------------------------------------------------------
+The level design is relied upon for drawing the testers forward during the test with minimal interaction from the test leaders. \textcite{Totten} describes in his book, \textit{An Architectural Approach to Level Design}, that light and shadow can be used to draw the player forward. 
+"Lighting conditions and negative space are both useful methods of not only putting players in interesting survival scenarios where their enemies are unknown, but also enticing players with witheld information or atmospheric ambiguity." \autocite[p. 229]{Totten}. The house has contrasting dark and light spaces the player must navigate through to proceed. 
+Totten states that a player feels an ancestral sense of safety from being in a dark space, out of view from predators, but feels hesitance moving from a lit area into a darker area. Creating contrasting islands of dark and light can help create what he describes as a \textit{rhythm} which pulls the player along. "Shadows' harmful association should also be noted. Shadows work against humans when viewed from the light. They create the perception that they are hiding danger, which may very well be true in video games."\autocite[p. 227]{Totten}
+He also speaks of the enemies themselves as \textit{alternative architecture} of a level, given that their presence can bar the way for players.
+
+The basement floor of the building, figure \ref{fig:FloorplanB}, is darkly lit with islands of light coming from pendant lights. Large sections of the basement can be seen from any point but some nooks have to be explored more closely to be viewed. 
+
+The ground floor seen in figure \ref{fig:FloorplanF1}, connects with a stair to the basement and has several rooms with double and single glass doors dividing them. Closed doors help differentiate uncharted rooms with visited ones for players needing to orient themselves. The rooms are distinct and are easily recognised from their functions; kitchen, dining room, living room, television room and bathroom. Most rooms are well lit, some are dominated by shadows. Between darker areas are better lit corridors and between well lit areas are dark corridors, trying to achieve Totten's \textit{rhythm}. Two doors open to the outside but will remain closed for players. Note that windows are present throughout the house above ground floors but are not marked on the floor plans.
+
+The upstairs floor in figure \ref{fig:FloorplanF2} is connected to the ground floor with two distinct staircases. Three bedrooms, an office, washing room, wardrobe, bathroom make up the rooms on this floor with corridors connecting them.
+
+The sonar like sound is dampened by walls and ceilings but can travel from one floor to another and between rooms. The spawn volume choosing algorithm is set up to lead the players in varied paths trough the house from room to room and between floors. The visual distinctness of each rooms should help players orient themselves even though the space is unfamiliar to them.
+
+\begin{figure} [H] %/h:here, t:top, b:bottom, p:page, ! override 'good' float posiotions, H Here (~h!)
+\centering
+\includegraphics[width=0.6\textwidth]%width=105mm]%scale = 0.6]
+{Floorplans/FloorplanB.png}
+\caption{Basement floor plan}
+ \label{fig:FloorplanB}
+\end{figure}
+%
+\begin{figure} [H] %/h:here, t:top, b:bottom, p:page, ! override 'good' float posiotions, H Here (~h!)
+\centering
+\includegraphics[width=0.6\textwidth]%width=105mm]%scale = 0.6]
+{Floorplans/FloorplanF1.png}
+\caption{Ground floor plan}
+ \label{fig:FloorplanF1}
+\end{figure}
+%
+\begin{figure} [H] %/h:here, t:top, b:bottom, p:page, ! override 'good' float posiotions, H Here (~h!)
+\centering
+\includegraphics[width=0.6\textwidth]%width=105mm]%scale = 0.6]
+{Floorplans/FloorplanF2.png}
+\caption{Upstairs floor plan}
+ \label{fig:FloorplanF2}
+\end{figure}
+%
+%
+%
+%**Track IR
+
+%*Halfway we switch headtracking on/off
+
+%** Tools 
+    %** Unity
+    %The game engine Unity was chosen because for its graphical and audio rendering capabilities.
+%
+%\setmainfont{Verdana}
+\subsection{Google Resonance}
+%\setmainfont{Times New Roman}
+For spatialisation in an indoor environment it is important to have a realistic sounding environment that closely mimics how audio naturally reverberates off walls, ceiling and floors.
+
+Google Resonance is a audio plug-in compatible with several game engines that aims to reproduce realistic acoustic qualities in rooms and binaural sound rendering.
+    
+With the Unity game engine it adds upon functionality of Unity's already existing audio source and audio listener components. The developer can bake the resonance qualities of a room from the acoustic properties of the materials that the developer sets. The resonance audio room component allows the reflectivity and reverberation qualities of a room to be customised to allow the system to simulate how sound reflects of walls in a room. Google Resonances audio source component lets developers customise the \textit{listener directivity}, the \textit{source directivity} and \textit{occlusion intensity}. 
+
+Listener directivity allows to set how much an audio source sounds depending on the relative direction from the audio listener. Meaning sound can be set to be heard more loudly if the listener views it head on or hears it equally from the front, sides or back.
+
+The audio listener component takes the audio frequencies projected from the audio source and modulates them from the appropriate reverberations that the audio sources and the audio listener components are located in. It also uses an algorithm to modulate the audio to resemble how it would sound naturally from the given direction through a generalized HRTF.
+
+The result is a more realistic sounding environment than what is supplied by the built in audio components which does not take into affect materials acoustic properties or if objects block audio sources.
+
+This to give better spatialisation and thus endeavour to control for that factor when testing for the difference between having head tracking active or not.
+
+%--------------------------------------------------------
+\subsection{Data Collection}
+%--------------------------------------------------------
+%Text about data collection
+%--------------------------------------------------------
+\subsection{Data Analysis}
+%--------------------------------------------------------
+%Text about data analysis
+%--------------------------------------------------------
+
+\iffalse
+This study will use quantitative research methods along with qualitative methods. 
+An experiment will be conducted where the subjects will navigate an artefact in the form of a virtual building.
+
+The subjects will be asked to do two rounds of identifying directions of audiosources, once with spatialization of the binaural audio using head tracking and once without.
+
+Data about head movement, precision in identifying audiosources and the time it takes will be measured. 
+
+The data from the two tests will be compared to ascertain if spatialization has any measurable effect on the localising of audio sources. 
+
+The purpose of an experiment as stated by \textcite{Johannesson} is to collect empirical evidence for the causal relationship between a factor and an observed outcome, in this study's case; between spatialising audio through head tracking in computer games and its effects on players ability to localise them. \newline\indent
+
+To elicit candid responses from the subjects an anonymous questionnaire will be given after the playthrough. 
+Questionnaire is used for certain questions instead of interview to lessen the chance that the answers are tailored to what the interviewee thinks are the answers sought by the interviewer \autocite{Denscombe}. 
+Also they are easy to run, are consistent in the sense that every respondent gets the same questions and the data is more easily quantifiable \autocite{Denscombe}. 
+Although the questionnaires will be anonymised, they will be associated with the test data from the playthrough through serial numbers. 
+The questionnaire will contain a small number of questions as to minimise the subjects' response burden in order to maximise the prospects of a good response rate \autocite[p. 169]{Denscombe}. \newline\indent
+
+Semi-structured interviews will also be held after the subject has answered the questionnaire. This to gather qualitative data of the experience from the test subject in depth and in detail. One of the reasons for using semi-structured interviews is that a researcher has more flexibility in inquiring more in depth about the information the interviewee is giving. The researcher is in other words untied to a set of questions and has freedom to lead the interview in the direction which she finds to be most beneficial for the research. Another power behind face-to-face interviews lies in the direct contact which can be seen as a means of assessing the data’s accuracy and relevance \autocite{Denscombe}. \newline\indent
+
+Aside from the chosen methods and theories the data collection will be tested in a pilot study in order to optimise the questions and the experiment. The number of test subjects is planned to be 10 to 20 to have a good degree of statistical validity and fit the allotted time for this study. The test subjects will be first-person computer game players' and computer game developers' for whom the discoveries of the investigation, in the end, are also thought to be meaningful. The order in which the challenges are taken —with head tracking first or second— will be randomised so as not to bias the result. The test subjects will not be informed that the head tracking is used for spatialising the audio sources so as to avoid any confirmation bias in how the subjects perceive their abilities during the two test rounds. \newline\indent
+ 
+The subject's performance measured in the game will be used to contrast and compare their answers from the interviews and the questionnaires. Skill level of the participant should not be a significant factor since the same test will be given twice with the only difference being the spatialization via head tracking turned on in one of the test rounds. \newline\indent
+\fi
+
+%--------------------------------------------------------
+\subsection{Research Ethics}
+%--------------------------------------------------------
+Ethical issues that need to be addressed in this study can be summarised as the four principal demands laid out by \textcite{Vetenskapsrådet}; the information requirement, the consent requirement, the confidentiality requirement, and the usage requirement. The information requirement, where we must inform the subjects about what data we collect and how the data collected will be used \autocite{Vetenskapsrådet}. The subjects must also be informed that their cooperation is completely voluntary and that they can discontinue the experiment at any time \autocite{Vetenskapsrådet}. To uphold the consent requirement, informed consent must be received from the subjects before conducting any survey or test with them \autocite{Vetenskapsrådet}. The confidentiality requirement \autocite{Vetenskapsrådet} will be upheld by anonymising the respondents test data, interview, and survey responses so as to not be able to identify any individuals. To ensure the usage requirement \autocite{Vetenskapsrådet} we will not collect any data about individuals that could be used commercially or for other non-scientific purposes.
+
+%--------------------------------------------------------
+
+
+
+\iffalse
+%--------------------------------------------------------
+% FIGURE EXAMPLE
+%--------------------------------------------------------
+\section{Figure Example}
+It can be nice to include figures already in this first chapter. A picture of a pipe (but not a pipe) is given in Figure \ref{fig:pipe}.
+
+\begin{figure} [ht]
+\centering
+\includegraphics[width=0.8\textwidth]%width=105mm]%scale = 0.6]
+{pipe.jpg}
+\caption{A Picture of a Pipe}
+ \label{fig:pipe}
+\end{figure}
+%--------------------------------------------------------
+% TABLE EXAMPLE
+%--------------------------------------------------------
+\section{Table Example}
+This chapter can present the results of the study. Tables are often helpful for presenting results. For example, have a look at Table \ref{tab:titles1}.
+
+\begin {table} [ht]
+\begin{tabular}{ccc}
+\hline
+\head{Author} & \head{Title} & \head{Publication Year}\\
+\hline
+\verb|Gottlob Frege| & \verb|Begriffsschrift| & \rmfamily 1879
+\\
+\verb|Bertrand Russell| & \verb|Principia Mathematica| & \sffamily 1910
+\\
+\verb|Ludwig Wittgenstein| & \verb|Philosophical Investigations| & \ttfamily 1953\\
+\hline
+\end{tabular}
+\caption {Philosophical Titles 1} \label{tab:titles1} 
+\end{table}
+
+The same data are shown in Table \ref{tab:titles2} but with different formatting.
+
+\begin {table} [ht] 
+\begin{tabular}{lll}
+\toprule[1.5pt]
+\head{Author} & \head{Title} & \head{Publication Year}\\
+\midrule
+\verb|Gottlob Frege| & \verb|Begriffsschrift| & \rmfamily 1879
+\\
+\verb|Bertrand Russell| & \verb|Principia Mathematica| & \sffamily 1910
+\\
+\verb|Ludwig Wittgenstein| & \verb|Philosophical Investigations| & \ttfamily 1953\\
+\bottomrule[1.5pt] 
+\end{tabular}
+\caption {Philosophical Titles 2} \label{tab:titles2}
+\end{table}
+\fi
+
+%====================================================================
+% HARVARD REFERENCING
+%====================================================================
+%\bibliographystyle{agsm}
+%\bibliography{biblio}
+%\printbibliography\
+\printbibliography[title={References}]
+%\printbibliography[heading=bibintoc, title={References}] % check later if this works for table of contents and if \addcontents{toc}{\bigskip} below is unnecesary
+\addcontentsline{toc}{part}{References}
+\addtocontents{toc}{\bigskip}
+\setmainfont{Times New Roman}
+
+%====================================================================
+% BLOCK COMMENT WITH \iffalse
+\iffalse
+%------------------------------------------------------
+
+\appendix
+\cleardoublepage
+\addtocontents{toc}{\bigskip}
+\addcontentsline{toc}{part}{Appendices}
+\chapter{An Appendix}
+\chapter{Another Appendix}
+\chapter{Reflection Document 1}
+\chapter{Reflection Document 2}
+% BLOCK COMMENT END WITH \fi
+\fi
+\end{document}

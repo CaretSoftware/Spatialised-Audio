@@ -55,7 +55,7 @@ public class Shoot : MonoBehaviour {
 
             Vector3 alignmentXYDot = VectorAlignment.Alignment(aimDirection, directionToGhost, crossRight);
 
-            Debug.Log( alignmentXYDot );
+            //Debug.Log( alignmentXYDot );
 
             float distance = vectorToGhost.magnitude;
             

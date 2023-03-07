@@ -1,0 +1,392 @@
+% https://www.overleaf.com/latex/examples/a-simple-example-showing-how-to-create-harvard-style-referencing-in-latex/mnwzgkyvdbyy
+
+@misc{Overwatch,
+    title           = "Overwatch",
+    year            = "2016",
+    location        = "Irvine, California",
+    organization    = "Blizzard Entertainment",
+    howpublished    = "[PC, Playstation 4, Xbox One]",
+}
+%Overwatch. (2016). Irvine, California: Blizzard Entertainment
+
+@MISC{Overwatch_GDC,
+  title             = "Overwatch The Elusive Goal: Play by Sound.",
+  author            = "{Blizzard}",
+  year              =  2016,
+  howpublished      = "\url{https://www.gdcvault.com/play/1023317/Overwatch-The-Elusive-GoalPlay}",
+  note              = "Accessed: 2023-02-25"
+}
+%Blizzard. (2016). Overwatch The Elusive Goal: Play by Sound. Accessed 2023-02-25 from https://www.gdcvault.com/play/1023317/Overwatch-The-Elusive-GoalPlay 
+
+@MISC{Rainbow_SoundPropagation,
+  title             = "Sound Propagation",
+  author            = "{Tom Clancy’s Rainbow Six Siege}",
+  year              =  2015,
+  howpublished      = "\url{https://www.youtube.com/watch?v=fI4YfurxVZU}",
+  note              = "Accessed: 2023-02-26",
+}
+%Tom Clancy’s Rainbow Six Siege. (2015). Sound Propagation. Accessed 2023-02-26
+
+@misc{CS,
+    title           = "Counter-strike: global offensive",
+    year            = "2012",
+    location        = "Bellevue, Washington",
+    organization    = "Valve Corporation",
+    howpublished    = "[PC]",
+}
+%Counter-strike: global offensive. (2012). Bellevue, Washington: Valve Corporation.
+
+@misc{CS_Reddit,
+    title           = "Feedback regarding HRTF and Sound Occlusion 31/10/17",
+    year            = "2017",
+    location        = "Reddit",
+    howpublished    = "\url{https://www.reddit.com/r/GlobalOffensive/comments/7a3ec7/feedback_regarding_hrtf_and_sound_occlusion_311017/}",
+    note            = "Accessed: 2023-02-27"
+}
+%Reddit. (2017). https://www.reddit.com/r/GlobalOffensive/comments/7a3ec7/feedback_regarding_hrtf_and_sound_occlusion_311017/
+
+@article{Perrett1997,
+  title             ={The effect of head rotations on vertical plane sound localization},
+  author            ={Perrett, Stephen and Noble, William},
+  journal           ={The Journal of the Acoustical Society of America},
+  volume            ={102},
+  number            ={4},
+  pages             ={2325--2332},
+  year              ={1997},
+  publisher         ={Acoustical Society of America}
+}
+%Perrett, S., & Noble, W. (1997). The effect of head rotations on vertical plane sound localization. The Journal of the Acoustical Society of America, 102(4), 2325-2332.
+
+@misc{BinauralAudio,
+    author          = "Matteo Malinverno",
+    title           = "What is binaural audio? How binaural recording works",
+    year            = "2022",
+    location        = "Splice blog",
+    howpublished    = "\url{https://splice.com/blog/what-is-binaural-audio/}",
+    note            = "Accessed: 2023-03-04"
+}
+%https://splice.com/blog/what-is-binaural-audio/
+
+@misc{DolbyAtmos,
+    title           = "Dolby Atmos",
+    year            = "2012",
+    location        = "El Capitan Theater, Los Angeles",
+    organization    = "Dolby Laboratories",
+    howpublished    = "[Theater]",
+}
+%Dolby Atmos. (2012). Los Angeles: Dolby Laboratories 
+
+@misc{BlizzardEntertainment,
+    title           = "Blizzard Entertainment",
+    year            = "1991",
+    location        = "Irvine, California, USA",
+}
+%Blizzard Entertainment. (1991). Irvine, California, USA: Michael Morhaime, Frank Pearce, Allen Adham
+
+@misc{Rainbow,
+    title           = "Rainbow six: siege",
+    year            = "2015",
+    location        = "Montreuil Sous Bois",
+    organization    = "Ubisoft",
+    howpublished    = "[PC]",
+}
+%Rainbow six: siege. (2015). Montreuil Sous Bois: Ubisoft.
+
+@ARTICLE{Gröhn,
+    title           = "Comparison of auditory, visual, and audiovisual navigation in a 3D space",
+    author          = "Gröhn and Lokki and Takala",
+    journal         = "ACM Transactions on Applied Perception (TAP)",
+    volume          =  2,
+    number          =  4,
+    pages           = "564--570",
+    year            =  2005
+}
+%Gröhn, M., Lokki, T., & Takala, T. (2005). Comparison of auditory, visual, and audiovisual navigation in a 3D space. ACM Transactions on Applied Perception (TAP), 2(4), 564-570. 
+
+@article{Wightman1999,
+    title           = "Resolution of front--back ambiguity in spatial hearing by listener and source movement",
+    author          ="Wightman, Frederic L and Kistler, Doris J",
+    journal         ="The Journal of the Acoustical Society of America",
+    volume          =105,
+    number          =5,
+    pages           ="2841--2853",
+    year            =1999,
+    publisher       ="Acoustical Society of America",
+}
+%Wightman, F. L., & Kistler, D. J. (1999). Resolution of front–back ambiguity in spatial hearing by listener and source movement. The Journal of the Acoustical Society of America, 105(5), 2841-2853.
+
+@BOOK{Denscombe,
+    title           = "The Good Research Guide: For {Small-Scale} Social Research Projects",
+    author          = "Denscombe, M.",
+    publisher       = "Open University Press",
+    address         = "Berkshire",
+    edition         = 5, 
+    %month          =  "1~" # 8,%aug,
+    year            =  2010,
+    %language       = "English"
+}
+%Denscombe, M. (2014). The good research guide: for small-scale social research projects. (Fifth edition). Maidenhead: Open University Press / McGraw-Hill Education
+
+@article{Blum,
+    title           ={Navigating in a virtual audio environment},
+    author          ={Blum, A and Denis, M and Katz, B and Afonso, A}
+}
+%Blum, A., Denis, M., Katz, B., & Afonso, A. Navigating in a virtual audio environment.
+
+@article{Walker2006,
+    title           = "Navigation performance with a virtual auditory display: Effects of beacon sound, capture radius, and practice",
+    author          ={Walker, Bruce N and Lindsay, Jeffrey},
+    journal         ={Human factors},
+    volume          ={48},
+    number          ={2},
+    pages           ={265--278},
+    year            ={2006},
+    %adress = "Los Angeles, CA",
+    publisher       ={Sage Publications Sage CA: Los Angeles, CA}
+}
+%B. N. Walker and J. Lindsay, Navigation performance with a virtual auditory display: effects of beacon sound capture radius and practice. Human Factors, vol. 48, no. 2, pp. 265-278, 2006.
+
+@article{Chattha,
+    title           ={Motion sickness in virtual reality: An empirical evaluation},
+    author          ={Chattha, Umer Asghar and Janjua, Uzair Iqbal and Anwar, Fozia and Madni, Tahir Mustafa and Cheema, Muhammad Faisal and Janjua, Sana Iqbal},
+    journal         ={IEEE Access},
+    volume          ={8},
+    pages           ={130486--130499},
+    year            ={2020},
+    publisher       ={IEEE}
+}
+%Chattha, U. A., Janjua, U. I., Anwar, F., Madni, T. M., Cheema, M. F., & Janjua, S. I. (2020). Motion sickness in virtual reality: An empirical evaluation. IEEE Access, 8, 130486-130499.
+
+@misc{Gustafson,
+    title           ={Binaural ljudlokalisering i olika v{\aa}ningsplan i vertikala milj{\"o}er: En unders{\"o}kning om binaural ljudlokalisering i FPS-spel},
+    author          ={Gustafson, Herman and Cancar, Mario},
+    year            ={2020}
+}
+%Gustafson, H., & Cancar, M. (2020). Binaural ljudlokalisering i olika våningsplan i vertikala miljöer: En undersökning om binaural ljudlokalisering i FPS-spel.
+
+@article{Slater,
+    title           ={Immersion and the illusion of presence in virtual reality},
+    author          ={Slater, Mel},
+    journal         ={British journal of psychology},
+    volume          ={109},
+    number          ={3},
+    pages           ={431--433},
+    year            ={2018}
+}
+%Slater, M. (2018). Immersion and the illusion of presence in virtual reality. British Journal of Psychology, 109(3), 431-433.) 
+
+@book{Johannesson,
+    title           ={An introduction to design science},
+    author          ={Johannesson, Paul and Perjons, Erik},
+    volume          ={10},
+    year            ={2014},
+    publisher       ={Springer}
+}
+%Johannesson, P. & Perjons, E. (2014). An introduction to design science. Cham: Springer International Publishing.
+
+@article{Ludovico,
+    title           ={Head in space: A head-tracking based binaural spatialization system},
+    %author         ={Ludovico, Luca A and Mauro PhD, Davide Andrea and Pizzamiglio, Dario}, % REMOVED PhD from author names 
+    author          ={Ludovico, Luca A and Mauro, Davide Andrea and Pizzamiglio, Dario},
+    year            ={2010}
+}
+%Ludovico LA, Mauro DA, Pizzamiglio D. (2010) Head in space: a head-tracking based binaural spatialization system. In Proceedings of Sound and Music Conference 2010 (Barcelona, Spain), 369-376).
+
+@article{Munafo,
+    title           ={The virtual reality head-mounted display Oculus Rift induces motion sickness and is sexist in its effects},
+    author          ={Munafo, Justin and Diedrick, Meg and Stoffregen, Thomas A},
+    journal         ={Experimental brain research},
+    volume          ={235},
+    pages           ={889--901},
+    year            ={2017},
+    publisher       ={Springer}
+}
+%Munafo, J., Diedrick, M., & Stoffregen, T. A. (2017). The virtual reality head-mounted display Oculus Rift induces motion sickness and is sexist in its effects. Experimental brain research, 235(3), 889-901.
+
+@inproceedings{Broderick,
+    title           ={The importance of spatial audio in modern games and virtual environments},
+    author          ={Broderick, James and Duggan, Jim and Redfern, Sam},
+    booktitle       ={2018 IEEE Games, Entertainment, Media Conference (GEM)},
+    pages           ={1--9},
+    year            ={2018},
+    organization    ={IEEE}
+}
+%The importance of Spatial Audio in Modern Games and Virtual Environments (Broderick, J., Duggan, J., & Redfern, S. (2018). The importance of spatial audio in modern games and virtual environments. In 2018 IEEE Games, Entertainment, Media Conference (GEM) (pp. 1-9). IEEE.) 
+
+@article{Vetenskapsrådet,
+    title           ={Forskningsetiska principer inom humanistisksamh{\"a}llsvetenskaplig forskning},
+    author          ={The Swedish Research Council, English},
+    journal         ={Stockholm: Vetenskapsr{\aa}det},
+    year            ={2002}
+}
+%Vetenskapsrådet (2002). Forskningsetiska principer inom humanistisk-samhällsvetenskaplig forskning. Stockholm: Vetenskapsrådet.
+
+@inproceedings{Tannen1998,
+    title           ={Breaking the sound barrier: designing auditory displays for global usability},
+    author          ={Tannen, Robert S},
+    booktitle       ={4th Conference on Human Factors \& the Web, Basking Ridge, New Jersey},
+    year            ={1998}
+}
+%Tannen, R. S. (1998, June). Breaking the sound barrier: designing auditory displays for global usability. In 4th Conference on Human Factors & the Web, Basking Ridge, New Jersey.
+
+@misc{Widman,
+    title           ={Binaural versus Stereo Audio in Navigation in a 3D Game: Differences in Perception and Localization of Sound},
+    author          ={Widman, Ludvig},
+    year            ={2021}
+}
+%Widman, L. (2021). Binaural versus Stereo Audio in Navigation in a 3D Game: Differences in Perception and Localization of Sound. 
+
+@article{Xie,
+    title           ={Head-related transfer function database and its analyses},
+    author          ={Xie, BoSun and Zhong, XiaoLi and Rao, Dan and Liang, ZhiQiang},
+    journal         ={Science in China Series G: Physics, Mechanics and Astronomy},
+    volume          ={50},
+    number          ={3},
+    pages           ={267--280},
+    year            ={2007},
+    publisher       ={Springer}
+}
+%Xie, B., Zhong, X., Rao, D., & Liang, Z. (2007). Head-related transfer function database and its analyses. Science in China Series G: Physics, Mechanics and Astronomy, 50(3), 267-280.
+
+@MISC{Reddit/u/namesii,
+    title           = "Why is the positional audio so bad in siege",
+    author          = "u/namesii",
+    year            =  2016,
+    howpublished    = "\url{https://www.reddit.com/r/Rainbow6/comments/5kkaku/why_is_the_positional_audio_so_bad_in_siege/}",
+    note            = "Accessed: 2023-2-22"
+}
+%https://www.reddit.com/r/Rainbow6/comments/5kkaku/why_is_the_positional_audio_so_bad_in_siege/ 
+
+%u/namesii (2016) r/rainbow6 - why is the "positional audio" so bad in siege?, Reddit. Available at: http://www.reddit.com/r/Rainbow6/comments/5kkaku/why_is_the_positional_audio_so_bad_in_siege/ (Accessed: February 22, 2023). 
+
+@article{Wallach,
+  title={The role of head movements and vestibular and visual cues in sound localization.},
+  author={Wallach, Hans},
+  journal={Journal of Experimental Psychology},
+  volume={27},
+  number={4},
+  pages={339},
+  year={1940},
+  publisher={American Psychological Association}
+}
+%Wallach, H. (1940). The role of head movements and vestibular and visual cues in sound localization. Journal of Experimental Psychology, 27(4), 339.
+
+@inproceedings{Zahorik,
+  title={Auditory display of sound source distance},
+  author={Zahorik, Pavel},
+  booktitle={Proc. Int. Conf. on Auditory Display},
+  pages={326--332},
+  year={2002}
+}
+%Zahorik, P. (2002, July). Auditory display of sound source distance. In Proc. Int. Conf. on Auditory Display (pp. 326-332).
+
+@article{Flow,
+  title={The concept of flow},
+  author={Csikszentmihalyi, Mihaly and Nakamura, Jeanne and Csikszentmihalyi, Mihaly},
+  journal={Flow and the foundations of positive psychology: The collected works of Mihaly Csikszentmihalyi},
+  pages={239--263},
+  year={2014},
+  publisher={Springer}
+}
+%Csikszentmihalyi, M., Nakamura, J., & Csikszentmihalyi, M. (2014). The concept of flow. Flow and the foundations of positive psychology: The collected works of Mihaly Csikszentmihalyi, 239-263.
+
+@article{WalkerNees,
+    title           ={Theory of sonification},
+    author          ={Walker, Bruce N and Nees, Michael A},
+    journal         ={The sonification handbook},
+    volume          ={1},
+    pages           ={9--39},
+    year            ={2011},
+    publisher       ={Logos Verlag Berlin}
+}
+%Walker, B. N., & Nees, M. A. (2011). Theory of sonification. The sonification handbook, 1, 9-39.
+
+@book{Hermann,
+    title           ={The sonification handbook},
+    author          ={Hermann, Thomas and Hunt, Andy and Neuhoff, John G},
+    volume          ={1},
+    year            ={2011},
+    publisher       ={Logos Verlag Berlin}
+}
+%Hermann, T., Hunt, A., & Neuhoff, J. G. (2011). The sonification handbook (Vol. 1). Berlin: Logos Verlag.
+
+@article{Gaver,
+    author          = {Gaver, William W.},
+    title           = {Auditory Icons: Using Sound in Computer Interfaces},
+    year            = {1987},
+    issue_date      = {July 1987},
+    publisher       = {Association for Computing Machinery},
+    address         = {New York, NY, USA},
+    volume          = {19},
+    number          = {1},
+    issn            = {0736-6906},
+    url             = {https://doi.org/10.1145/28189.1044809},
+    doi             = {10.1145/28189.1044809},
+    abstract        = {Carroll and Campbell have exercised themselves over a straw man not subscribed to by us. In doing so, they have misrepresented our position and even the statements in our paper. In reply, we restate as clearly as we can the position for which we actually did and do argue and give examples of their misrepresentations. The underlying issue seems to concern the advantages of using technical psychological theories to identify underlying mechanisms in human-computer interaction. We argue that such theories are an important part of a science of human-computer interaction. We argue further that technical theories must be considered in the context of the uses to which they are put. Such considerations help the theorist to determine what is a good approximation, the degree of formalization that is justified, the appropriate commingling of qualitative and quantitative techniques, and encourages cumulative progress through the heuristic of divide and conquer.},
+    journal         = {SIGCHI Bull.},
+    month           = {jul},
+    pages           = {74},
+    numpages        = {2}
+}
+%Gaver, William W.(1986)'Auditory Icons: Using Sound in Computer Interfaces',Human-Computer Interaction,2:2,167 — 177
+
+@inproceedings{Brock,
+    title           ={Effects of 3D auditory display on dual task performance in a simulated multiscreen watchstation environment},
+    author          ={Brock, Derek and Stroup, Janet L and Ballas, James A},
+    booktitle       ={Proceedings of the human factors and ergonomics society annual meeting},
+    volume          ={46},
+    number          ={17},
+    pages           ={1570--1573},
+    year            ={2002},
+    organization    ={SAGE Publications Sage CA: Los Angeles, CA}
+}
+%Brock, D., Stroup, J. L., & Ballas, J. A. (2002). Effects of 3D Auditory Display on Dual Task Performance in a Simulated Multiscreen Watchstation Environment. Proceedings of the Human Factors and Ergonomics Society Annual Meeting, 46(17), 1570–1573.
+
+@article{Tran,
+    title           ={Music monitor: Ambient musical data for the home},
+    author          ={Tran, Quan T and Mynatt, Elizabeth D},
+    journal         ={Extended Proceedings of the HOIT},
+    pages           ={85--92},
+    year            ={2000},
+    publisher       ={Citeseer}
+}
+%Tran, Q. T., & Mynatt, E. D. (2000). Music monitor: Ambient musical data for the home. Extended Proceedings of the HOIT, 85-92.
+
+@inproceedings{Tannen,
+    title           ={Breaking the sound barrier: designing auditory displays for global usability},
+    author          ={Tannen, Robert S},
+    booktitle       ={4th Conference on Human Factors \& the Web, Basking Ridge, New Jersey},
+    year            ={1998}
+}
+%Robert S. Tannen. Breaking the sound barrier: Designing auditory displays for global usability. In 4th Conference on Human Factors and the Web, 5 September 1998.
+
+@techreport{Parker,
+    title           ={Construction of 3-D Audio Systems: Background, Research, and General Requirements},
+    author          ={Parker, Simon P and Eberle, Geoffery and Martin, Russell L and McAnally, Ken I},
+    year            ={2008},
+    institution     ={DEFENCE SCIENCE AND TECHNOLOGY ORGANISATION EDINBURGH (AUSTRALIA) AIR~…}
+}
+
+@book{Totten,
+    title           ={Architectural Approach to Level Design},
+    author          ={Totten, Christopher W},
+    year            ={2014},
+    adress          ={Boca Raton, Florida},
+    publisher       ={CRC Press}
+}
+
+@article{Co,
+    title           ={Level Design for Games: creating compelling game experiences},
+    author          ={Co, Phil},
+    publisher       ={New Riders},
+    year            ={2006},
+    adress          ={Indianapolis, Indiana}
+}
+
+@book{Russell,
+    title           ={Artificial intelligence a modern approach},
+    author          ={Russell, Stuart J and Norvig, Peter},
+    year            ={2010},
+    adress          ={Harlow, United Kingdom},
+    publisher       ={Pearson Education, Inc.}
+}
