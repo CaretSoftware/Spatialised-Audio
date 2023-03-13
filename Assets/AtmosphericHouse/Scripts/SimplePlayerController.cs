@@ -12,6 +12,7 @@ public class SimplePlayerController : MonoBehaviour
     public float lookSpeed = 2.0f;
     public float lookXLimit = 60.0f;
     public float gravity = 150.0f;
+    public float speedThresholdForSound;
     [SerializeField] private AudioClip[] floorboardStepSounds;
     [SerializeField] private AudioClip[] cleanStepSounds;
     [SerializeField] private AudioClip[] creakSounds;
@@ -58,13 +59,11 @@ public class SimplePlayerController : MonoBehaviour
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
         }
 
-        if (characterController.velocity.sqrMagnitude > 0)
+        if (characterController.velocity.sqrMagnitude > speedThresholdForSound)
         {
             PlayDynamicFootstep();
         }
     }
-
-
 
     [SerializeField] public string colliderType;
 
