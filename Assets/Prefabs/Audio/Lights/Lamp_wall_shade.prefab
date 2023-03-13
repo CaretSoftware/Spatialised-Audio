@@ -507,7 +507,7 @@ PrefabInstance:
     - target: {fileID: 3748968700875673978, guid: b6e1f5b1d86fcf941a9aa74c99140b77,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.081
       objectReference: {fileID: 0}
     - target: {fileID: 3748968700875673978, guid: b6e1f5b1d86fcf941a9aa74c99140b77,
         type: 3}
@@ -761,4 +761,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lightGameObject: {fileID: 6834952642697680769}
-  minPitch: 0.5
+  randomVolume: 1
+  nonRandomVolume: 0.5
