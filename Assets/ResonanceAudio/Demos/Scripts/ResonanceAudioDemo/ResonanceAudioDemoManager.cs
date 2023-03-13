@@ -16,7 +16,7 @@ using UnityEngine;
 
 /// Class that manages the ResonanceAudioDemo scene.
 public class ResonanceAudioDemoManager : MonoBehaviour {
-  /// Main camera.
+  /// Main cam.
   public Camera mainCamera;
 
   /// Cube controller.
