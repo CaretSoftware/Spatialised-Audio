@@ -263,7 +263,7 @@ public class CharacterController : MonoBehaviour {
 					return vel - _deceleration * Time.deltaTime * vel;
 			}
 		
-			float InclineMultiplier() => Ease.InQuart(Mathf.Clamp01(Vector3.Dot(GroundNormal, Vector3.up)));
+			//float InclineMultiplier() => Ease.InQuart(Mathf.Clamp01(Vector3.Dot(GroundNormal, Vector3.up)));
 			bool ChangedDirection(float inp, float vel) => inp > 0.0f && vel < 0.0f || inp < 0.0f && vel > 0.0f;
 		}
 	}
