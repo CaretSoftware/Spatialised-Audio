@@ -15,18 +15,32 @@ public class Shoot : MonoBehaviour {
     private int _roundNumber;
     private float _timeFirstShot;
     private float _timeLastShot;
-    
 
-    private void Awake() {
+    private CSVWriter _csvWriter;
+    private bool _timerStarted;
+    private float _totalElapsedTime;
+    private float _roundElapsedTime;
+
+    private void Start() {
         _cameraTransform = cam.transform;
+        _csvWriter = FindObjectOfType<CSVWriter>();
     }
 
     private void Update() {
 
         // ray straight out from the center of the screen 
         _ray = cam.ViewportPointToRay(_centerScreen);
+
+        if (_timerStarted) {
+            _totalElapsedTime = Time.time - _timeFirstShot;
+            _roundElapsedTime = Time.time - _timeLastShot;
+            Timer.UpdateTimerSeconds?.Invoke(_roundElapsedTime);
+            Timer.UpdateTimerMinutes?.Invoke(_roundElapsedTime);
+        }
         
-        if (Input.GetMouseButton(0) && SpawnManager.activeGhost != null) {
+        if (Input.GetMouseButtonDown(0) && SpawnManager.activeGhost != null) {
+            _timerStarted = true; // TODO
+
             ShotVisuals();
             TakeShot();
         }
@@ -69,25 +83,27 @@ public class Shoot : MonoBehaviour {
 
         _timeLastShot = Time.time;
 
-        if (_roundNumber++ > 0) {
+        if (_roundNumber++ < 1) {
             _timeFirstShot = Time.time;
             return;
         }
 
         int subjectNumber = CSVWriter.SubjectNumber;
-        float totalElapsedTime = Time.time - _timeFirstShot;
+        //_totalElapsedTime = Time.time - _timeFirstShot;
         int roundNumber = CSVWriter.RoundNumber;
-        float roundElapsedTime = totalElapsedTime - _timeLastShot;
+        //_roundElapsedTime = _totalElapsedTime - _timeLastShot;
         float precision = alignmentXYDot.z;
         float precisionX = alignmentXYDot.x;
         float precisionY = alignmentXYDot.y;
         float distance = vectorToGhost.magnitude;
         bool hit = Physics.Raycast(_ray, 1000f, ghostLayer, QueryTriggerInteraction.Collide);
-        int playerFloor = 1;
+        int playerFloor = 1; // TODO Calculate floors !
         int ghostFloor = 1;
 
-        ShotData shotData = new ShotData(subjectNumber, totalElapsedTime, roundNumber, roundElapsedTime,
+        ShotData shotData = new ShotData(subjectNumber, _totalElapsedTime, roundNumber, _roundElapsedTime,
             precision, precisionX, precisionY, distance, hit, playerFloor, ghostFloor);
+
+        _csvWriter.AppendCSV(shotData);
         
         if (hit) {
             FindObjectOfType<GhostDeath>()?.Die();
