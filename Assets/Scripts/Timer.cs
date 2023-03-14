@@ -27,18 +27,22 @@ public class Timer : MonoBehaviour {
 
     private string[] Nums() {
         string[] nums = new string[60];
-        for (int i = 0; i < _nums.Length; i++) {
-            string str = i < 10 ? "0" + i.ToString() : i.ToString();
+        for (int i = 0; i < nums.Length; i++) {
+            nums[i] = i < 10 ? "0" + i.ToString() : i.ToString();
         }
 
         return nums;
     }
 
-    private void UpdateMinutes(float minutes) {
-        minuteText.text = _nums[(int)minutes];
-    }    
+    private void UpdateMinutes(float seconds) {
+        seconds /= 60;
+        seconds %= 60;
+        minuteText.text = _nums[(int)seconds];
+    }
     
     private void UpdateSeconds(float seconds) {
+        seconds = Mathf.Clamp(seconds, 0, seconds);
+        seconds %= 60;
         secondsText.text = _nums[(int)seconds];
     }
 }
