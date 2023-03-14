@@ -2,7 +2,7 @@
 using UnityEngine;
 
 
-public class VectorAlignment : MonoBehaviour {
+public class VectorAlignment {
     //public Vector3 vector1;
     //public Vector3 vector2;
 
