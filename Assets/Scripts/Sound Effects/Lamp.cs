@@ -16,8 +16,8 @@ public class Lamp : MonoBehaviour
         if (lightGameObject.activeSelf) {
             source = GetComponent<AudioSource>();
             source.loop = true;
-            float minVol = 0.2f;
-            float maxVol = 0.5f;
+            float minVol = 0.1f;
+            float maxVol = 1f;
             
             // I used nextFloat to have the randomness the same between sessions
             float randVol = random.NextFloat() % (maxVol - minVol); 

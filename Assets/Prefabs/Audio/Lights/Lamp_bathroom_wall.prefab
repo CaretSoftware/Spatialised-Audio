@@ -429,6 +429,11 @@ PrefabInstance:
       propertyPath: lightGameObject
       value: 
       objectReference: {fileID: 3033241477075809488}
+    - target: {fileID: 8923764751348757001, guid: a8f245948a9f2944ca1a4afbcf3b48b9,
+        type: 3}
+      propertyPath: m_Volume
+      value: 0.75
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a8f245948a9f2944ca1a4afbcf3b48b9, type: 3}
 --- !u!4 &126517052708071194 stripped
