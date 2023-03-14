@@ -104,6 +104,8 @@ public class Shoot : MonoBehaviour {
             precision, precisionX, precisionY, distance, hit, playerFloor, ghostFloor);
 
         _csvWriter.AppendCSV(shotData);
+        Invoke(nameof(SaveSymbol), 2f);
+
         
         if (hit) {
             FindObjectOfType<GhostDeath>()?.Die();
@@ -114,4 +116,9 @@ public class Shoot : MonoBehaviour {
             FindObjectOfType<GhostMiss>()?.Missed();
         }
     }
+    
+    private void SaveSymbol() {
+        ImageProgressFill.ProgressFillStart?.Invoke();
+    }
+
 }

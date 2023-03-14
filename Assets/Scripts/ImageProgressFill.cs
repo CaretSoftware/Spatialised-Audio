@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class ImageProgressFill : MonoBehaviour {
     public delegate void ProgressFill();
     public static ProgressFill ProgressFillStart;
+    
     [SerializeField] private Image imageFill;
     [SerializeField] private CanvasGroup images;
 

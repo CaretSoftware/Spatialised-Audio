@@ -20,8 +20,11 @@ public class CSVWriter : MonoBehaviour {
     private void Start() {
         
 #if UNITY_EDITOR
-        //writeToFile = false;
+        writeToFile = false;
+#else
+        writeToFile = true;
 #endif        
+        
         Directory.CreateDirectory(Application.dataPath + FolderName); // does not create directory if exists
 
         SubjectNumber = 0;
