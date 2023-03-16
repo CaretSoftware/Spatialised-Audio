@@ -13,7 +13,7 @@ public class HeapTest : MonoBehaviour {
     private void Start() {
         _stopwatch.Start();
         
-        heap = new Heap<int>(10000);
+        heap = new Heap<int>();
 
         for (int i = 0; i < 10000; i++) {
             heap.Insert(rand.Next());
