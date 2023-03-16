@@ -5,7 +5,7 @@ using UnityEngine;
 public class AStar {
     
     public Stack<Node> Path(Node start, Node goal,  IHeuristic<float> heuristic) {
-        Heap<HeapNode> openSet = new Heap<HeapNode>(100);
+        Heap<HeapNode> openSet = new Heap<HeapNode>();
         Dictionary<Node, Node> cameFrom = new Dictionary<Node, Node>(100);
         Dictionary<Node, float> gScore = new Dictionary<Node, float>(100);
         Dictionary<Node, float> fScore = new Dictionary<Node, float>(100);
