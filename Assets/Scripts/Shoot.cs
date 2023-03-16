@@ -20,6 +20,17 @@ public class Shoot : MonoBehaviour {
     private bool _timerStarted;
     private float _totalElapsedTime;
     private float _roundElapsedTime;
+    private const float _refractoryPeriod = 1f;
+    private float _charge = -_refractoryPeriod;
+    [SerializeField] private MeshRenderer chargeLight;
+    private MaterialPropertyBlock _mpb;
+    private static readonly int Light1 = Shader.PropertyToID("_Light");
+
+    private void Awake() {
+        _mpb = new MaterialPropertyBlock();
+        Material material = chargeLight.material;
+        chargeLight.material = material;
+    }
 
     private void Start() {
         _cameraTransform = cam.transform;
@@ -27,7 +38,13 @@ public class Shoot : MonoBehaviour {
     }
 
     private void Update() {
-
+        _charge += Time.deltaTime;
+        
+        if (_charge >= 0f && _charge <= 1.1f) {
+            _mpb.SetFloat(Light1, _charge);
+            chargeLight.SetPropertyBlock(_mpb);
+        }
+            
         // ray straight out from the center of the screen 
         _ray = cam.ViewportPointToRay(_centerScreen);
 
@@ -38,7 +55,12 @@ public class Shoot : MonoBehaviour {
             Timer.UpdateTimerMinutes?.Invoke(_roundElapsedTime);
         }
         
-        if (Input.GetMouseButtonDown(0) && SpawnManager.activeGhost != null) {
+        if (Input.GetMouseButtonDown(0) && _charge >= 1f && SpawnManager.activeGhost != null) {
+            _charge = -_refractoryPeriod;
+            
+            _mpb.SetFloat(Light1, 0f);
+            chargeLight.SetPropertyBlock(_mpb);
+            
             _timerStarted = true; // TODO
 
             ShotVisuals();
@@ -47,7 +69,9 @@ public class Shoot : MonoBehaviour {
     }
 
     private void ShotVisuals() {
-        Debug.Log("SHOT VISUALS");
+        WeaponBob.recoil?.Invoke();
+        LaserLine.showLineRenderer?.Invoke();
+        PlayShotSounds.playShot?.Invoke();
     }
 
     private void TakeShot() {

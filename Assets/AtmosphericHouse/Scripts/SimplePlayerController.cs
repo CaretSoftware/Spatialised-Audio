@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(CharacterController))]
-
 public class SimplePlayerController : MonoBehaviour
 {
     public Camera playerCamera;
@@ -21,10 +22,25 @@ public class SimplePlayerController : MonoBehaviour
     public AudioSource as_Steps;                                    //AudioSource for playing steps only 
     public AudioSource as_Creaks;                                   //AudioSource for playing creak sounds only when stepping on floorboards
 
+    private Transform _creakSource;
+    private Transform _stepSource;
+    
     CharacterController characterController;
     Vector3 moveDirection = Vector3.zero;
     float rotationX = 0;
     private bool canMove = true;
+    private Transform _transform;
+
+
+    private void Awake() {
+        _transform = transform;
+        
+        _stepSource = as_Steps.transform;
+        _creakSource = as_Creaks.transform;
+
+        _stepSource.transform.parent = null;
+        _creakSource.transform.parent = null;
+    }
 
     void Start()
     {
@@ -94,10 +110,14 @@ public class SimplePlayerController : MonoBehaviour
         }
     }
 
+    private int randomInt = int.MaxValue;
+    
     private void PlayFloorboardStepSounds()
     {
-        if (!as_Steps.isPlaying)
-        {
+        if (!as_Steps.isPlaying) {
+            _stepSource.position = _transform.position + characterController.velocity.normalized * .5f;
+            
+            randomInt = Random.Range(0, 4);
             as_Steps.pitch = 1f;
             // pick & play a random footstep sound from the array,
             // excluding sound at index 0
@@ -112,21 +132,22 @@ public class SimplePlayerController : MonoBehaviour
 
     private void PlayCreakSounds()
     {
-        if (!as_Creaks.isPlaying)
+        if (!as_Creaks.isPlaying && randomInt == 0)
         {
-            float f = Random.Range(0f, 1f);
+            _creakSource.position = _transform.position + characterController.velocity.normalized * .5f;
+            
+            // float f = Random.Range(0f, 1f);
             //Debug.Log(f);
-            if(f > 0.95)
-            {
-                // pick & play a random creak sound from the array,
-                // excluding sound at index 0
-                int n = Random.Range(1, creakSounds.Length);
-                as_Creaks.clip = creakSounds[n];
-                as_Creaks.PlayOneShot(as_Creaks.clip);
-                // move picked sound to index 0 so it's not picked next time
-                creakSounds[n] = creakSounds[0];
-                creakSounds[0] = as_Creaks.clip;
-            }
+            // if(f > 0.99f) {
+            // pick & play a random creak sound from the array,
+            // excluding sound at index 0
+            int n = Random.Range(1, creakSounds.Length);
+            as_Creaks.clip = creakSounds[n];
+            as_Creaks.PlayOneShot(as_Creaks.clip);
+            // move picked sound to index 0 so it's not picked next time
+            creakSounds[n] = creakSounds[0];
+            creakSounds[0] = as_Creaks.clip;
+            // }
         }
     }
 
@@ -134,6 +155,8 @@ public class SimplePlayerController : MonoBehaviour
     {
         if (!as_Steps.isPlaying)
         {
+            _stepSource.position = _transform.position + characterController.velocity.normalized * .5f;
+
             as_Steps.pitch = 0.7f;
             // pick & play a random footstep sound from the array,
             // excluding sound at index 0
