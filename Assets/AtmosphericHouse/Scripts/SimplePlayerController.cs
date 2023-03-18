@@ -50,8 +50,10 @@ public class SimplePlayerController : MonoBehaviour
         Cursor.visible = false;
     }
 
-    void Update()
+    public void UpdateMe()
     {
+        //if (Time.timeScale < Mathf.Epsilon) return;
+        
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 right = transform.TransformDirection(Vector3.right);
         bool isRunning = Input.GetKey(KeyCode.LeftShift);
@@ -72,7 +74,7 @@ public class SimplePlayerController : MonoBehaviour
             rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;
             rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
             playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
-            transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
+            transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0) ;
         }
 
         if (characterController.velocity.sqrMagnitude > speedThresholdForSound)

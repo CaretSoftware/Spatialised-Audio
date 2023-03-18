@@ -1,44 +1,58 @@
 ﻿using System;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class GhostAudio : MonoBehaviour {
     public delegate void PlayAudio(bool missed);
     public static PlayAudio playAudio;
+    
+    public delegate void NewPos(Vector3 pos);
+    public static NewPos newPosition;
 
     [SerializeField] private float smoothTime;
     
     private Transform _ghostTransform;
-    private Vector3 currentPosition;
-    private Vector3 currentVelocity;
+    private Vector3 _currentPosition;
+    private Vector3 _currentVelocity;
+    private Vector3 _targetPosition;
 
-    [SerializeField] private AudioSource laughAudioSource;
+    [FormerlySerializedAs("laughAudioSource")] [SerializeField] private AudioSource ghostAudioSource;
+    [SerializeField] private AudioClip missClip;
+    [SerializeField] private AudioClip hitClip;
 
-    private void Awake() => playAudio += PlaySound;
+    private void Awake() {
+        newPosition += NewPosition;
+        playAudio += PlaySound;
+    }
 
-    private void OnDestroy() => playAudio -= PlaySound;
+    private void OnDestroy() {
+        newPosition -= NewPosition;
+        playAudio -= PlaySound;
+    }
     
     private void Update() {
-        if (_ghostTransform == null) {
-            _ghostTransform = SpawnManager.activeGhost;
-            return;
-        }
-
-        currentPosition =
+        _currentPosition =
             Vector3.SmoothDamp(
-                currentPosition, 
-                _ghostTransform.position, 
-                ref currentVelocity, 
+                _currentPosition, 
+                _targetPosition, 
+                ref _currentVelocity, 
                 smoothTime);
 
-        transform.position = currentPosition;
+        transform.position = _currentPosition;
+    }
+
+    private void NewPosition(Vector3 position) {
+        _targetPosition = position;
     }
 
     private void PlaySound(bool missed) {
-        if (missed) {
-            // play laugh sound
-            if (!laughAudioSource.isPlaying)
-                laughAudioSource.Play();
-        }
+        if (missed)
+            ghostAudioSource.clip = missClip;
+        else
+            ghostAudioSource.clip = hitClip;
+        
+        if (!ghostAudioSource.isPlaying)
+            ghostAudioSource.Play();
     }
 }

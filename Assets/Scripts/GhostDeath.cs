@@ -6,6 +6,9 @@ using UnityEngine.Animations;
 using UnityEngine.Serialization;
 
 public class GhostDeath : MonoBehaviour {
+    public delegate void Died();
+    public static Died died;
+
     [SerializeField] private MeshRenderer ghostMeshRenderer;
     [SerializeField] private MeshRenderer leftEyeMeshRenderer;
     [SerializeField] private MeshRenderer rightEyeMeshRenderer;
@@ -24,16 +27,21 @@ public class GhostDeath : MonoBehaviour {
     private static readonly int DissolveAmount = Shader.PropertyToID("_DissolveAmount");
     private static readonly int Alpha = Shader.PropertyToID("_Alpha");
 
-    public void Die() {
+    private void Die() {
         if (!_dying)
             StartCoroutine(DeathEffect());
     }
     
     private void Awake() {
+        died += Die;
         _playerTransform = PlayerTransform.PTransform;
         _transform = transform;
         
         _mpb = new MaterialPropertyBlock();
+    }
+
+    private void OnDestroy() {
+        died -= Die;
     }
 
     private void Start() {
@@ -111,6 +119,5 @@ public class GhostDeath : MonoBehaviour {
         _dying = false;
             
         SpawnManager.respawnGhost?.Invoke();
-        // TODO play audio
     }
 }
