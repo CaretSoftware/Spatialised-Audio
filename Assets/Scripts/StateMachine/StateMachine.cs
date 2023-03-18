@@ -4,18 +4,16 @@ using System;
 
     public class StateMachine {
 
-        private BaseState _currentState;
-        private BaseState _queuedState;
-        private Dictionary<Type, BaseState> _states = new Dictionary<Type, BaseState>();
+        private State _currentState;
+        private State _queuedState;
+        private Dictionary<Type, State> _states = new Dictionary<Type, State>();
 
-        public StateMachine(CharController.CharacterController owner, List<BaseState> states) {
+        public StateMachine(List<State> states) {
 
-            foreach (BaseState state in states) {
-                BaseState instance = state;
-                instance.owner = owner;
+            foreach (State state in states) {
+                State instance = state;
                 instance.stateMachine = this;
                 _states.Add(instance.GetType(), instance);
-
                 _currentState ??= instance;
             }
 

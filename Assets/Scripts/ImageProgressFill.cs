@@ -1,11 +1,7 @@
 using System;
 using System.Collections;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
-using Random = System.Random;
 
 public class ImageProgressFill : MonoBehaviour {
     public delegate void ProgressFill();
@@ -38,8 +34,6 @@ public class ImageProgressFill : MonoBehaviour {
         StartCoroutine(FadeOut());
     }
 
-    public float randFillChance = .9f;
-
     private IEnumerator Filler() {
         float t = 0f;
         float fill = 0f;
@@ -51,13 +45,17 @@ public class ImageProgressFill : MonoBehaviour {
             images.alpha = Ease.OutCirc(t);
 
             stutterTimer -= Time.unscaledDeltaTime;
-            
+
             if (stutterTimer < .2f) {
                 fill += Time.unscaledDeltaTime;
                 imageFill.fillAmount = fill;
                 if (stutterTimer < 0f)
-                    stutterTimer = UnityEngine.Random.Range(0f, .5f);
+                    stutterTimer = UnityEngine.Random.Range(0f, .8f);
+            } else {
+                fill += Time.unscaledDeltaTime * .15f;
+                imageFill.fillAmount = fill;
             }
+            
             yield return null;
         }
         images.alpha = 1f;

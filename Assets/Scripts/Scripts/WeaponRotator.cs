@@ -39,8 +39,6 @@ public class WeaponRotator : MonoBehaviour {
     }
 
     public void RecoilAmount(float recoil) {
-        //Quaternion WorldRotation = Target.Transform.rotation * rotation;
-        //Transforms rotation from Targets local space to world space
-        _recoil = Quaternion.Slerp(quaternion.identity, Quaternion.Euler(recoilRotation), recoil);
+        _recoil = Quaternion.Slerp(Quaternion.identity, Quaternion.Euler(recoilRotation), recoil);
     }
 }

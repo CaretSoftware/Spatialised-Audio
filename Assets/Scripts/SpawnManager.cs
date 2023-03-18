@@ -34,6 +34,7 @@ public class SpawnManager : MonoBehaviour {
         RandomSpawnPosition(out Vector3 position);
 
         InstantiateGhost(position);
+        GhostAudio.newPosition?.Invoke(position);
     }
 
     private void InstantiateGhost(Vector3 position) {
@@ -46,7 +47,7 @@ public class SpawnManager : MonoBehaviour {
 
     private void Start() {
         _positionWithinCube = GetComponent<PositionWithinCube>();
-        Invoke(nameof(SpawnNewGhost), 2f);
+        //Invoke(nameof(SpawnNewGhost), 2f);
     }
 
     public Transform RandomSpawnPosition(out Vector3 spawnPosition) {

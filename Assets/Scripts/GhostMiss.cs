@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GhostMiss : MonoBehaviour {
+    public delegate void Miss();
+    public static Miss miss;
     private static readonly int Alpha = Shader.PropertyToID("_Alpha");
     
     [SerializeField, Range(0f, 1f)] private float missEffectTime = 1f;
@@ -19,10 +21,15 @@ public class GhostMiss : MonoBehaviour {
     private bool _appearing = true;
 
     private void Awake() {
+        miss += Missed;
         _playerTransform = PlayerTransform.PTransform;
         _meshRenderers = GetComponentsInChildren<MeshRenderer>();
 
         _mpb = new MaterialPropertyBlock();
+    }
+
+    private void OnDestroy() {
+        miss -= Missed;
     }
 
     private void Start() {
@@ -30,7 +37,7 @@ public class GhostMiss : MonoBehaviour {
         _materials = ghostMaterials.Materials;
     }
 
-    public void Missed() {
+    private void Missed() {
         StartCoroutine(AppearAndHide());
     }
 
