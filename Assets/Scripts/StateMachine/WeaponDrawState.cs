@@ -20,6 +20,7 @@ public class WeaponDrawState : GameLoopState {
     public override void Run() {
         
         simplePlayerController.UpdateMe();
+        shoot.UpdateMe(false);
         
         if (_animationDone)
             stateMachine.TransitionTo<TutorialState>();

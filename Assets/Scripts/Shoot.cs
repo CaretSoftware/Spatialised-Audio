@@ -15,17 +15,17 @@ public class Shoot : MonoBehaviour {
     private float _timeLastShot;
 
     private CSVWriter _csvWriter;
-    private bool _timerStarted;
+    //private bool _timerStarted;
     private float _totalElapsedTime;
     private float _roundElapsedTime;
     private const float fullyCharged = 1f; 
-    private const float refractoryPeriod = 2f;
-    private float _charge = -refractoryPeriod;
+    private float _refractoryPeriod = 1f;
+    private float _charge = -1f;
     [SerializeField] private MeshRenderer chargeLight;
     private MaterialPropertyBlock _mpb;
     private static readonly int Light1 = Shader.PropertyToID("_Light");
 
-    private bool _charged;
+    private bool _charging = true;
     
     private float _time;
 
@@ -41,12 +41,14 @@ public class Shoot : MonoBehaviour {
         _csvWriter = FindObjectOfType<CSVWriter>();
     }
 
-    public bool UpdateMe() {
-        _time += Time.deltaTime;
+    public bool UpdateMe(bool timed = true) {
         _charge += Time.deltaTime;
+        
+        if (timed)
+            _time += Time.deltaTime;
 
-        if (!_charged && _charge > 0f) {
-            _charged = true;
+        if (_charging && _charge > 0f) {
+            _charging = false;
             PlayWeaponSounds.playCharge?.Invoke();
         }
         
@@ -55,10 +57,9 @@ public class Shoot : MonoBehaviour {
             chargeLight.SetPropertyBlock(_mpb);
         }
             
-        // ray straight out from the center of the screen 
         _ray = cam.ViewportPointToRay(_centerScreen);
 
-        if (_timerStarted) {
+        if (timed) {
             _totalElapsedTime = _time;
             _roundElapsedTime = _time - _timeLastShot;
             Timer.UpdateTimerSeconds?.Invoke(_roundElapsedTime);
@@ -66,9 +67,9 @@ public class Shoot : MonoBehaviour {
         }
         
         if (Input.GetMouseButtonDown(0) && _charge >= fullyCharged) {
-            _charge = -refractoryPeriod;
-            _charged = false;
-            _timerStarted = true; // TODO
+            _charge = -_refractoryPeriod;
+            _charging = true;
+            //_timerStarted = true; // TODO
             
             _mpb.SetFloat(Light1, 0f);
             chargeLight.SetPropertyBlock(_mpb);
@@ -90,6 +91,8 @@ public class Shoot : MonoBehaviour {
     private void TakeShot() {
         Transform ghost = SpawnManager.activeGhost;
         if (ghost == null) return;
+
+        _timeLastShot = _time;
         
         Vector3 ghostPosition = ghost.position;
         Vector3 cameraPosition = _cameraTransform.position;
@@ -120,8 +123,6 @@ public class Shoot : MonoBehaviour {
         Debug.DrawRay(cameraPosition, directionToGhost);
 
         Vector3 alignmentXYDot = VectorAlignment.Alignment(aimDirection, directionToGhost, crossRight);
-
-        _timeLastShot = _time;
 
         if (_roundNumber++ < 1) {
             _timeFirstShot = _time;
