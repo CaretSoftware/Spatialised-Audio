@@ -52,8 +52,8 @@ public class Shoot : MonoBehaviour {
             PlayWeaponSounds.playCharge?.Invoke();
         }
         
-        if (_charge >= 0f && _charge <= 1.1f) {
-            _mpb.SetFloat(Light1, _charge);
+        if (_charge >= 1f && _charge <= 2.1f) {
+            _mpb.SetFloat(Light1, _charge - 1f);
             chargeLight.SetPropertyBlock(_mpb);
         }
             
@@ -149,13 +149,12 @@ public class Shoot : MonoBehaviour {
         _csvWriter.AppendCSV(shotData);
         Invoke(nameof(SaveSymbol), 2f);
 
-        
         if (hit) {
             GhostDeath.died?.Invoke();
-            GhostAudio.playAudio?.Invoke(false);
+            GhostAudio.playAudio?.Invoke(GhostAudio.Clip.Dissolve);
         } else {
             GhostMiss.miss?.Invoke();
-            GhostAudio.playAudio?.Invoke(true);
+            GhostAudio.playAudio?.Invoke(GhostAudio.Clip.Laugh);
         }
     }
     

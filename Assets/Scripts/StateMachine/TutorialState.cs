@@ -22,6 +22,14 @@ public class TutorialState : GameLoopState {
 
     private bool _voiceDone = true;
     private int _tutorialSequence;
+
+    private LayerMask _layerMaskDefaultTargetPractice;
+    private LayerMask _target;
+
+    private Vector3[] kitchenBounds = new Vector3[] {
+        new Vector3(4.3f, 2.8f, -4.2f),
+        new Vector3(-1.3f, -.1f, -10f),
+    };
     
     public TutorialState() {
         voiceDone += VoiceDonePlaying;
@@ -33,8 +41,6 @@ public class TutorialState : GameLoopState {
         hits -= HasHitTarget;
     }
 
-    private LayerMask _layerMaskDefaultTargetPractice;
-    private LayerMask _target;
 
     public override void Enter() {
         StateChange.stateUpdate?.Invoke(state);
@@ -44,7 +50,7 @@ public class TutorialState : GameLoopState {
     }
     
     public override void Run() {
-        VoiceSequence();
+        TutorialSequence();
         simplePlayerController.UpdateMe();
         
         if (_armed && shoot.UpdateMe(false) && HitTrainingTarget())
@@ -56,13 +62,8 @@ public class TutorialState : GameLoopState {
         if (_tutorialComplete)
             stateMachine.TransitionTo<GameState>();
     }
-
-    private Vector3[] kitchenBounds = new Vector3[] {
-        new Vector3(4.3f, 2.8f, -4.2f),
-        new Vector3(-1.3f, -.1f, -10f),
-    };
     
-    private void VoiceSequence() {
+    private void TutorialSequence() {
         if (!_voiceDone) return;
         
         switch (_tutorialSequence) {
@@ -97,9 +98,13 @@ public class TutorialState : GameLoopState {
                 break;
             case 5:
                 _voiceDone = false;
+                
+                // TODO Fade target alpha until invisible
+                
                 // Remember, ghosts will remain invisible until fired upon.
                 // The only way of finding them is through the Heartbeat Sonar.
                 playVoice?.Invoke(3);
+                GhostAudio.playAudio.Invoke(GhostAudio.Clip.HeartBeat);
                 _tutorialSequence++;
                 break;
             case 6:
