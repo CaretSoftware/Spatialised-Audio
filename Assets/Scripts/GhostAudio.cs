@@ -4,7 +4,12 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 public class GhostAudio : MonoBehaviour {
-    public delegate void PlayAudio(bool missed);
+    public enum Clip {
+        Laugh,
+        Dissolve,
+        HeartBeat,
+    }
+    public delegate void PlayAudio(Clip clip);
     public static PlayAudio playAudio;
     
     public delegate void NewPos(Vector3 pos);
@@ -12,18 +17,20 @@ public class GhostAudio : MonoBehaviour {
 
     [SerializeField] private float smoothTime;
     
-    private Transform _ghostTransform;
     private Vector3 _currentPosition;
     private Vector3 _currentVelocity;
     private Vector3 _targetPosition;
 
-    [FormerlySerializedAs("laughAudioSource")] [SerializeField] private AudioSource ghostAudioSource;
-    [SerializeField] private AudioClip missClip;
-    [SerializeField] private AudioClip hitClip;
+    [SerializeField] private AudioSource ghostAudioSource;
+    [SerializeField] private AudioSource heartBeatSensor;
+    [SerializeField] private AudioClip laughClip;
+    [SerializeField] private AudioClip dissolveClip;
 
     private void Awake() {
         newPosition += NewPosition;
         playAudio += PlaySound;
+        _currentPosition = transform.position;
+        _targetPosition = _currentPosition;
     }
 
     private void OnDestroy() {
@@ -46,12 +53,22 @@ public class GhostAudio : MonoBehaviour {
         _targetPosition = position;
     }
 
-    private void PlaySound(bool missed) {
-        if (missed)
-            ghostAudioSource.clip = missClip;
-        else
-            ghostAudioSource.clip = hitClip;
-        
+    private void PlaySound(Clip clip) {
+        switch (clip) {
+            case Clip.Dissolve:
+                ghostAudioSource.clip = dissolveClip;
+                break;
+            case Clip.Laugh:
+                ghostAudioSource.clip = laughClip;
+                break;
+            case Clip.HeartBeat:
+                if (!heartBeatSensor.isPlaying)
+                    heartBeatSensor.Play();
+                heartBeatSensor.spatializePostEffects = true;
+                heartBeatSensor.spatializePostEffects = false;
+                return;
+        }
+
         if (!ghostAudioSource.isPlaying)
             ghostAudioSource.Play();
     }

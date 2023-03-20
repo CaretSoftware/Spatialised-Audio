@@ -8,7 +8,8 @@ public class OffScreenArrowIndicator : MonoBehaviour {
     private const float quarterClockwiseTurn = -.25f * TAU;
     
     [SerializeField] private float screenBoundOffset = 0.9f;
-    
+    [SerializeField] private LayerMask layerMask;
+
     public RectTransform arrowTransform;
     public RectTransform iconTransform;
     private Camera _mainCamera;
@@ -17,7 +18,7 @@ public class OffScreenArrowIndicator : MonoBehaviour {
     private float _currentRotation;
     private float _currentVelocity;
     public float smoothTime = .15f;
-    public bool hideOnScreen = true;
+    public bool hideOnScreen = false;
     
     private void Start() {
         _mainCamera = Camera.main;
@@ -31,7 +32,7 @@ public class OffScreenArrowIndicator : MonoBehaviour {
         SpawnManager.respawnGhost -= HideGhostIndicator;
     }
 
-    private void ShowGhostIndicator(bool missed) {
+    private void ShowGhostIndicator(GhostAudio.Clip clip) {
         showIndicator = true;
     }
     
@@ -47,6 +48,7 @@ public class OffScreenArrowIndicator : MonoBehaviour {
         if (!showIndicator) {
             arrowTransform.gameObject.SetActive(false);
             iconTransform.gameObject.SetActive(false);
+            _currentRotation = quarterClockwiseTurn; // this is to have arrow upright from start if it becomes active while on screen
             return;
         }
         
@@ -58,7 +60,6 @@ public class OffScreenArrowIndicator : MonoBehaviour {
         Vector3 screenCentre = new Vector3(Screen.width * .5f, Screen.height * .5f, 0f);
         Vector3 screenBounds = screenCentre * screenBoundOffset;
         float alignment = Vector3.Dot(direction.normalized, cam.forward);
-        float angle;
 
         // scale parameters by target distance
         float distance = direction.magnitude;
@@ -69,20 +70,19 @@ public class OffScreenArrowIndicator : MonoBehaviour {
         
         arrowTransform.localScale = scale;
         
-        if (WithinScreen(screenPosition)) {
-            if (hideOnScreen) {
-                
+        if (WithinScreenBounds(screenPosition)) {
+            if (VisibleToPlayer(targetObject)) {
                 arrowTransform.gameObject.SetActive(false);
                 iconTransform.gameObject.SetActive(false);
-    
-                // methods below shows indicator also when it's on screen
-                return;
+            } else {
+                arrowTransform.gameObject.SetActive(true);
+                iconTransform.gameObject.SetActive(true);
             }
             
             // Our screenPosition's origin is screen's bottom-left corner.
-            // But we have to get the arrow's screenPosition and rotation with respect to screenCentre.
             // we have to move - it back only if we have anchor position in the middle
             // if we have the anchor position in the bottom left we can use the screen position
+            // But we have to get the arrow's screenPosition and rotation with respect to screenCentre.
             screenPosition -= screenCentre;
 
             // smoothly set the rotation to rotate the arrow pointing down (-Pi / 2)
@@ -98,15 +98,17 @@ public class OffScreenArrowIndicator : MonoBehaviour {
         
         // Our screenPosition's origin is screen's bottom-left corner.
         // But we have to get the arrow's screenPosition and rotation with respect to screenCentre.
+        // we have to move - it back only if we have anchor position in the middle
+        // if we have the anchor position in the bottom left we can use the screen position
         screenPosition -= screenCentre;
-        
+
         // Angle between the x-axis (bottom of screen) and a vector starting at zero(bottom-left corner of screen) and terminating at screenPosition.
-        angle = Mathf.Atan2(screenPosition.y, screenPosition.x);
+        float angle = Mathf.Atan2(screenPosition.y, screenPosition.x);
         // Slope of the line starting from zero and terminating at screenPosition.
         float slope = Mathf.Tan(angle);
 
         // Two point's line's form is (y2 - y1) = m (x2 - x1) + c, 
-        // starting point (x1, y1) is screen botton-left (0, 0),
+        // starting point (x1, y1) is screen bottom-left (0, 0),
         // ending point (x2, y2) is one of the screenBounds,
         // m is the slope
         // c is y intercept which will be 0, as line is passing through origin.
@@ -115,8 +117,7 @@ public class OffScreenArrowIndicator : MonoBehaviour {
             // Keep the x screen position to the maximum x bounds and
             // find the y screen position using y = mx.
             screenPosition = new Vector3(screenBounds.x, screenBounds.x * slope, 0);
-        }
-        else {
+        } else {
             screenPosition = new Vector3(-screenBounds.x, -screenBounds.x * slope, 0);
         }
 
@@ -125,8 +126,7 @@ public class OffScreenArrowIndicator : MonoBehaviour {
             // Keep the y screen position to the maximum y bounds and
             // find the x screen position using x = y/m.
             screenPosition = new Vector3(screenBounds.y / slope, screenBounds.y, 0);
-        }
-        else if (screenPosition.y < -screenBounds.y) {
+        } else if (screenPosition.y < -screenBounds.y) {
             screenPosition = new Vector3(-screenBounds.y / slope, -screenBounds.y, 0);
         }
 
@@ -144,12 +144,19 @@ public class OffScreenArrowIndicator : MonoBehaviour {
         SetAnchoredPositionAndRotation(iconTransform, iconTransform.anchoredPosition, Mathf.Sin(Time.time * 5f) * .2f);
     }
 
-    private bool WithinScreen(Vector3 screenPosition) {
+    private bool WithinScreenBounds(Vector3 screenPosition) {
         return (screenPosition.z > 0
                 && screenPosition.x > 0
                 && screenPosition.x < Screen.width
                 && screenPosition.y > 0
                 && screenPosition.y < Screen.height);
+    }
+    
+    private bool VisibleToPlayer(Transform target) {
+        Vector3 targetPointOnScreen = _mainCamera.WorldToViewportPoint(target.position);
+        Ray ray = _mainCamera.ViewportPointToRay(targetPointOnScreen);
+        bool hit = Physics.Raycast(ray, out RaycastHit hitInfo, 100f, layerMask, QueryTriggerInteraction.Collide) && hitInfo.transform == target;
+        return (hit);
     }
 
     private void SetAnchoredPositionAndRotation(RectTransform rectTransform, Vector3 anchoredPosition, float degreesInRadians) {
