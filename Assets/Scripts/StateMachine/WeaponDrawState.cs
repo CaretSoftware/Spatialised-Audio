@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class WeaponDrawState : GameLoopState {
+public class WeaponDrawState : GameLoopBaseState {
     private const string state = nameof(WeaponDrawState);
     private static readonly int Raise = Animator.StringToHash("Raise");
     private bool _animationDone = false;

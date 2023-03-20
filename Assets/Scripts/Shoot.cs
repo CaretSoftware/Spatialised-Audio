@@ -67,8 +67,16 @@ public class Shoot : MonoBehaviour {
         }
         
         if (Input.GetMouseButtonDown(0) && _charge >= fullyCharged) {
+            if (timed) {
+                RoundCounter.roundText?.Invoke(CSVWriter.RoundNumber);
+                if (CSVWriter.RoundNumber >= 14) { // END
+                    GameState.maxRounds?.Invoke();
+                }
+            }
+                
             _charge = -_refractoryPeriod;
             _charging = true;
+                
             //_timerStarted = true; // TODO
             
             _mpb.SetFloat(Light1, 0f);

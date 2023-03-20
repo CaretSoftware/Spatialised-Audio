@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class EnterState : GameLoopState {
+public class EnterState : GameLoopBaseState {
     private const string state = nameof(EnterState);
     private bool _tutorial;
     private float _timer;
