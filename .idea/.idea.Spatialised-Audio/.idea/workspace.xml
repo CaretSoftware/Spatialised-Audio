@@ -9,6 +9,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/7b2a272e51214e2f91bbc4fb4f28eff8159400/45/76b5db0a/MonoBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/RoundCounter.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/TargetPractise.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../Spherical-War/Assets/Scripts/Pathfinding/AStar.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../Spherical-War/Assets/Scripts/Pathfinding/Heap.cs" root0="SKIP_HIGHLIGHTING" />
@@ -95,7 +96,7 @@
       <workItem from="1678725276403" duration="6285000" />
       <workItem from="1678888300976" duration="31259000" />
       <workItem from="1678959178269" duration="22255000" />
-      <workItem from="1679066146255" duration="63513000" />
+      <workItem from="1679066146255" duration="67335000" />
     </task>
     <servers />
   </component>

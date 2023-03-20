@@ -11,6 +11,7 @@ public class GameLoop : MonoBehaviour {
     private PauseState _pauseState = new PauseState();
     private TutorialState _tutorialState = new TutorialState();
     private WeaponDrawState _weaponDrawState;
+    private EndState _endState = new EndState();
     
     private StateMachine _stateMachine;
 
@@ -22,13 +23,13 @@ public class GameLoop : MonoBehaviour {
             _pauseState,
             (_weaponDrawState = new WeaponDrawState()),
             _gameState,
+            _endState,
         };
 
         SimplePlayerController simplePlayerController = FindObjectOfType<SimplePlayerController>();
-        Debug.Log($"{simplePlayerController}");
         Shoot shoot = FindObjectOfType<Shoot>();
 
-        foreach (GameLoopState state in states) {
+        foreach (GameLoopBaseState state in states) {
             state.simplePlayerController = simplePlayerController;
             state.shoot = shoot;
             state.weaponLiftAnimator = weaponLiftAnimator;

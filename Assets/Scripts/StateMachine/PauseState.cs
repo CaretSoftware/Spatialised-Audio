@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PauseState : GameLoopState {
+public class PauseState : GameLoopBaseState {
     
     private const string state = nameof(PauseState);
     

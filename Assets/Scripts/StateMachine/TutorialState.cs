@@ -2,7 +2,7 @@
 using UnityEditor.Timeline.Actions;
 using UnityEngine;
 
-public class TutorialState : GameLoopState {
+public class TutorialState : GameLoopBaseState {
     public delegate void VoiceDone();
     public static VoiceDone voiceDone;
     
