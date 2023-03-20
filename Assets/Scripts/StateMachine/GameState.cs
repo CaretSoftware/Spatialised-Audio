@@ -33,7 +33,6 @@ public class GameState : GameLoopBaseState {
     }
 
     private void GameEnd() {
-        Debug.Log("ENNNNNNNNND");
         _end = true;
     }
     

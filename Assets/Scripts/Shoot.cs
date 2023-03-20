@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Shoot : MonoBehaviour {
     private readonly Vector3 _centerScreen = new Vector3(.5f, .5f, 0f);
@@ -28,6 +29,8 @@ public class Shoot : MonoBehaviour {
     private bool _charging = true;
     
     private float _time;
+    
+    [SerializeField] private float[] ceilingHeight;
 
     private void Awake() {
         _shootLayerMask = LayerMask.GetMask("Default", "Ghost");
@@ -83,7 +86,7 @@ public class Shoot : MonoBehaviour {
             chargeLight.SetPropertyBlock(_mpb);
 
             ShotVisuals();
-            TakeShot();
+            TakeShot(timed);
             return true;
         }
 
@@ -96,7 +99,7 @@ public class Shoot : MonoBehaviour {
         PlayWeaponSounds.playShot?.Invoke();
     }
 
-    private void TakeShot() {
+    private void TakeShot(bool timed) {
         Transform ghost = SpawnManager.activeGhost;
         if (ghost == null) return;
 
@@ -148,8 +151,8 @@ public class Shoot : MonoBehaviour {
         Physics.Raycast(_ray, out RaycastHit hitInfo, 100f,  _shootLayerMask, QueryTriggerInteraction.Collide);
         bool hit = hitInfo.transform.gameObject.layer == LayerMask.NameToLayer("Ghost");
 
-        int playerFloor = 1; // TODO Calculate floors !
-        int ghostFloor = 1;
+        int playerFloor = FloorNumber(transform); // TODO Calculate floors !
+        int ghostFloor = FloorNumber(ghost);
 
         ShotData shotData = new ShotData(subjectNumber, _totalElapsedTime, roundNumber, _roundElapsedTime,
             precision, precisionX, precisionY, distance, hit, playerFloor, ghostFloor);
@@ -157,17 +160,25 @@ public class Shoot : MonoBehaviour {
         _csvWriter.AppendCSV(shotData);
         Invoke(nameof(SaveSymbol), 2f);
 
-        if (hit) {
+        if (hit && timed) {
             GhostDeath.died?.Invoke();
             GhostAudio.playAudio?.Invoke(GhostAudio.Clip.Dissolve);
-        } else {
+        } else if (timed){
             GhostMiss.miss?.Invoke();
             GhostAudio.playAudio?.Invoke(GhostAudio.Clip.Laugh);
+        }
+
+        int FloorNumber(Transform trans) {
+            for (int i = 0; i < ceilingHeight.Length; i++) {
+                if (trans.position.y < ceilingHeight[i])
+                    return i;
+            }
+
+            return -1;
         }
     }
     
     private void SaveSymbol() {
         ImageProgressFill.ProgressFillStart?.Invoke();
     }
-
 }

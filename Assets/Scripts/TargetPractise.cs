@@ -1,11 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class TargetPractise : MonoBehaviour {
     public delegate void GotHit();
     public static GotHit gotHit;
+    
+    public delegate void FlashTarget();
+    public static FlashTarget flashTarget;
     
     public delegate void Pull();
     public static Pull pullTarget;
@@ -19,9 +24,10 @@ public class TargetPractise : MonoBehaviour {
 
     [SerializeField] private float step1 = 5f;
     [SerializeField] private float step2 = 7f;
-    [SerializeField] private bool _hit;
+    [FormerlySerializedAs("_hit")] [SerializeField] private bool hit;
     [SerializeField] private float shakeMagnitude;
-    [SerializeField] private Transform _target;
+    [SerializeField] private Transform target;
+    [SerializeField] private float flashTime = 1f / Mathf.PI;
 
     private float _shakeTime;
     private int _hits;
@@ -33,6 +39,7 @@ public class TargetPractise : MonoBehaviour {
     private void Awake() {
         _currentPosition = transform.position;
         _collider = GetComponent<Collider>();
+        flashTarget += FlashAlpha;
         gotHit += HasBeenHit;
         pullTarget += PullTarget;
         _meshRenderer = GetComponentInChildren<MeshRenderer>();
@@ -41,11 +48,18 @@ public class TargetPractise : MonoBehaviour {
         _mpb = new MaterialPropertyBlock();
     }
 
+    private void OnDestroy() {
+        gotHit -= HasBeenHit;
+        pullTarget -= PullTarget;
+        flashTarget -= FlashAlpha;
+    }
+
     private void PullTarget() {
         if (_hits == 0) {
             _hits++;
             GhostAudio.newPosition?.Invoke(targetPositions[_hits]);
             StartCoroutine(ScaleUp());
+            OffScreenArrowIndicator.setTarget?.Invoke(this.transform);
         }
     }
 
@@ -87,12 +101,11 @@ public class TargetPractise : MonoBehaviour {
         _hits = Math.Clamp(_hits, 0, targetPositions.Length - 1);
         _currentPosition = Vector3.SmoothDamp(_currentPosition, targetPositions[_hits], ref _currentVelocity, .1f);
         transform.position = _currentPosition;
-        _collider.enabled = Vector3.Distance(_currentPosition, targetPositions[_hits]) < .01f &&
-                            _hits < 4;
+        _collider.enabled = Vector3.Distance(_currentPosition, targetPositions[_hits]) < .01f && _hits < 4;
 
-        if (_hit || _shakeTime > 0f) {
-            if (_hit) {
-                _hit = false;
+        if (hit || _shakeTime > 0f) {
+            if (hit) {
+                hit = false;
                 _shakeTime = 1f;
                 SetAlpha(1);
             }
@@ -104,6 +117,7 @@ public class TargetPractise : MonoBehaviour {
             if (_shakeTime <= 0f) {
                 TutorialState.hits(++_hits - 1);
                 GhostAudio.newPosition?.Invoke(targetPositions[_hits]);
+                OffScreenArrowIndicator.showArrow?.Invoke(false);
 
                 if (_hits >= 4) {
                     StartCoroutine(ScaleDown());
@@ -125,7 +139,7 @@ public class TargetPractise : MonoBehaviour {
             float z = Mathf.Cos(Time.time * 1.4f * step1) * shakeMagnitude * e;
             z += Mathf.Cos(Time.time * 1.3f * step2) * shakeMagnitude * e;
 
-            _target.localPosition = new Vector3(x, y, z);
+            target.localPosition = new Vector3(x, y, z);
         }
     }
 
@@ -145,12 +159,25 @@ public class TargetPractise : MonoBehaviour {
         _meshRenderer.SetPropertyBlock(_mpb);
     }
 
-    private void OnDestroy() {
-        gotHit -= HasBeenHit;
-        pullTarget -= PullTarget;
+    private void FlashAlpha() {
+        StartCoroutine(Flash());
+    }
+
+    private IEnumerator Flash() {
+        float t = 0f;
+        OffScreenArrowIndicator.showArrow?.Invoke(true);
+
+        while (t < Mathf.PI) {
+            float s = Mathf.Sin(t);
+            SetAlpha(s);
+            yield return null;
+            t += Time.deltaTime * 1f / flashTime;
+        }
+        SetAlpha(0f);
+        OffScreenArrowIndicator.showArrow?.Invoke(false);
     }
 
     private void HasBeenHit() {
-        _hit = true;
+        hit = true;
     }
 }

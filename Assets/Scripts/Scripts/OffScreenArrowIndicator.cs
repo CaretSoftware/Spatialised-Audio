@@ -2,13 +2,24 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public class OffScreenArrowIndicator : MonoBehaviour {
-    private const float TAU = 2 * Mathf.PI;
-    private const float quarterClockwiseTurn = -.25f * TAU;
+    public delegate void SetImage(Sprite image);
+    public static SetImage setImage;
+    
+    public delegate void ShouldShowArrow(bool show);
+    public static ShouldShowArrow showArrow;
+    
+    public delegate void SetTarget(Transform target);
+    public static SetTarget setTarget;
+    
+    private const float Tau = 2 * Mathf.PI;
+    private const float QuarterClockwiseTurn = -.25f * Tau;
     
     [SerializeField] private float screenBoundOffset = 0.9f;
     [SerializeField] private LayerMask layerMask;
+    [SerializeField] private Image iconImage;
 
     public RectTransform arrowTransform;
     public RectTransform iconTransform;
@@ -19,21 +30,53 @@ public class OffScreenArrowIndicator : MonoBehaviour {
     private float _currentVelocity;
     public float smoothTime = .15f;
     public bool hideOnScreen = false;
-    
+
+    private Transform _targetObject;
+
+    [SerializeField] private Sprite targetSprite;
+    [SerializeField] private Sprite ghostSprite;
+
+    public static Sprite TargetSprite;
+    public static Sprite GhostSprite;
+
+    private void Awake() {
+        TargetSprite = targetSprite;
+        GhostSprite = ghostSprite;
+    }
+
     private void Start() {
         _mainCamera = Camera.main;
         _canvas = GetComponent<Canvas>();
+        showArrow += ShowGhostIndicator;
         GhostAudio.playAudio += ShowGhostIndicator;
         SpawnManager.respawnGhost += HideGhostIndicator;
+        setImage += SetArrowSprite;
+        setTarget += SetNewTarget;
     }
 
+    private void SetArrowSprite(Sprite image) {
+        iconImage.sprite = image;
+    }
+
+    private void SetNewTarget(Transform target) {
+        _targetObject = target;
+    }
+    
     private void OnDestroy() {
+        showArrow -= ShowGhostIndicator;
         GhostAudio.playAudio -= ShowGhostIndicator;
         SpawnManager.respawnGhost -= HideGhostIndicator;
+        setImage -= SetArrowSprite;
+        setTarget -= SetNewTarget;
+    }
+    
+    private void ShowGhostIndicator(bool show) {
+        showIndicator = show;
     }
 
     private void ShowGhostIndicator(GhostAudio.Clip clip) {
-        showIndicator = true;
+        if (clip == GhostAudio.Clip.Laugh)
+            showIndicator = true;
     }
     
     private void HideGhostIndicator() {
@@ -42,17 +85,17 @@ public class OffScreenArrowIndicator : MonoBehaviour {
     
     // https://github.com/jinincarnate/off-screen-indicator/tree/master
     private void Update() {
-        if (SpawnManager.activeGhost == null)
+        if (_targetObject == null)
             return;
 
         if (!showIndicator) {
             arrowTransform.gameObject.SetActive(false);
             iconTransform.gameObject.SetActive(false);
-            _currentRotation = quarterClockwiseTurn; // this is to have arrow upright from start if it becomes active while on screen
+            _currentRotation = QuarterClockwiseTurn; // this is to have arrow upright from start if it becomes active while on screen
             return;
         }
         
-        Transform targetObject = SpawnManager.activeGhost;
+        Transform targetObject = _targetObject;
         Transform cam = _mainCamera.transform;
         Vector3 targetVector = targetObject.position;
         Vector3 direction = targetVector - cam.position;
@@ -86,7 +129,7 @@ public class OffScreenArrowIndicator : MonoBehaviour {
             screenPosition -= screenCentre;
 
             // smoothly set the rotation to rotate the arrow pointing down (-Pi / 2)
-            _currentRotation = Mathf.SmoothDamp(_currentRotation, quarterClockwiseTurn, ref _currentVelocity, smoothTime);
+            _currentRotation = Mathf.SmoothDamp(_currentRotation, QuarterClockwiseTurn, ref _currentVelocity, smoothTime);
 
             SetAnchoredPositionAndRotation(arrowTransform, screenPosition, _currentRotation);
             SetAnchoredPositionAndRotation(iconTransform, iconTransform.anchoredPosition, Mathf.Sin(Time.time * 5f) * .2f);
@@ -138,7 +181,7 @@ public class OffScreenArrowIndicator : MonoBehaviour {
         // set smooth damp values
         _currentVelocity = 0f;
         // prevent angle from spinning the long way around to right itself
-        _currentRotation = angle < Mathf.PI && angle > .5f * Mathf.PI ? angle - TAU : angle;
+        _currentRotation = angle < Mathf.PI && angle > .5f * Mathf.PI ? angle - Tau : angle;
 
         SetAnchoredPositionAndRotation(arrowTransform, screenPosition, angle);
         SetAnchoredPositionAndRotation(iconTransform, iconTransform.anchoredPosition, Mathf.Sin(Time.time * 5f) * .2f);
@@ -155,7 +198,7 @@ public class OffScreenArrowIndicator : MonoBehaviour {
     private bool VisibleToPlayer(Transform target) {
         Vector3 targetPointOnScreen = _mainCamera.WorldToViewportPoint(target.position);
         Ray ray = _mainCamera.ViewportPointToRay(targetPointOnScreen);
-        bool hit = Physics.Raycast(ray, out RaycastHit hitInfo, 100f, layerMask, QueryTriggerInteraction.Collide) && hitInfo.transform == target;
+        bool hit = Physics.Raycast(ray, out RaycastHit hitInfo, 100f, layerMask, QueryTriggerInteraction.Collide) && hitInfo.transform.Equals(target);
         return (hit);
     }
 

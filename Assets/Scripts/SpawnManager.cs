@@ -43,11 +43,11 @@ public class SpawnManager : MonoBehaviour {
                 -Vector3.ProjectOnPlane(position, Vector3.up).normalized, 
                 Vector3.up);
         activeGhost = Instantiate(ghostPrefab, position, lookRotation).transform;
+        OffScreenArrowIndicator.setTarget?.Invoke(activeGhost);
     }
 
     private void Start() {
         _positionWithinCube = GetComponent<PositionWithinCube>();
-        //Invoke(nameof(SpawnNewGhost), 2f);
     }
 
     public Transform RandomSpawnPosition(out Vector3 spawnPosition) {
@@ -76,7 +76,6 @@ public class SpawnManager : MonoBehaviour {
             rand -= volume;
         }
 
-        Debug.LogWarning("NO SPAWN VOLUME");
         return null;
     }
     
