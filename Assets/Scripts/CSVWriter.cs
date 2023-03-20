@@ -9,7 +9,7 @@ using UnityEngine;
 
 public class CSVWriter : MonoBehaviour {
     private const string Rubric = "Test Subject Nr, Total Elapsed Time, Shot Nr, TimeTaken, Precision Total," +
-                                  " Precision X, Precision Y, Distance, Hit, Player Floor Shot, Ghost Floor Shot";
+                                  " Precision X, Precision Y, Distance, Hit, Player Floor, Ghost Floor";
 
     private const string FolderName = "/Data";
     private string _filename = string.Empty;
