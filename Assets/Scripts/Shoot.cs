@@ -1,10 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TrackIRUnity;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class Shoot : MonoBehaviour {
+    public delegate void RandomHeadTrack();
+    public static RandomHeadTrack randomHeadTrack;
+    
     private readonly Vector3 _centerScreen = new Vector3(.5f, .5f, 0f);
     [SerializeField] private Camera cam;
     private LayerMask _shootLayerMask;
@@ -32,14 +37,34 @@ public class Shoot : MonoBehaviour {
     
     [SerializeField] private float[] ceilingHeight;
 
+    private bool _headTracking;
+
+    [SerializeField] private TrackIRTransform trackIrTransform;
+
+    private void HeadTrackingRandomizer() {
+        _headTracking = Random.value < .5f;
+        trackIrTransform.useLimits = _headTracking;
+    }
+
+    private void HeadTrackingSwap() {
+        _headTracking = !_headTracking;
+        trackIrTransform.useLimits = _headTracking;
+    }
+    
     private void Awake() {
+        randomHeadTrack += HeadTrackingRandomizer;
         _shootLayerMask = LayerMask.GetMask("Default", "Ghost");
         _mpb = new MaterialPropertyBlock();
         Material material = chargeLight.material;
         chargeLight.material = material;
     }
 
+    private void OnDestroy() {
+        randomHeadTrack -= HeadTrackingRandomizer;
+    }
+
     private void Start() {
+        trackIrTransform.useLimits = true;
         _cameraTransform = cam.transform;
         _csvWriter = FindObjectOfType<CSVWriter>();
     }
@@ -137,7 +162,6 @@ public class Shoot : MonoBehaviour {
 
         if (_roundNumber++ < 1) {
             _timeFirstShot = _time;
-            //return;
         }
 
         int subjectNumber = CSVWriter.SubjectNumber;
@@ -154,9 +178,13 @@ public class Shoot : MonoBehaviour {
         int playerFloor = FloorNumber(transform); // TODO Calculate floors !
         int ghostFloor = FloorNumber(ghost);
 
-        ShotData shotData = new ShotData(subjectNumber, _totalElapsedTime, roundNumber, _roundElapsedTime,
+        ShotData shotData = new ShotData(subjectNumber, _totalElapsedTime, roundNumber, _headTracking, _roundElapsedTime,
             precision, precisionX, precisionY, distance, hit, playerFloor, ghostFloor);
 
+        // Switches head tracking on/off
+        if (roundNumber == 7)
+            HeadTrackingSwap();
+        
         _csvWriter.AppendCSV(shotData);
         Invoke(nameof(SaveSymbol), 2f);
 
