@@ -27,6 +27,8 @@ public class WeaponRotator : MonoBehaviour {
     }
 
     private void Update() {
+        if (Time.timeScale < .1f) return;
+        
         Vector3 pos = _transform.position;
         Ray ray = _camera.ViewportPointToRay(_screenCenter);
 
