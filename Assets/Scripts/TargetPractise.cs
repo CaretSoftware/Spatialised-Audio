@@ -19,7 +19,8 @@ public class TargetPractise : MonoBehaviour {
     private Vector3 _currentPosition;
     private Vector3 _currentVelocity;
     private Collider _collider;
-    
+
+    [SerializeField] private AudioSource audioSource;
     [SerializeField] private Vector3[] targetPositions = new Vector3[4];
 
     [SerializeField] private float step1 = 5f;
@@ -178,6 +179,7 @@ public class TargetPractise : MonoBehaviour {
     }
 
     private void HasBeenHit() {
+        audioSource.Play();
         hit = true;
     }
 }

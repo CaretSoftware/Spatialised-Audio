@@ -145,6 +145,7 @@ public class TutorialState : GameLoopBaseState {
                 Subtitles.showSubtitles?.Invoke(false);
                 // _tutorialComplete = _hits >= 3 && _voiceDone;
                 _tutorialComplete = true;
+                Shoot.randomHeadTrack?.Invoke();
                 OffScreenArrowIndicator.setImage?.Invoke(OffScreenArrowIndicator.GhostSprite);
                 break;
             default:
