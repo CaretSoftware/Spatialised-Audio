@@ -54,6 +54,10 @@ namespace TrackIRUnity
 
         public bool IsRunning { get { return enabled && isRunning; } }
 
+        public static Vector3 currentPosition;
+        public static Vector3 currentEuler;
+
+        
         private void Awake()
         {
             // Create a static instance of the TrackerIR Client to get data from
@@ -84,9 +88,11 @@ namespace TrackIRUnity
 
                 // Data for head tracking
                 TrackIRClient.LPTRACKIRDATA tid = trackIRclient.client_HandleTrackIRData();
-
+                
                 Vector3 localPos = trackedObject.localPosition;
                 Vector3 localEulers = trackedObject.localRotation.eulerAngles;
+                
+                UpdateGetters(tid);
 
                 if (!useLimits)
                 {
@@ -112,6 +118,17 @@ namespace TrackIRUnity
                 trackedObject.localRotation = Quaternion.Euler(localEulers) * startRotation;
                 trackedObject.localPosition = startPosition + localPos;
             }
+        }
+
+        private void UpdateGetters(TrackIRClient.LPTRACKIRDATA tid) {
+            
+            currentPosition.x = -tid.fNPX * positionMultiplier;
+            currentPosition.y = tid.fNPY * positionMultiplier;
+            currentPosition.z = -tid.fNPZ * positionMultiplier;
+
+            currentEuler.y = -tid.fNPYaw * rotationMultiplier;
+            currentEuler.x = tid.fNPPitch * rotationMultiplier;
+            currentEuler.z = tid.fNPRoll * rotationMultiplier;
         }
 
         private void OnGUI()

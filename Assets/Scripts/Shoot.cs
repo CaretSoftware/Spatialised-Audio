@@ -25,8 +25,8 @@ public class Shoot : MonoBehaviour {
     private float _totalElapsedTime;
     private float _roundElapsedTime;
     private const float fullyCharged = 1f; 
-    private float _refractoryPeriod = 1f;
-    private float _charge = -1f;
+    private float _refractoryPeriod = 2f;
+    private float _charge = -5f;
     [SerializeField] private MeshRenderer chargeLight;
     private MaterialPropertyBlock _mpb;
     private static readonly int Light1 = Shader.PropertyToID("_Light");

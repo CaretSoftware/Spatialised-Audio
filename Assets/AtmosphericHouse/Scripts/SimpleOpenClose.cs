@@ -41,7 +41,9 @@ public class SimpleOpenClose : MonoBehaviour {
 
     void ObjectClicked() {
         myNormalizedTime = myAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-
+        
+        TutorialState.openedDoor?.Invoke();
+        
         if (hasAdditional == false) {
             if (myNormalizedTime >= 1.0) {
                 if (objectOpen == true) {

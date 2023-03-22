@@ -7,6 +7,9 @@ using UnityEngine.Serialization;
 public class WeaponBob : MonoBehaviour {
     public delegate void Recoil();
     public static Recoil recoil;
+    
+    public delegate void IsAtEnd();
+    public static IsAtEnd atEnding;
 
     [SerializeField] private Transform _player;
     [SerializeField] private CharacterController _characterController;
@@ -21,27 +24,44 @@ public class WeaponBob : MonoBehaviour {
     private Vector3 _currentRecoilVelocity;
     private float _currentPlayerVelocity;
     private float _playerRefVelocity;
+    private float _time;
+    private float _speed = 1f;
+    private bool _atEnd;
     
     private void Awake() {
         recoil += PerformRecoil;
+        atEnding += AtEnd;
         _transform = transform;
         _localRestPosition = _transform.localPosition;
     }
 
     private void OnDestroy() {
         recoil -= PerformRecoil;
+        atEnding -= AtEnd;
     }
 
     private void Update() {
         WeaponSway();
         DampenRecoil();
+        if (_atEnd)
+            DecreaseMagnitude();
+    }
+
+    private void AtEnd() {
+        _atEnd = true;
+    }
+
+    private void DecreaseMagnitude() {
+        _speed -= Time.unscaledDeltaTime;
+        _speed = Mathf.Clamp01(_speed);
     }
 
     private void WeaponSway() {
-        float time = Time.time * swaySpeed;
+        _time += Time.deltaTime;
+        float time = _time * swaySpeed;
         float x = Mathf.Sin(time) * xAxisSway;
         float y = -Mathf.Abs(Mathf.Cos(time) * yAxisSway);
-        _currentPlayerVelocity = Mathf.SmoothDamp(_currentPlayerVelocity, _characterController.velocity.magnitude,
+        _currentPlayerVelocity = Mathf.SmoothDamp(_currentPlayerVelocity, _characterController.velocity.magnitude * _speed,
             ref _playerRefVelocity, .2f);
         Vector3 sway = new Vector3(x, y, 0f) * _currentPlayerVelocity;
         _transform.localPosition = _localRestPosition + sway + _recoil;

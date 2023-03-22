@@ -14,13 +14,16 @@ public class WeaponDrawState : GameLoopBaseState {
 
     private void AnimationDone() {
         _animationDone = true;
-        weaponLiftAnimator.enabled = false;
+        // weaponLiftAnimator.enabled = false;
     }
     
     public override void Run() {
         
         simplePlayerController.UpdateMe();
         shoot.UpdateMe(false);
+        
+        if (Input.GetKeyDown(KeyCode.F12))
+            HeadMovementReader.ShowHeadMovement?.Invoke(true);
         
         if (_animationDone)
             stateMachine.TransitionTo<TutorialState>();
