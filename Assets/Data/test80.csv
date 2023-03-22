@@ -1,0 +1,4 @@
+Test Subject Nr; Total Elapsed Time; Shot Nr; Head Tracking; TimeTaken; Precision Total; Precision X; Precision Y; Distance; Hit; Player Floor; Ghost Floor
+81;9.045435;1;True;9.045435;0.4474283;0.4361289;0.1634316;13.1643;False;1;2
+81;12.33604;2;True;3.290607;0.8515463;0.8749427;0.9505821;11.09436;False;1;1
+81;26.16853;3;True;13.83249;0.5257456;0.534423;0.5739637;12.68127;False;1;1

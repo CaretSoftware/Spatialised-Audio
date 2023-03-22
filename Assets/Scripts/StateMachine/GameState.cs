@@ -24,6 +24,9 @@ public class GameState : GameLoopBaseState {
         
         simplePlayerController.UpdateMe();
         shoot.UpdateMe();
+        
+        if (Input.GetKeyDown(KeyCode.F12))
+            HeadMovementReader.ShowHeadMovement?.Invoke(true);
 
         if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
             stateMachine.TransitionTo<PauseState>();

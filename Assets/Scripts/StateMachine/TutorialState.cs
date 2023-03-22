@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Data.Common;
 using UnityEditor.Timeline.Actions;
 using UnityEngine;
 
 public class TutorialState : GameLoopBaseState {
     public delegate void VoiceDone();
     public static VoiceDone voiceDone;
+    
+    public delegate void HasOpenedDoor();
+    public static HasOpenedDoor openedDoor;
     
     public delegate void PlayVoice(int index);
     public static PlayVoice playVoice;
@@ -26,6 +30,8 @@ public class TutorialState : GameLoopBaseState {
     private LayerMask _layerMaskDefaultTargetPractice;
     private LayerMask _target;
 
+    private bool _openedDoor;
+
     private Vector3[] kitchenBounds = new Vector3[] {
         new Vector3(4.3f, 2.8f, -4.2f),
         new Vector3(-1.3f, -.1f, -10f),
@@ -34,11 +40,17 @@ public class TutorialState : GameLoopBaseState {
     public TutorialState() {
         voiceDone += VoiceDonePlaying;
         hits += HasHitTarget;
+        openedDoor += OpenedDoor;
     }
 
+    private void OpenedDoor() {
+        _openedDoor = true;
+    }
+    
     ~TutorialState() {
         voiceDone -= VoiceDonePlaying;
         hits -= HasHitTarget;
+        openedDoor -= OpenedDoor;
     }
 
 
@@ -60,6 +72,9 @@ public class TutorialState : GameLoopBaseState {
                 TargetPractise.flashTarget?.Invoke();
         }
         
+        if (Input.GetKeyDown(KeyCode.F12))
+            HeadMovementReader.ShowHeadMovement?.Invoke(true);
+        
         if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
             stateMachine.TransitionTo<PauseState>();
 
@@ -73,80 +88,116 @@ public class TutorialState : GameLoopBaseState {
         switch (_tutorialSequence) {
             case 0:
                 _voiceDone = false;
-                Subtitles.textSubtitles.Invoke("Welcome, Please move towards the kitchen area when you're ready for today's ghost hunt.");
-                // "Welcome, Please move towards the kitchen area when you're ready for today's ghost hunt."
-                playVoice?.Invoke(0);
+                playVoice?.Invoke(0); // TODO
+                Subtitles.textSubtitles.Invoke("Welcome. To calibrate the head tracking, please turn your head to look straight ahead at the screen and press F12.");
                 _tutorialSequence++;
-                break;
+                break;    
             case 1:
                 Subtitles.showSubtitles?.Invoke(false);
-                if (InsideKitchen())
+                if (Input.GetKeyDown(KeyCode.F12))
                     _tutorialSequence++;
                 break;
             case 2:
                 _voiceDone = false;
-                stateMachine.TransitionTo<WeaponDrawState>();
-                _armed = true;
-                Subtitles.textSubtitles.Invoke("On these older Mark 4's an LED light indicates when they're ready to fire.");
-                // "On these older Mark 4's an LED light indicates when they're ready to fire."
-                playVoice?.Invoke(1);
+                playVoice?.Invoke(1); // TODO
+                Subtitles.textSubtitles.Invoke("Thank you!");
+                // "Thank you!"
                 _tutorialSequence++;
                 break;
             case 3:
-                _voiceDone = false;
-                TargetPractise.pullTarget?.Invoke();
-                OffScreenArrowIndicator.setImage?.Invoke(OffScreenArrowIndicator.TargetSprite);
-                Subtitles.textSubtitles.Invoke("Deploying Virtual Practice Targets!");
-                // "Deploying Virtual Practice Targets!"
-                playVoice?.Invoke(2);
+                if (!InsideKitchen()) {
+                    _voiceDone = false;
+                    playVoice?.Invoke(2); // TODO
+                    Subtitles.textSubtitles.Invoke("Please move towards the kitchen area when you're ready for today's ghost hunt.");
+                    // "Please move towards the kitchen area when you're ready for today's ghost hunt."
+                }
                 _tutorialSequence++;
                 break;
             case 4:
                 Subtitles.showSubtitles?.Invoke(false);
-                if (_hits >= 1)
+                if (InsideKitchen())
                     _tutorialSequence++;
                 break;
             case 5:
                 _voiceDone = false;
-                Subtitles.textSubtitles.Invoke("Remember, ghosts will remain invisible until fired upon. The only way of finding them is through the Heartbeat Sonar.");
-                // "Remember, ghosts will remain invisible until fired upon."
-                // "The only way of finding them is through the Heartbeat Sonar."
+                stateMachine.TransitionTo<WeaponDrawState>();
+                _armed = true;
                 playVoice?.Invoke(3);
-                GhostAudio.playAudio.Invoke(GhostAudio.Clip.HeartBeat);
+                Subtitles.textSubtitles.Invoke("On these older Mark 4's an LED light indicates when they're ready to fire.");
+                // "On these older Mark 4's an LED light indicates when they're ready to fire."
                 _tutorialSequence++;
                 break;
             case 6:
+                _voiceDone = false;
+                TargetPractise.pullTarget?.Invoke();
+                OffScreenArrowIndicator.setImage?.Invoke(OffScreenArrowIndicator.TargetSprite);
+                playVoice?.Invoke(4);
+                Subtitles.textSubtitles.Invoke("Deploying Virtual Practice Targets!");
+                OffScreenArrowIndicator.showArrow?.Invoke(true);
+                // "Deploying Virtual Practice Targets!"
+                _tutorialSequence++;
+                break;
+            case 7:
+                Subtitles.showSubtitles?.Invoke(false);
+                if (_hits >= 1)
+                    _tutorialSequence++;
+                break;
+            case 8:
+                _voiceDone = false;
+                playVoice?.Invoke(5);
+                Subtitles.textSubtitles.Invoke("Remember, ghosts will remain invisible until fired upon. The only way of finding them is through the Heartbeat Sonar©.");
+                // "Remember, ghosts will remain invisible until fired upon."
+                // "The only way of finding them is through the Heartbeat Sonar."
+                GhostAudio.playAudio.Invoke(GhostAudio.Clip.HeartBeat);
+                _tutorialSequence++;
+                break;
+            case 9:
                 Subtitles.showSubtitles?.Invoke(false);
                 if (_hits >= 2)
                     _tutorialSequence++;
                 break;
-            case 7:
-                _voiceDone = false;
-                Subtitles.textSubtitles.Invoke("You cannot shoot through glass or walls.\nOpen doors with E...");
+            case 10:
+                if (!_openedDoor) {
+                    _voiceDone = false;
+                    playVoice?.Invoke(6);
+                    Subtitles.textSubtitles.Invoke("You cannot shoot through glass or walls.\nOpen doors with E...");
+                }
                 // "You cannot shoot through glass or walls."
                 // "Open doors with E..."
-                playVoice?.Invoke(4);
                 _tutorialSequence++;
                 break;
-            case 8:
+            case 11:
                 Subtitles.showSubtitles?.Invoke(false);
                 if (_hits >= 3)
                     _tutorialSequence++;
                 break;
-            case 9:
+            case 12:
                 _voiceDone = false;
-                Subtitles.textSubtitles.Invoke("Ghosts incoming soon. Be precise, do not miss. Remember you will be timed for your performance");
-                // "Ghosts incoming soon. Be precise, do not miss."
-                // "Remember you will be timed for your performance, starting after your next shot."
-                playVoice?.Invoke(5);
+                playVoice?.Invoke(7);
+                Subtitles.textSubtitles.Invoke("Good job on the tutorial! To start the live test, press enter whenever you're ready.");
                 _tutorialSequence++;
                 break;
-            case 10:
+            case 13: 
                 Subtitles.showSubtitles?.Invoke(false);
-                // _tutorialComplete = _hits >= 3 && _voiceDone;
-                _tutorialComplete = true;
-                Shoot.randomHeadTrack?.Invoke();
+                if (Input.GetKeyDown(KeyCode.Return))
+                    _tutorialSequence++;
+                break;
+            case 14:
+                _voiceDone = false;
+                playVoice?.Invoke(8);
+                Subtitles.textSubtitles.Invoke("Ghosts incoming soon. Be precise, do not miss. Remember you will be timed for your performance.");
+                // "Ghosts incoming soon. Be precise, do not miss."
+                // "Remember you will be timed for your performance //, starting after your next shot."
+                _tutorialSequence++;
+                break;
+            case 15:
+                Subtitles.showSubtitles?.Invoke(false);
+                OffScreenArrowIndicator.setTarget?.Invoke(null);
+                OffScreenArrowIndicator.showArrow?.Invoke(true);
                 OffScreenArrowIndicator.setImage?.Invoke(OffScreenArrowIndicator.GhostSprite);
+                _tutorialSequence++;
+                Shoot.randomHeadTrack?.Invoke();
+                _tutorialComplete = true;
                 break;
             default:
                 break;

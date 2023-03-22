@@ -25,7 +25,7 @@ public class TargetPractise : MonoBehaviour {
 
     [SerializeField] private float step1 = 5f;
     [SerializeField] private float step2 = 7f;
-    [FormerlySerializedAs("_hit")] [SerializeField] private bool hit;
+    [SerializeField] private bool hit;
     [SerializeField] private float shakeMagnitude;
     [SerializeField] private Transform target;
     [SerializeField] private float flashTime = 1f / Mathf.PI;

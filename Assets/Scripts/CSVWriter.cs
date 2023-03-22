@@ -13,11 +13,19 @@ public class CSVWriter : MonoBehaviour {
 
     private const string FolderName = "/Data";
     private string _filename = string.Empty;
-    public static int SubjectNumber;
-    public static int RoundNumber = 1;
+
+    private static CSVWriter _instance;
+    
+    public static int SubjectNumber => _instance.subjectNumber;
+    public int subjectNumber;
+    
+    public static int RoundNumber => _instance.roundNumber;
+    public int roundNumber = 1;
+    
     [SerializeField] private bool writeToFile = true;
 
     private void Start() {
+        _instance = this;
         
 #if UNITY_EDITOR
         //writeToFile = false;
@@ -27,13 +35,13 @@ public class CSVWriter : MonoBehaviour {
         
         Directory.CreateDirectory(Application.dataPath + FolderName); // does not create directory if exists
 
-        SubjectNumber = 0;
+        subjectNumber = 0;
 
         do {
             _filename = Application.dataPath +
-                        $"/Data/test{(SubjectNumber < 10 ? ($"0{SubjectNumber}") : SubjectNumber)}.csv";
+                        $"/Data/test{(subjectNumber < 10 ? ($"0{subjectNumber}") : subjectNumber)}.csv";
 
-            SubjectNumber++;
+            subjectNumber++;
         } while (File.Exists(_filename)); // don't overwrite existing files
 
         CreateCSV();
@@ -53,7 +61,7 @@ public class CSVWriter : MonoBehaviour {
     public bool AppendCSV(string[] data) {
         if (!writeToFile) return false;
 
-        RoundNumber++;
+        roundNumber++;
 
         TextWriter tw = new StreamWriter(_filename, true); // append true
 
@@ -75,7 +83,7 @@ public class CSVWriter : MonoBehaviour {
     public bool AppendCSV(ShotData data) {
         if (!writeToFile) return false;
 
-        RoundNumber++;
+        roundNumber++;
 
         TextWriter tw = new StreamWriter(_filename, true); // append true
 
