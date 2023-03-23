@@ -69,7 +69,7 @@ public class WeaponBob : MonoBehaviour {
 
     private void DampenRecoil() {
         _recoil = Vector3.SmoothDamp(_recoil, Vector3.zero, ref _currentRecoilVelocity, smoothRecoilRecoveryTime);
-        WeaponRotator.recoilAmountSet?.Invoke(_currentRecoilVelocity.magnitude);
+        WeaponRotator.recoilAmountSet?.Invoke(_recoil.magnitude);
     }
     
     private void PerformRecoil() {

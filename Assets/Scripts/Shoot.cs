@@ -5,6 +5,7 @@ using TrackIRUnity;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
+using System.Globalization;
 
 public class Shoot : MonoBehaviour {
     public delegate void RandomHeadTrack();
@@ -175,12 +176,14 @@ public class Shoot : MonoBehaviour {
         Physics.Raycast(_ray, out RaycastHit hitInfo, 100f,  _shootLayerMask, QueryTriggerInteraction.Collide);
         bool hit = hitInfo.transform.gameObject.layer == LayerMask.NameToLayer("Ghost");
 
-        int playerFloor = FloorNumber(transform); // TODO Calculate floors !
+        int playerFloor = FloorNumber(transform);
         int ghostFloor = FloorNumber(ghost);
 
         ShotData shotData = new ShotData(subjectNumber, _totalElapsedTime, roundNumber, _headTracking, _roundElapsedTime,
-            precision, precisionX, precisionY, distance, hit, playerFloor, ghostFloor);
+            HeadMovementReader.Average, precision, precisionX, precisionY, distance, hit, playerFloor, ghostFloor);
 
+        HeadMovementReader.resetMovement?.Invoke();
+        
         // Switches head tracking on/off
         if (roundNumber == 7)
             HeadTrackingSwap();
@@ -204,6 +207,51 @@ public class Shoot : MonoBehaviour {
 
             return -1;
         }
+    }
+    
+    private void Precision() {
+        Transform ghost = SpawnManager.activeGhost;
+        if (ghost == null) return;
+
+        Vector3 ghostPosition = ghost.position;
+        Vector3 cameraPosition = _cameraTransform.position;
+        
+        Vector3 vectorToGhost = ghostPosition - cameraPosition;
+        Vector3 directionToGhost = vectorToGhost.normalized;
+        Vector3 aimDirection = _cameraTransform.forward;
+        
+        Vector3 projectedGhostDirection = Vector3.ProjectOnPlane(directionToGhost, Vector3.up);
+        
+        // get rotation to get rotation in forward direction
+        Quaternion fromToRotation = Quaternion.FromToRotation(projectedGhostDirection , Vector3.forward);
+
+        // rotate ghostDirection to point in forward direction (excluding x-axis rotation)
+        Vector3 rotatedGhostDirection = fromToRotation * directionToGhost;
+
+        // rotate vector up 90 degrees
+        Vector3 upRotatedGhostDirection = Quaternion.Euler(-90, 0, 0) * rotatedGhostDirection;
+
+        // rotate the vector back to point 90 degrees perpendicular to it's original direction
+        upRotatedGhostDirection = Quaternion.Inverse(fromToRotation) * upRotatedGhostDirection;
+        
+        // the perpendicular direction of the two vectors
+        Vector3 crossRight = Vector3.Cross(upRotatedGhostDirection, directionToGhost);
+        
+        Debug.DrawRay(cameraPosition, crossRight);
+        Debug.DrawRay(cameraPosition, upRotatedGhostDirection);
+        Debug.DrawRay(cameraPosition, directionToGhost);
+
+        Vector3 alignmentXYDot = VectorAlignment.Alignment(aimDirection, directionToGhost, crossRight);
+
+        if (_roundNumber++ < 1) {
+            _timeFirstShot = _time;
+        }
+
+        float precision = alignmentXYDot.z;
+        float precisionX = alignmentXYDot.x;
+        float precisionY = alignmentXYDot.y;
+        
+        Debug.Log($"x:{precisionX.ToString("F1", CultureInfo.InvariantCulture)} y:{precisionY.ToString("F1", CultureInfo.InvariantCulture)} + o:{precision.ToString("F1", CultureInfo.InvariantCulture)}");
     }
     
     private void SaveSymbol() {
