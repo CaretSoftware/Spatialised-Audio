@@ -195,6 +195,7 @@ public class TutorialState : GameLoopBaseState {
                 OffScreenArrowIndicator.setTarget?.Invoke(null);
                 OffScreenArrowIndicator.showArrow?.Invoke(true);
                 OffScreenArrowIndicator.setImage?.Invoke(OffScreenArrowIndicator.GhostSprite);
+                HeadMovementReader.resetMovement?.Invoke();
                 _tutorialSequence++;
                 Shoot.randomHeadTrack?.Invoke();
                 _tutorialComplete = true;

@@ -11,7 +11,6 @@ public class SimpleOpenClose : MonoBehaviour {
     private bool hasAdditional = false;
     float myNormalizedTime;
 
-
     // Open or close animator state in start depending on selection.
     // Additional object with animator. For example another door when double doors. 
     void Start() {

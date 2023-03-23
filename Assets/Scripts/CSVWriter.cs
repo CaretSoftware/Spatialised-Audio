@@ -8,7 +8,7 @@ using UnityEngine;
 
 
 public class CSVWriter : MonoBehaviour {
-    private const string Rubric = "Test Subject Nr; Total Elapsed Time; Shot Nr; Head Tracking; TimeTaken; Precision Total;" +
+    private const string Rubric = "Test Subject Nr; Total Elapsed Time; Shot Nr; Head Tracking; TimeTaken; Head Movement Average; Precision Total;" +
                                   " Precision X; Precision Y; Distance; Hit; Player Floor; Ghost Floor";
 
     private const string FolderName = "/Data";
@@ -40,7 +40,6 @@ public class CSVWriter : MonoBehaviour {
         do {
             _filename = Application.dataPath +
                         $"/Data/test{(subjectNumber < 10 ? ($"0{subjectNumber}") : subjectNumber)}.csv";
-
             subjectNumber++;
         } while (File.Exists(_filename)); // don't overwrite existing files
 
@@ -105,13 +104,14 @@ public class CSVWriter : MonoBehaviour {
 
 public struct ShotData {
     public ShotData(int subjectNumber, float totalElapsedTime, int roundNumber, bool headTracking, float roundElapsedTime,
-        float precision, float precisionX, float precisionY, float distance, bool hit, int playerFloor,
+        float headMovementAverage, float precision, float precisionX, float precisionY, float distance, bool hit, int playerFloor,
         int ghostFloor) {
         _subjectNumber = subjectNumber;
         _totalElapsedTime = totalElapsedTime;
         _roundNumber = roundNumber;
         _headTracking = headTracking;
         _roundElapsedTime = roundElapsedTime;
+        _headMovementAverage = headMovementAverage;
         _precision = precision;
         _precisionX = precisionX;
         _precisionY = precisionY;
@@ -120,28 +120,30 @@ public struct ShotData {
         _playerFloor = playerFloor;
         _ghostFloor = ghostFloor;
 
-        data = new string[12];
+        data = new string[13];
         data[0] = _subjectNumber.ToString();
         data[1] = _totalElapsedTime.ToString(CultureInfo.InvariantCulture);
         data[2] = _roundNumber.ToString();
         data[3] = _headTracking.ToString();
-
         data[4] = _roundElapsedTime.ToString(CultureInfo.InvariantCulture);
-        data[5] = _precision.ToString(CultureInfo.InvariantCulture);
-        data[6] = _precisionX.ToString(CultureInfo.InvariantCulture);
-        data[7] = _precisionY.ToString(CultureInfo.InvariantCulture);
-        data[8] = _distance.ToString(CultureInfo.InvariantCulture);
-        data[9] = _hit.ToString();
-        data[10] = _playerFloor.ToString();
-        data[11] = _ghostFloor.ToString();
+        data[5] = _headMovementAverage.ToString(CultureInfo.InvariantCulture);
+        data[6] = _precision.ToString(CultureInfo.InvariantCulture);
+        data[7] = _precisionX.ToString(CultureInfo.InvariantCulture);
+        data[8] = _precisionY.ToString(CultureInfo.InvariantCulture);
+        data[9] = _distance.ToString(CultureInfo.InvariantCulture);
+        data[10] = _hit.ToString();
+        data[11] = _playerFloor.ToString();
+        data[12] = _ghostFloor.ToString();
     }
 
     public string[] data;
+    
     private int _subjectNumber;
     private float _totalElapsedTime;
     private int _roundNumber;
     private bool _headTracking;
     private float _roundElapsedTime;
+    private float _headMovementAverage;
     private float _precision;
     private float _precisionX;
     private float _precisionY;
