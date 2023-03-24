@@ -1,7 +1,4 @@
-﻿using System;
-using System.Data.Common;
-using UnityEditor.Timeline.Actions;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class TutorialState : GameLoopBaseState {
     public delegate void VoiceDone();
