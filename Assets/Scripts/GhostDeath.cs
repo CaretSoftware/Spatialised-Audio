@@ -86,10 +86,11 @@ public class GhostDeath : MonoBehaviour {
             ghostMeshRenderer.SetPropertyBlock(_mpb);
             if (t >= dropEyeTime && !droppedEyes) {
                 droppedEyes = true;
-                leftEyeCollider.enabled = true;
-                rightEyeCollider.enabled = true;
                 leftEyeRigidBody.isKinematic = false;
                 rightEyeRigidBody.isKinematic = false;
+                leftEyeRigidBody.AddTorque(UnityEngine.Random.insideUnitSphere); // TODO 
+                rightEyeRigidBody.AddTorque(UnityEngine.Random.insideUnitSphere); // TODO 
+                
             }
             
             t += Time.deltaTime;

@@ -1,5 +1,60 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1114266695426670396
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4676065741802958313}
+  - component: {fileID: 6059690109644820524}
+  - component: {fileID: 879783285614315343}
+  m_Layer: 8
+  m_Name: Ghost Eye Collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4676065741802958313
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1114266695426670396}
+  m_LocalRotation: {x: -0.0000000018605719, y: -0, z: 0.000000008012866, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.5, y: 1, z: 0.6666667}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6897250543919179015}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 80, z: 0}
+--- !u!33 &6059690109644820524
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1114266695426670396}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!64 &879783285614315343
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1114266695426670396}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &6897250543919179014
 GameObject:
   m_ObjectHideFlags: 0
@@ -12,7 +67,6 @@ GameObject:
   - component: {fileID: 6897250543919179018}
   - component: {fileID: 6897250543919179017}
   - component: {fileID: 572327435}
-  - component: {fileID: 572327436}
   m_Layer: 8
   m_Name: Ghost Eye
   m_TagString: Untagged
@@ -31,7 +85,8 @@ Transform:
   m_LocalPosition: {x: -0.1500001, y: 0.18000007, z: 0.12}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 4676065741802958313}
   m_Father: {fileID: 6897250544333674528}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 80, z: 0}
@@ -94,27 +149,13 @@ Rigidbody:
   m_GameObject: {fileID: 6897250543919179014}
   serializedVersion: 2
   m_Mass: 1.1
-  m_Drag: 0.74
+  m_Drag: 3.24
   m_AngularDrag: 0.5
   m_UseGravity: 1
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!136 &572327436
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6897250543919179014}
-  m_Material: {fileID: 13400000, guid: 975202324031588488c4c1a01fdbad0b, type: 2}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.29
-  m_Height: 1
-  m_Direction: 1
-  m_Center: {x: 0, y: -0.00000047683716, z: 0}
 --- !u!1 &6897250544333674559
 GameObject:
   m_ObjectHideFlags: 0
@@ -178,7 +219,6 @@ GameObject:
   - component: {fileID: 6897250544605105902}
   - component: {fileID: 6897250544605105901}
   - component: {fileID: 1480379929}
-  - component: {fileID: 1480379930}
   m_Layer: 8
   m_Name: Ghost Eye
   m_TagString: Untagged
@@ -193,11 +233,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6897250544605105898}
-  m_LocalRotation: {x: 0, y: 0.81915206, z: 0, w: 0.57357645}
-  m_LocalPosition: {x: 0.1500001, y: 0.18000007, z: 0.12}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalRotation: {x: -0.00000001117587, y: 0.8191521, z: -0.0000000027939675, w: 0.5735763}
+  m_LocalPosition: {x: 0.15000011, y: 0.18000005, z: 0.119999945}
+  m_LocalScale: {x: 0.3000001, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2631043245897011846}
   m_Father: {fileID: 6897250544333674528}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 110, z: 0}
@@ -260,27 +301,13 @@ Rigidbody:
   m_GameObject: {fileID: 6897250544605105898}
   serializedVersion: 2
   m_Mass: 0.9
-  m_Drag: 0.5
+  m_Drag: 2.5
   m_AngularDrag: 0.25
   m_UseGravity: 1
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!136 &1480379930
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6897250544605105898}
-  m_Material: {fileID: 13400000, guid: 975202324031588488c4c1a01fdbad0b, type: 2}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.29
-  m_Height: 1
-  m_Direction: 1
-  m_Center: {x: -0.00000023841858, y: -0.0000009536743, z: 0}
 --- !u!1 &6897250545226454457
 GameObject:
   m_ObjectHideFlags: 0
@@ -399,8 +426,8 @@ MonoBehaviour:
   rightEyeMeshRenderer: {fileID: 6897250544605105901}
   leftEyeRigidBody: {fileID: 572327435}
   rightEyeRigidBody: {fileID: 1480379929}
-  leftEyeCollider: {fileID: 572327436}
-  rightEyeCollider: {fileID: 1480379930}
+  leftEyeCollider: {fileID: 0}
+  rightEyeCollider: {fileID: 0}
   lookAtConstraint: {fileID: 6897250544333674529}
 --- !u!114 &1747341306
 MonoBehaviour:
@@ -431,3 +458,58 @@ MonoBehaviour:
   ghostMeshRenderer: {fileID: 6897250545226454459}
   leftEyeMeshRenderer: {fileID: 6897250543919179017}
   rightEyeMeshRenderer: {fileID: 6897250544605105901}
+--- !u!1 &6960687905333623654
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2631043245897011846}
+  - component: {fileID: 5112883772379566208}
+  - component: {fileID: 5905989361907447207}
+  m_Layer: 8
+  m_Name: Ghost Eye Collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2631043245897011846
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6960687905333623654}
+  m_LocalRotation: {x: 0.0000000021367377, y: -0, z: 0.0000000030515799, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.49999997, y: 1, z: 0.66666675}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6897250544605105899}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 110, z: 0}
+--- !u!33 &5112883772379566208
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6960687905333623654}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!64 &5905989361907447207
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6960687905333623654}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
