@@ -53,7 +53,6 @@ public class GhostDeath : MonoBehaviour {
         _mpb.SetFloat(Alpha, 0f);
         ghostMeshRenderer.SetPropertyBlock(_mpb);
         
-        //_eyesMpb.SetFloat(Alpha, 0f);
         leftEyeMeshRenderer.SetPropertyBlock(_mpb);
         rightEyeMeshRenderer.SetPropertyBlock(_mpb);
     }
@@ -64,8 +63,7 @@ public class GhostDeath : MonoBehaviour {
         bool droppedEyes = false;
         float t = 0f;
         
-        // show ghost
-        // TODO animate scale Ease.InElastic/InBack?
+        
         _mpb.SetFloat(Alpha, 1f);
         ghostMeshRenderer.SetPropertyBlock(_mpb);
         leftEyeMeshRenderer.SetPropertyBlock(_mpb);
@@ -88,9 +86,10 @@ public class GhostDeath : MonoBehaviour {
                 droppedEyes = true;
                 leftEyeRigidBody.isKinematic = false;
                 rightEyeRigidBody.isKinematic = false;
-                leftEyeRigidBody.AddTorque(UnityEngine.Random.insideUnitSphere); // TODO 
-                rightEyeRigidBody.AddTorque(UnityEngine.Random.insideUnitSphere); // TODO 
+                leftEyeRigidBody.AddTorque(UnityEngine.Random.insideUnitSphere); 
+                rightEyeRigidBody.AddTorque(UnityEngine.Random.insideUnitSphere);
                 
+                GhostAudio.newPosition?.Invoke(Vector3.down * 50f);
             }
             
             t += Time.deltaTime;

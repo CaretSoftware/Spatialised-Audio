@@ -15,59 +15,55 @@ public class VectorAlignment {
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="vector1"></param>
-    /// <param name="vector2"></param>
+    /// <param name="aimDirection"></param>
+    /// <param name="targetDirection"></param>
     /// <param name="right"></param>
     /// <returns>Normalized Dot Product (0 - 1) for x, y, and the general dot product</returns>
-    public static Vector3 Alignment(Vector3 vector1, Vector3 vector2) {
+    public static Vector3 Alignment(Vector3 aimDirection, Vector3 targetDirection) {
         // Calculate alignment for the x-axis
-        Vector3 projection1 = Vector3.ProjectOnPlane(vector1, Vector3.up).normalized;
-        Vector3 projection2 = Vector3.ProjectOnPlane(vector2, Vector3.up).normalized;
+        Vector3 projection1 = Vector3.ProjectOnPlane(aimDirection, Vector3.up).normalized;
+        Vector3 projection2 = Vector3.ProjectOnPlane(targetDirection, Vector3.up).normalized;
 
         float alignmentX = Vector3.Dot(projection1, projection2);
 
-
         // Calculate alignment for the y-axis
-        projection1 = Vector3.ProjectOnPlane(vector1, Vector3.right).normalized;
-        projection2 = Vector3.ProjectOnPlane(vector2, Vector3.right).normalized;
+        projection1 = Vector3.ProjectOnPlane(aimDirection, Vector3.right).normalized;
+        projection2 = Vector3.ProjectOnPlane(targetDirection, Vector3.right).normalized;
 
         float alignmentY = Vector3.Dot(projection1, projection2);
 
-
         // Normalize the alignment values to a range between 0 and 1
-        float normalizedAlignmentX = // Mathf.Clamp01
+        float normalizedAlignmentX =
             ((alignmentX + 1f) / 2f);
-        float normalizedAlignmentY = // Mathf.Clamp01
+        float normalizedAlignmentY =
             ((alignmentY + 1f) / 2f);
 
-        float z = (Vector3.Dot(vector1, vector2) + 1f) / 2f;
+        float z = (Vector3.Dot(aimDirection, targetDirection) + 1f) / 2f;
 
         return new Vector3(normalizedAlignmentX, normalizedAlignmentY, z);
     }
     
     // project the 
-    public static Vector3 Alignment(Vector3 vector1, Vector3 vector2, Vector3 right) {
+    public static Vector3 Alignment(Vector3 aimDirection, Vector3 targetDirection, Vector3 right) {
         // Calculate alignment for the x-axis
-        Vector3 projection1 = Vector3.ProjectOnPlane(vector1, Vector3.up).normalized;
-        Vector3 projection2 = Vector3.ProjectOnPlane(vector2, Vector3.up).normalized;
+        Vector3 projection1 = Vector3.ProjectOnPlane(aimDirection, Vector3.up).normalized;
+        Vector3 projection2 = Vector3.ProjectOnPlane(targetDirection, Vector3.up).normalized;
 
         float alignmentX = Vector3.Dot(projection1, projection2);
 
-
         // Calculate alignment for the y-axis
-        projection1 = Vector3.ProjectOnPlane(vector1, right).normalized;
-        projection2 = Vector3.ProjectOnPlane(vector2, right).normalized;
+        projection1 = Vector3.ProjectOnPlane(aimDirection, right).normalized;
+        projection2 = Vector3.ProjectOnPlane(targetDirection, right).normalized;
 
         float alignmentY = Vector3.Dot(projection1, projection2);
-
-
+        
         // Normalize the alignment values to a range between 0 and 1
-        float normalizedAlignmentX = // Mathf.Clamp01
+        float normalizedAlignmentX =
             ((alignmentX + 1f) / 2f);
-        float normalizedAlignmentY = // Mathf.Clamp01
+        float normalizedAlignmentY =
             ((alignmentY + 1f) / 2f);
 
-        float z = (Vector3.Dot(vector1, vector2) + 1f) / 2f;
+        float z = (Vector3.Dot(aimDirection, targetDirection) + 1f) / 2f;
 
         return new Vector3(normalizedAlignmentX, normalizedAlignmentY, z);
     }
@@ -87,16 +83,16 @@ public class VectorAlignment {
     }
     
     
-    public static Vector3 Alignment(Vector3 vector1) {
+    public static Vector3 Alignment(Vector3 aimDirection) {
         // Calculate alignment for the x-axis
-        Vector3 projection1 = Vector3.ProjectOnPlane(vector1, Vector3.up).normalized;
+        Vector3 projection1 = Vector3.ProjectOnPlane(aimDirection, Vector3.up).normalized;
         //Vector3 projection2 = Vector3.ProjectOnPlane(vector2, Vector3.up).normalized;
 
         float alignmentX = Vector3.Dot(projection1, Vector3.forward);
 
 
         // Calculate alignment for the y-axis
-        projection1 = Vector3.ProjectOnPlane(vector1, Vector3.right).normalized;
+        projection1 = Vector3.ProjectOnPlane(aimDirection, Vector3.right).normalized;
         //projection2 = Vector3.ProjectOnPlane(vector2, Vector3.right).normalized;
 
         float alignmentY = Vector3.Dot(projection1, Vector3.forward);
@@ -108,7 +104,7 @@ public class VectorAlignment {
         float normalizedAlignmentY = // Mathf.Clamp01
             ((alignmentY + 1f) / 2f);
 
-        float normalizedAlignment = (Vector3.Dot(vector1, Vector3.forward) + 1f) / 2f;
+        float normalizedAlignment = (Vector3.Dot(aimDirection, Vector3.forward) + 1f) / 2f;
 
         return new Vector3(normalizedAlignmentX, normalizedAlignmentY, normalizedAlignment);
     }
