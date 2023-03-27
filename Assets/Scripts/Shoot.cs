@@ -166,9 +166,7 @@ public class Shoot : MonoBehaviour {
         }
 
         int subjectNumber = CSVWriter.SubjectNumber;
-        //_totalElapsedTime = Time.time - _timeFirstShot;
         int roundNumber = CSVWriter.RoundNumber;
-        //_roundElapsedTime = _totalElapsedTime - _timeLastShot;
         float precision = alignmentXYDot.z;
         float precisionX = alignmentXYDot.x;
         float precisionY = alignmentXYDot.y;
