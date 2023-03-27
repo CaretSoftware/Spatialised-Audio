@@ -38,18 +38,18 @@ public class Shoot : MonoBehaviour {
     
     [SerializeField] private float[] ceilingHeight;
 
-    private bool _headTracking;
+    private bool _lockHeadTracking;
 
     [SerializeField] private TrackIRTransform trackIrTransform;
 
     private void HeadTrackingRandomizer() {
-        _headTracking = Random.value < .5f;
-        trackIrTransform.useLimits = _headTracking;
+        _lockHeadTracking = Random.value < .5f;
+        trackIrTransform.useLimits = _lockHeadTracking;
     }
 
     private void HeadTrackingSwap() {
-        _headTracking = !_headTracking;
-        trackIrTransform.useLimits = _headTracking;
+        _lockHeadTracking = !_lockHeadTracking;
+        trackIrTransform.useLimits = _lockHeadTracking;
     }
     
     private void Awake() {
@@ -166,9 +166,7 @@ public class Shoot : MonoBehaviour {
         }
 
         int subjectNumber = CSVWriter.SubjectNumber;
-        //_totalElapsedTime = Time.time - _timeFirstShot;
         int roundNumber = CSVWriter.RoundNumber;
-        //_roundElapsedTime = _totalElapsedTime - _timeLastShot;
         float precision = alignmentXYDot.z;
         float precisionX = alignmentXYDot.x;
         float precisionY = alignmentXYDot.y;
@@ -179,7 +177,7 @@ public class Shoot : MonoBehaviour {
         int playerFloor = FloorNumber(transform);
         int ghostFloor = FloorNumber(ghost);
 
-        ShotData shotData = new ShotData(subjectNumber, _totalElapsedTime, roundNumber, _headTracking, _roundElapsedTime,
+        ShotData shotData = new ShotData(subjectNumber, _totalElapsedTime, roundNumber, !_lockHeadTracking, _roundElapsedTime,
             HeadMovementReader.Average, precision, precisionX, precisionY, distance, hit, playerFloor, ghostFloor);
 
         HeadMovementReader.resetMovement?.Invoke();

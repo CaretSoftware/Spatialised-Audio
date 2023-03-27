@@ -169,6 +169,7 @@ public class TutorialState : GameLoopBaseState {
                     _tutorialSequence++;
                 break;
             case 12:
+                GhostAudio.newPosition?.Invoke(Vector3.down * 50f);
                 _voiceDone = false;
                 playVoice?.Invoke(7);
                 Subtitles.textSubtitles.Invoke("Good job on the tutorial! To start the live test, press enter whenever you're ready.");
