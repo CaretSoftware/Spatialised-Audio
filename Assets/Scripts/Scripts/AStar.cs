@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AStar {
-    
     public Stack<Node> Path(Node start, Node goal,  IHeuristic<float> heuristic) {
         Heap<HeapNode> openSet = new Heap<HeapNode>();
         Dictionary<Node, Node> cameFrom = new Dictionary<Node, Node>(100);
@@ -52,47 +51,41 @@ public class AStar {
 
         return totalPath;
     }
-
 }
-    public class HeapNode : IComparable<HeapNode>, IComparable {
-        public readonly Node node;
-        public float fScore;
-        
-        public HeapNode(Node node,float fScore) {
-            this.node = node;
-            this.fScore = fScore;
-        }
 
-        public int CompareTo(HeapNode other) {
-            return fScore.CompareTo(other.fScore);
-        }
-
-        public int CompareTo(object obj) {
-            HeapNode other = obj as HeapNode; // avoid double casting
-            if (other == null) {
-                throw new ArgumentException("A Node object is required for comparison.", nameof(obj));
-            }
-        
-            return CompareTo(other);
-        }
-
-        public override bool Equals(object obj) {
-            HeapNode other = obj as HeapNode; // avoid double casting
-            if (other == null) {
-                throw new ArgumentException("A Node object is required for comparison.", nameof(obj));
-            }
-            return Equals(other);
-        }
-
-        protected bool Equals(HeapNode other) {
-            return Equals(node, other.node);
-        }
-
-        public override int GetHashCode() {
-            return (node != null ? node.GetHashCode() : 0);
-        }
+public class HeapNode : IComparable<HeapNode>, IComparable {
+    public readonly Node node;
+    public float fScore;
+    
+    public HeapNode(Node node,float fScore) {
+        this.node = node;
+        this.fScore = fScore;
     }
-
+    public int CompareTo(HeapNode other) {
+        return fScore.CompareTo(other.fScore);
+    }
+    public int CompareTo(object obj) {
+        HeapNode other = obj as HeapNode; // avoid double casting
+        if (other == null) {
+            throw new ArgumentException("A Node object is required for comparison.", nameof(obj));
+        }
+    
+        return CompareTo(other);
+    }
+    public override bool Equals(object obj) {
+        HeapNode other = obj as HeapNode; // avoid double casting
+        if (other == null) {
+            throw new ArgumentException("A Node object is required for comparison.", nameof(obj));
+        }
+        return Equals(other);
+    }
+    protected bool Equals(HeapNode other) {
+        return Equals(node, other.node);
+    }
+    public override int GetHashCode() {
+        return (node != null ? node.GetHashCode() : 0);
+    }
+}
 
 public class Comparator : IComparer<(float, Node)> {
     public int Compare((float, Node) x, (float, Node) y) {
