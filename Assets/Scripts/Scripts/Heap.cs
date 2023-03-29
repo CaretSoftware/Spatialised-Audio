@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+// @Mark Allen Weiss - Original Java implementation
+// @Author Patrik Bergsten - Translated to C#, Comparer functionality and disallow duplicates
 public class Heap<T> {
     private const int DefaultCapacity = 12;
     private HashSet<T> _duplicateCheckSet;

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+// @Author Patrik Bergsten
 public class Comparator<T> : IComparer<Node> {
     private readonly Dictionary<Node, float> _fCost;
 
@@ -39,7 +40,7 @@ public class AStar {
 
             for (int n = 0; n < numNeighbours; n++) {
                 Node neighbour = current.neighbours[n];
-                float tentativeGScore = gScore[current] + neighbour.Cost(current); // make edges have the weight, allows for bi-directionality
+                float tentativeGScore = gScore[current] + neighbour.Cost(current);
 
                 if (!gScore.ContainsKey(neighbour) || tentativeGScore < gScore[neighbour]) {
                     cameFrom[neighbour] = current;
