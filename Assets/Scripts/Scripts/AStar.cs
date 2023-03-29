@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using JetBrains.Annotations;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Comparator<T> : IComparer<Node> {
@@ -66,45 +64,6 @@ public class AStar {
         }
 
         return totalPath;
-    }
-}
-
-public class HeapNode : IComparable<HeapNode>, IComparable {
-    public readonly Node node;
-    public float fScore;
-    
-    public HeapNode(Node node,float fScore) {
-        this.node = node;
-        this.fScore = fScore;
-    }
-    
-    public int CompareTo(HeapNode other) {
-        return fScore.CompareTo(other.fScore);
-    }
-
-    public int CompareTo(object obj) {
-        HeapNode other = obj as HeapNode; // avoid double casting
-        if (other == null) {
-            throw new ArgumentException("A Node object is required for comparison.", nameof(obj));
-        }
-    
-        return CompareTo(other);
-    }
-    
-    public override bool Equals([CanBeNull]object obj) {
-        HeapNode other = obj as HeapNode; // avoid double casting
-        if (other == null) {
-            throw new ArgumentException("A Node object is required for comparison.", nameof(obj));
-        }
-        return Equals(other);
-    }
-    
-    private bool Equals(HeapNode other) {
-        return Equals(node, other.node);
-    }
-    
-    public override int GetHashCode() {
-        return (node != null ? node.GetHashCode() : 0);
     }
 }
 
