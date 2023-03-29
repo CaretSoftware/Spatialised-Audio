@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Node : MonoBehaviour {//, IComparable<Node>, IComparable {
+public class Node : MonoBehaviour {
     public Node[] neighbours;
     public Vector3 position;
-    //public float fScore = float.MaxValue;
-
+    
     private void Awake() {
         position = transform.position;
     }
@@ -23,25 +22,8 @@ public class Node : MonoBehaviour {//, IComparable<Node>, IComparable {
         return Vector3.Distance(position, other.position);
     }
 
-    //public int CompareTo(object obj) {
-    //    Node other = obj as Node; // avoid double casting
-    //    if (other == null) {
-    //        throw new ArgumentException("A Node object is required for comparison.", nameof(obj));
-    //    }
-    //    
-    //    return CompareTo(other);
-    //}
-
-    //public int CompareTo(Node obj) {
-    //    return obj.fScore.CompareTo(this.fScore);
-    //}
-
     private void OnDrawGizmosSelected() {
         if (Application.IsPlaying(this) && neighbours != null)
             DrawDebugRay();
     }
-
-    // public override int GetHashCode() {
-    //     return base.GetHashCode();
-    // }
 }

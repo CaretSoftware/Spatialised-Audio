@@ -1,22 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
+public class Comparator<T> : IComparer<Node> {
+    private readonly Dictionary<Node, float> _fCost;
+
+    public Comparator(Dictionary<Node, float> fCost) {
+        _fCost = fCost;
+    }
+
+    public int Compare(Node x, Node y) {
+        float xCost = _fCost[x];
+        float yCost = _fCost[y];
+
+        return xCost.CompareTo(yCost);
+    }
+}
+
 public class AStar {
-    
     public Stack<Node> Path(Node start, Node goal,  IHeuristic<float> heuristic) {
-        Heap<HeapNode> openSet = new Heap<HeapNode>();
         Dictionary<Node, Node> cameFrom = new Dictionary<Node, Node>(100);
         Dictionary<Node, float> gScore = new Dictionary<Node, float>(100);
         Dictionary<Node, float> fScore = new Dictionary<Node, float>(100);
         
+        Comparator<float> comparator = new Comparator<float>(fScore);
+        Heap<Node> openSet = new Heap<Node>(comparator, 100);
+        
         gScore.Add(start, 0);
         fScore.Add(start, heuristic.CostFunction(start, goal));
-
-        openSet.Insert(new HeapNode(start, 0));
-
+        openSet.Insert(start);
+        
         while (!openSet.Empty()) {
-            Node current = openSet.DeleteMin().node; 
+            Node current = openSet.DeleteMin(); 
             
             if (current == goal)
                 return Path(cameFrom, current);
@@ -30,10 +46,9 @@ public class AStar {
                 if (!gScore.ContainsKey(neighbour) || tentativeGScore < gScore[neighbour]) {
                     cameFrom[neighbour] = current;
                     gScore[neighbour] = tentativeGScore;
-                    float f = tentativeGScore + heuristic.CostFunction(neighbour, goal);
-                    fScore[neighbour] = f;
-                    
-                    openSet.Insert(new HeapNode(neighbour, f));   // heap doesn't allow duplicate Nodes
+                    fScore[neighbour] = tentativeGScore + heuristic.CostFunction(neighbour, goal);
+
+                    openSet.Insert(neighbour);
                 }
             }
         }
@@ -52,62 +67,52 @@ public class AStar {
 
         return totalPath;
     }
-
 }
-    public class HeapNode : IComparable<HeapNode>, IComparable {
-        public readonly Node node;
-        public float fScore;
-        
-        public HeapNode(Node node,float fScore) {
-            this.node = node;
-            this.fScore = fScore;
-        }
 
-        public int CompareTo(HeapNode other) {
-            return fScore.CompareTo(other.fScore);
-        }
-
-        public int CompareTo(object obj) {
-            HeapNode other = obj as HeapNode; // avoid double casting
-            if (other == null) {
-                throw new ArgumentException("A Node object is required for comparison.", nameof(obj));
-            }
-        
-            return CompareTo(other);
-        }
-
-        public override bool Equals(object obj) {
-            HeapNode other = obj as HeapNode; // avoid double casting
-            if (other == null) {
-                throw new ArgumentException("A Node object is required for comparison.", nameof(obj));
-            }
-            return Equals(other);
-        }
-
-        protected bool Equals(HeapNode other) {
-            return Equals(node, other.node);
-        }
-
-        public override int GetHashCode() {
-            return (node != null ? node.GetHashCode() : 0);
-        }
+public class HeapNode : IComparable<HeapNode>, IComparable {
+    public readonly Node node;
+    public float fScore;
+    
+    public HeapNode(Node node,float fScore) {
+        this.node = node;
+        this.fScore = fScore;
+    }
+    
+    public int CompareTo(HeapNode other) {
+        return fScore.CompareTo(other.fScore);
     }
 
-
-public class Comparator : IComparer<(float, Node)> {
-    public int Compare((float, Node) x, (float, Node) y) {
-        if (x.Item1 > y.Item1)
-            return 1;
-        else
-            return -1;
+    public int CompareTo(object obj) {
+        HeapNode other = obj as HeapNode; // avoid double casting
+        if (other == null) {
+            throw new ArgumentException("A Node object is required for comparison.", nameof(obj));
+        }
+    
+        return CompareTo(other);
+    }
+    
+    public override bool Equals([CanBeNull]object obj) {
+        HeapNode other = obj as HeapNode; // avoid double casting
+        if (other == null) {
+            throw new ArgumentException("A Node object is required for comparison.", nameof(obj));
+        }
+        return Equals(other);
+    }
+    
+    private bool Equals(HeapNode other) {
+        return Equals(node, other.node);
+    }
+    
+    public override int GetHashCode() {
+        return (node != null ? node.GetHashCode() : 0);
     }
 }
 
-public interface IHeuristic <T> {
+public interface IHeuristic <T>{
     public abstract T CostFunction(Node from, Node to);
 }
 
-public class AsTheCrowFlies : IHeuristic<float> {
+public class Euclidean : IHeuristic<float> {
     public float CostFunction(Node from, Node to) {
         return Vector3.Distance(from.position, to.position);
     }

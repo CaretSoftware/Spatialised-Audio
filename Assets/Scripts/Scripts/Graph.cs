@@ -16,7 +16,7 @@ public class Graph : MonoBehaviour {
     [SerializeField, Range(1f, 50f)] private float minSpawnDistance;
 
     private AStar _aStar = new AStar();
-    private IHeuristic<float> _heuristic = new AsTheCrowFlies();
+    private IHeuristic<float> _heuristic = new Euclidean();
     private List<Node> path = new List<Node>();
     
     private SpawnManager _spawnManager;
