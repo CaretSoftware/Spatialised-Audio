@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class Football : MonoBehaviour {
     private const int NumPlayersOnATeam = 7;
