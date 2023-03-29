@@ -18,7 +18,10 @@ public class SpawnManager : MonoBehaviour {
 
     public static Transform activeGhost;
 
+    private Graph _graph;
+    
     private void Awake() {
+        _graph = FindObjectOfType<Graph>();
         respawnGhost += SpawnNewGhost;
         Initialize();
     }
@@ -31,10 +34,11 @@ public class SpawnManager : MonoBehaviour {
         if (activeGhost != null)
             Destroy(activeGhost.gameObject);
         
-        RandomSpawnPosition(out Vector3 position);
+        Vector3 spawnPosition = _graph.SpawnPosition();
+        //RandomSpawnPosition(out Vector3 position);
 
-        InstantiateGhost(position);
-        GhostAudio.newPosition?.Invoke(position);
+        InstantiateGhost(spawnPosition);
+        GhostAudio.newPosition?.Invoke(spawnPosition);
     }
 
     private void InstantiateGhost(Vector3 position) {
@@ -52,6 +56,8 @@ public class SpawnManager : MonoBehaviour {
 
     public Transform RandomSpawnPosition(out Vector3 spawnPosition) {
         Transform cube = GetWeightedRandomSpawnVolume();
+        
+        
         Vector3 spawnPos = _positionWithinCube.PositionWithin(cube);
         debugSpawnPosition = spawnPos; // debug
         spawnPosition = spawnPos;
