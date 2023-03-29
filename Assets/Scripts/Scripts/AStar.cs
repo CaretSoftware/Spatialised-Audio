@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
 
-public class Comparer<T> : IComparer<Node> {
+public class Comparator<T> : IComparer<Node> {
     private readonly Dictionary<Node, float> _fCost;
 
-    public Comparer(Dictionary<Node, float> fCost) {
+    public Comparator(Dictionary<Node, float> fCost) {
         _fCost = fCost;
     }
 
@@ -24,7 +24,7 @@ public class AStar {
         Dictionary<Node, float> gScore = new Dictionary<Node, float>(100);
         Dictionary<Node, float> fScore = new Dictionary<Node, float>(100);
         
-        Comparer<float> comparator = new Comparer<float>(fScore);
+        Comparator<float> comparator = new Comparator<float>(fScore);
         Heap<Node> openSet = new Heap<Node>(comparator, 100);
         
         gScore.Add(start, 0);
