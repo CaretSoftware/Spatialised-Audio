@@ -1,28 +1,36 @@
-﻿using UnityEngine;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 
 public class Heap<T> {
     private const int DefaultCapacity = 12;
-    private int currentSize;
-    private T[] array;
     private HashSet<T> _duplicateCheckSet;
     private IComparer<T> _comparer;
+    private T[] _array;
+    private int currentSize;
 
-    public Heap(T[] items) { // TODO remove duplicates from array
+    public Heap() : this(null, DefaultCapacity){ }
+
+    public Heap(int capacity) : this(null, capacity) { }
+
+    public Heap(T[] items) {
         currentSize = items.Length;
-        array = new T[(currentSize + 2) * 11 / 10];
+        _array = new T[(currentSize + 2) * 11 / 10];
         _duplicateCheckSet = new HashSet<T>(items);
-        int i = 1; // use 0 index and preincrement operator instead?
+        int i = 1;
         foreach (T item in items)
-            array[i++] = item;
+            _array[i++] = item;
         BuildHeap();
     }
     
+    /// <summary>
+    /// Supply comparator if default CompareTo() not desirable.
+    /// </summary>
+    /// <param name="comparer">Optional parameter. Tells the heap how to evaluate <T>.</param>
+    /// <param name="capacity">The desired initial size of heap array. Capacity enlarges as heap gets full.</param>
+    /// <exception cref="ArgumentNullException"></exception>
     public Heap(IComparer<T> comparer = null, int capacity = DefaultCapacity) {
         currentSize = 0;
-        array = new T[capacity + 1];
+        _array = new T[capacity + 1];
         _duplicateCheckSet = new HashSet<T>();
         
         if (comparer == null)
@@ -48,16 +56,16 @@ public class Heap<T> {
         if (!_duplicateCheckSet.Add(x))  // checks for duplicates
             return false;               // item was not inserted, duplicate values!
 
-        if (currentSize == array.Length - 1)
-            EnlargeArray(array.Length * 2 + 1);
+        if (currentSize == _array.Length - 1)
+            EnlargeArray(_array.Length * 2 + 1);
         
         // percolate up
         int hole = ++currentSize;
-        for (array[0] = x; _comparer.Compare(x, array[hole / 2]) < 0; hole /= 2) { 
-            //for (array[0] = x; x.CompareTo(array[hole/2]) < 0; hole /= 2) {
-            array[hole] = array[hole / 2];
+        for (_array[0] = x; _comparer.Compare(x, _array[hole / 2]) < 0; hole /= 2) { 
+            //for (_array[0] = x; x.CompareTo(_array[hole/2]) < 0; hole /= 2) {
+            _array[hole] = _array[hole / 2];
         }   
-        array[hole] = x;
+        _array[hole] = x;
 
         return true;
     }
@@ -65,7 +73,7 @@ public class Heap<T> {
     public T Peek() {
         if(Empty())
             throw new UnderflowException( "Heap is empty" );
-        return array[1];
+        return _array[1];
     }
 
     public T DeleteMin() {
@@ -74,7 +82,7 @@ public class Heap<T> {
 
         T minItem = Peek();
         _duplicateCheckSet.Remove(minItem);
-        array[1] = array[currentSize--];
+        _array[1] = _array[currentSize--];
         PercolateDown(1);
 
         return minItem;
@@ -95,21 +103,21 @@ public class Heap<T> {
 
     private void PercolateDown(int hole) {
         int child;
-        T tmp = array[hole];
+        T tmp = _array[hole];
 
         for ( ; hole * 2 <= currentSize; hole = child) {
             child = hole * 2;
-            if (child != currentSize && _comparer.Compare(array[child + 1], array[child]) < 0)
-                //if (child != currentSize && array[child + 1].CompareTo(array[child]) < 0)
+            if (child != currentSize && _comparer.Compare(_array[child + 1], _array[child]) < 0)
+                //if (child != currentSize && _array[child + 1].CompareTo(_array[child]) < 0)
                 child++;
-            if (_comparer.Compare(array[child], tmp) < 0)
-                //if (array[child].CompareTo(tmp) < 0)
-                array[hole] = array[child];
+            if (_comparer.Compare(_array[child], tmp) < 0)
+                //if (_array[child].CompareTo(tmp) < 0)
+                _array[hole] = _array[child];
             else
                 break;
         }
 
-        array[hole] = tmp;
+        _array[hole] = tmp;
     }
 
     private void BuildHeap() {
@@ -118,10 +126,10 @@ public class Heap<T> {
     }
 
     private void EnlargeArray(int newSize) {
-        T [] old = array;
-        array = new T[ newSize ];
+        T [] old = _array;
+        _array = new T[ newSize ];
         for( int i = 0; i < old.Length; i++ )
-            array[ i ] = old[ i ];
+            _array[ i ] = old[ i ];
     }
 }
 
