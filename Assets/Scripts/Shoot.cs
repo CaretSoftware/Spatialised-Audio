@@ -45,11 +45,13 @@ public class Shoot : MonoBehaviour {
     private void HeadTrackingRandomizer() {
         _lockHeadTracking = Random.value < .5f;
         trackIrTransform.useLimits = _lockHeadTracking;
+        HeadphoneUIMover.headphonesOff?.Invoke(_lockHeadTracking);
     }
 
     private void HeadTrackingSwap() {
         _lockHeadTracking = !_lockHeadTracking;
         trackIrTransform.useLimits = _lockHeadTracking;
+        HeadphoneUIMover.headphonesOff?.Invoke(_lockHeadTracking); 
     }
     
     private void Awake() {
@@ -65,7 +67,8 @@ public class Shoot : MonoBehaviour {
     }
 
     private void Start() {
-        trackIrTransform.useLimits = true;
+        trackIrTransform.useLimits = false;
+        HeadphoneUIMover.headphonesOff?.Invoke(trackIrTransform.useLimits);
         _cameraTransform = cam.transform;
         _csvWriter = FindObjectOfType<CSVWriter>();
     }
