@@ -1,4 +1,5 @@
 ﻿using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SharedRange : MonoBehaviour {
@@ -11,40 +12,65 @@ public class SharedRange : MonoBehaviour {
     [SerializeField, HideInInspector] private float b2 = .3f;
     [SerializeField, HideInInspector] private float c2 = .2f;
     [SerializeField, HideInInspector] private float d2 = .1f;
-    
-    public float tot = 1f;
-    public bool reset = false;
+
+    private float tot = 1f;
     
     private void OnValidate() {
-        if (reset) {
-            reset = false;
-            a = a2 = .4f;
-            b = b2 = .3f;
-            c = c2 = .2f;
-            d = d2 = .1f;
-        }
+        AdjustSliders();
+        //AboveFullAdjustment();
         
-        float[] arr1 = new float[] { a, b, c, d };
-        float[] arr2 = new float[] { a2, b2, c2, d2 };
+    }
+
+    [ContextMenu("Reset Sliders")]
+    private void Reset() {
+        tot = 1f;
+        a = a2 = tot * .25f;
+        b = b2 = tot * .25f;
+        c = c2 = tot * .25f;
+        d = d2 = tot * .25f;
+    }
+
+    private void AdjustSliders() {
+        float[] arr1 = { a, b, c, d };
+        float[] arr2 = { a2, b2, c2, d2 };
         
         for (int i = 0; i < arr1.Length; i++) {
             if (arr1[i] != arr2[i]) {
-                arr1 = AdjustRanges(arr1, i, arr1[i], 1f);
+                arr1 = AdjustRanges(arr1, i, arr1[i], tot);
                 break;
             }
         }
+        
+        a2 = a = arr1[0];
+        b2 = b = arr1[1];
+        c2 = c = arr1[2];
+        d2 = d = arr1[3];
+    }
 
-        a = arr1[0];
-        b = arr1[1];
-        c = arr1[2];
-        d = arr1[3];
+    // If the changed value is an increase
+        // add all values not above max to an array
+        // compare the amount increased to an array would cause it to overfill
+        // increase those values
+    private void AboveFullAdjustment() {
+        float[] arr1 = { a, b, c, d };
+        int i = 0;
+        float maxAllowedValue = 1f;
 
-        a2 = a;
-        b2 = b;
-        c2 = c;
-        d2 = d;
-
-        tot = a + b + c + d;
+        while (ValueAboveMax()) {
+            if (arr1[i] > maxAllowedValue)
+                arr1 = AdjustRanges(arr1, i, maxAllowedValue, tot, 1f);
+            i++;
+            i %= 4;
+        }
+        
+        bool ValueAboveMax() {
+            for (int j = 0; j < arr1.Length; j++) {
+                if (arr1[j] > maxAllowedValue) {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
     
     // TODO allow > 100%
@@ -69,7 +95,7 @@ public class SharedRange : MonoBehaviour {
         float sum = Sum(variables, index);
 
         if (sum <= 0f)
-            return DecreaseFromFull(variables, index, newValue, total); // guard against divide by 0 errors
+            return DecreaseFromFull(variables, index, newValue, total); // guards against divide by 0 errors
         
         float k = (total - newValue) / sum;
 
@@ -87,8 +113,9 @@ public class SharedRange : MonoBehaviour {
     private float Sum(float[] variables, int index) {
         float sum = 0f;
         for (int i = 0; i < variables.Length; i++) {
-            if (i != index)
-                sum += variables[i];
+            if (i == index) continue;
+                
+            sum += variables[i];
         }
 
         return sum;
