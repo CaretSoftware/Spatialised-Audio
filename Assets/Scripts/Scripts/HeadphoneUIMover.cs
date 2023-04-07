@@ -23,7 +23,13 @@ public class HeadphoneUIMover : MonoBehaviour {
     private void HeadPhoneVisuals(bool off) {
         Material mat = off ? offMaterial : onMaterial;
         for (int i = 0; i < meshRenderers.Length; i++) {
-            meshRenderers[i].material = mat;
+            Material[] materials = meshRenderers[i].materials;
+            for (int j = 0; j < meshRenderers[i].materials.Length; j++) {
+                
+                materials[j] = mat;
+            }
+            
+            meshRenderers[i].materials = materials;
         }
     }
 
