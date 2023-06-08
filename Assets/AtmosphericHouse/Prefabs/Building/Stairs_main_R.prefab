@@ -107,7 +107,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4393408594183443138}
-  - component: {fileID: -6396581333963688977}
   m_Layer: 0
   m_Name: Stairs_main_R
   m_TagString: Untagged
@@ -135,39 +134,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-6396581333963688977
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 766698315325972689}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14346fe6681524742bfad5020e8d0b1b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  placed: 0
-  category: Stairs
-  prefab: Stairs_main_R
-  variation: Stairs_main_R
-  quickSwaps: []
-  quickSwapsBtns: []
-  additionals:
-  - Floor_6x3_stairs_R
-  - Ceiling_6x3_stairs_R
-  additionalsBtns:
-  - Floor
-  - Ceiling
-  additionalsPos:
-  - {x: 0, y: 3, z: 0}
-  - {x: 0, y: 3, z: 0}
-  additionalsRot:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  spawnAlongs: []
-  spawnAlongsPos: []
-  spawnAlongsRot: []
 --- !u!1 &1431804333862461710
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2026149081774845985}
-  - component: {fileID: 4412374319054240554}
   - component: {fileID: 7009102290839882263}
   - component: {fileID: 3637180128966522606}
   - component: {fileID: 6899866658476965083}
@@ -30,6 +29,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1295341897798018159}
   - {fileID: 6119257483654948024}
@@ -37,39 +37,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4412374319054240554
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3045851727610413618}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14346fe6681524742bfad5020e8d0b1b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  placed: 1
-  category: WallIn_A
-  prefab: WallIn_A_columnhalf_large
-  variation: WallIn_A_columnhalf_large_broken_A
-  quickSwaps:
-  - WallIn_B_columnhalf_large
-  quickSwapsBtns:
-  - WallIn_B
-  additionals:
-  - Decal_wallIn_A_columnhalf_large
-  additionalsBtns:
-  - Decal
-  additionalsPos:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  additionalsRot:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  spawnAlongs: []
-  spawnAlongsPos: []
-  spawnAlongsRot: []
 --- !u!33 &7009102290839882263
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -89,10 +56,12 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -119,6 +88,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &6899866658476965083
 BoxCollider:
   m_ObjectHideFlags: 0

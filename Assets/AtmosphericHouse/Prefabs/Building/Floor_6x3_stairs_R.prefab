@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5603666755703016282}
-  - component: {fileID: 117691926738126012}
   - component: {fileID: 3503588882486079852}
   - component: {fileID: 7179783363595390357}
   - component: {fileID: 630097090088902724}
@@ -38,34 +37,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &117691926738126012
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8907945109103769929}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14346fe6681524742bfad5020e8d0b1b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  placed: 1
-  category: Floor
-  prefab: Floor_6x3_stairs_R
-  variation: Floor_6x3_stairs_R
-  quickSwaps: []
-  quickSwapsBtns: []
-  additionals:
-  - Ceiling_6x3
-  additionalsBtns: []
-  additionalsPos:
-  - {x: 0, y: 3, z: 0}
-  additionalsRot:
-  - {x: 0, y: 0, z: 0}
-  spawnAlongs: []
-  spawnAlongsPos: []
-  spawnAlongsRot: []
 --- !u!33 &3503588882486079852
 MeshFilter:
   m_ObjectHideFlags: 0

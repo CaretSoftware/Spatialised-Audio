@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8386914326001631730}
-  - component: {fileID: 6798980386766912161}
   - component: {fileID: 666331104126008260}
   - component: {fileID: 6486241127311771453}
   - component: {fileID: 3539542241354705646}
@@ -36,37 +35,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6798980386766912161
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4773560501762307041}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14346fe6681524742bfad5020e8d0b1b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  placed: 0
-  category: Porch_A
-  prefab: Porch_A_3x_entrance
-  variation: Porch_A_3x_entrance_broken_A
-  quickSwaps:
-  - Porch_B_3x_entrance
-  quickSwapsBtns:
-  - Porch_B
-  additionals: []
-  additionalsBtns: []
-  additionalsPos:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  additionalsRot:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  spawnAlongs: []
-  spawnAlongsPos: []
-  spawnAlongsRot: []
 --- !u!33 &666331104126008260
 MeshFilter:
   m_ObjectHideFlags: 0

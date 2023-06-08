@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7171137007160952569}
-  - component: {fileID: 2309637439301296639}
   - component: {fileID: 6064981491286509916}
   - component: {fileID: 8345121463499718038}
   - component: {fileID: 7039368266992569626}
@@ -36,34 +35,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2309637439301296639
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7552307539557014595}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14346fe6681524742bfad5020e8d0b1b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  placed: 0
-  category: Floor
-  prefab: Floor_6x3
-  variation: Floor_6x3_broken_A
-  quickSwaps: []
-  quickSwapsBtns: []
-  additionals:
-  - Ceiling_6x3
-  additionalsBtns: []
-  additionalsPos:
-  - {x: 0, y: 3, z: 0}
-  additionalsRot:
-  - {x: 0, y: 0, z: 0}
-  spawnAlongs: []
-  spawnAlongsPos: []
-  spawnAlongsRot: []
 --- !u!33 &6064981491286509916
 MeshFilter:
   m_ObjectHideFlags: 0

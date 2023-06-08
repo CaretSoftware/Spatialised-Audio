@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1880117869710177857}
-  - component: {fileID: 5627128840772927868}
   - component: {fileID: 7443468881345072247}
   - component: {fileID: 3778532087065522318}
   - component: {fileID: 6876207126858554719}
@@ -32,6 +31,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4990593001302287284}
   - {fileID: 1194088073763844482}
@@ -39,45 +39,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5627128840772927868
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3192169113353356370}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14346fe6681524742bfad5020e8d0b1b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  placed: 1
-  category: WallIn_B
-  prefab: WallIn_B_3x_door
-  variation: WallIn_B_3x_door
-  quickSwaps:
-  - WallIn_A_3x_door
-  quickSwapsBtns:
-  - WallIn_A
-  additionals:
-  - Doorframe_in_single
-  - Door_parent_A_L
-  - Decal_wallIn_B_3x_door
-  additionalsBtns:
-  - Doorframe
-  - Door
-  - Decal
-  additionalsPos:
-  - {x: -1.5, y: 0, z: 0}
-  - {x: -1.5, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  additionalsRot:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  spawnAlongs: []
-  spawnAlongsPos: []
-  spawnAlongsRot: []
 --- !u!33 &7443468881345072247
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -97,10 +58,12 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -126,6 +89,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &6876207126858554719
 BoxCollider:
   m_ObjectHideFlags: 0
